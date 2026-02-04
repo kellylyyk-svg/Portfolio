@@ -1,0 +1,406 @@
+<div class="section">
+    <div class="frame-container realtime-workspace">
+        <style>
+            /* Realtime Workspace - Figma Collaboration Inspired */
+            .realtime-workspace {
+                background: rgba(5, 5, 10, 0.98);
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* Subtle grid background */
+            .workspace-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image:
+                    linear-gradient(rgba(0, 255, 170, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 255, 170, 0.03) 1px, transparent 1px);
+                background-size: 50px 50px;
+                z-index: 1;
+            }
+
+            /* Central Mockup Container */
+            .central-mockup {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 75%;
+                max-width: 1200px;
+                height: 80%;
+                z-index: 10;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(0, 255, 170, 0.15);
+                border: 2px solid rgba(0, 255, 170, 0.2);
+            }
+
+            .central-mockup img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                background: rgba(10, 10, 20, 0.9);
+            }
+
+            /* Floating Comment Bubbles */
+            .comment-bubble {
+                position: absolute;
+                background: rgba(0, 10, 20, 0.92);
+                border-radius: 12px;
+                padding: 16px 20px;
+                font-family: 'Share Tech Mono', monospace;
+                font-size: 0.85rem;
+                line-height: 1.6;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(10px);
+                z-index: 20;
+                max-width: 280px;
+                animation: bubblePulse 3s ease-in-out infinite;
+            }
+
+            @keyframes bubblePulse {
+
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.02);
+                }
+            }
+
+            .bubble-1 {
+                top: 10%;
+                left: 5%;
+                border: 2px solid #00ffaa;
+                box-shadow: 0 8px 32px rgba(0, 255, 170, 0.3);
+            }
+
+            .bubble-2 {
+                top: 45%;
+                right: 5%;
+                border: 2px solid #3399ff;
+                box-shadow: 0 8px 32px rgba(51, 153, 255, 0.3);
+            }
+
+            .bubble-3 {
+                bottom: 12%;
+                left: 8%;
+                border: 2px solid #ff9933;
+                box-shadow: 0 8px 32px rgba(255, 153, 51, 0.3);
+            }
+
+            .bubble-header {
+                font-weight: bold;
+                font-size: 0.9rem;
+                margin-bottom: 8px;
+                opacity: 0.9;
+                letter-spacing: 1px;
+            }
+
+            .bubble-1 .bubble-header {
+                color: #00ffaa;
+            }
+
+            .bubble-2 .bubble-header {
+                color: #3399ff;
+            }
+
+            .bubble-3 .bubble-header {
+                color: #ff9933;
+            }
+
+            .bubble-content {
+                color: rgba(255, 255, 255, 0.85);
+                font-size: 0.8rem;
+            }
+
+            /* Pointer lines connecting bubbles to mockup */
+            .bubble-pointer {
+                position: absolute;
+                width: 60px;
+                height: 2px;
+                background: currentColor;
+                opacity: 0.5;
+            }
+
+            .bubble-1 .bubble-pointer {
+                top: 50%;
+                right: -60px;
+                background: #00ffaa;
+            }
+
+            .bubble-2 .bubble-pointer {
+                top: 50%;
+                left: -60px;
+                background: #3399ff;
+            }
+
+            .bubble-3 .bubble-pointer {
+                bottom: 50%;
+                right: -60px;
+                background: #ff9933;
+            }
+
+            /* Collaborative Cursors */
+            .collab-cursor {
+                position: absolute;
+                z-index: 30;
+                pointer-events: none;
+            }
+
+            .cursor-icon {
+                width: 24px;
+                height: 24px;
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+            }
+
+            .cursor-nametag {
+                position: absolute;
+                top: -10px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.85);
+                color: white;
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-family: 'Share Tech Mono', monospace;
+                font-size: 0.7rem;
+                white-space: nowrap;
+                font-weight: bold;
+                letter-spacing: 0.5px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            }
+
+            /* Cursor 1: SEOYOUNG (Mint) */
+            .cursor-1 {
+                animation: cursorPath1 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+
+            .cursor-1 .cursor-icon {
+                fill: #00ffaa;
+            }
+
+            .cursor-1 .cursor-nametag {
+                border-left: 3px solid #00ffaa;
+            }
+
+            @keyframes cursorPath1 {
+                0% {
+                    top: 20%;
+                    left: 15%;
+                }
+
+                25% {
+                    top: 15%;
+                    left: 40%;
+                }
+
+                50% {
+                    top: 30%;
+                    left: 65%;
+                }
+
+                75% {
+                    top: 45%;
+                    left: 35%;
+                }
+
+                100% {
+                    top: 20%;
+                    left: 15%;
+                }
+            }
+
+            /* Cursor 2: MEMBER_A (Blue) */
+            .cursor-2 {
+                animation: cursorPath2 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                animation-delay: -4s;
+            }
+
+            .cursor-2 .cursor-icon {
+                fill: #3399ff;
+            }
+
+            .cursor-2 .cursor-nametag {
+                border-left: 3px solid #3399ff;
+            }
+
+            @keyframes cursorPath2 {
+                0% {
+                    top: 55%;
+                    left: 25%;
+                }
+
+                25% {
+                    top: 40%;
+                    left: 50%;
+                }
+
+                50% {
+                    top: 60%;
+                    left: 70%;
+                }
+
+                75% {
+                    top: 70%;
+                    left: 40%;
+                }
+
+                100% {
+                    top: 55%;
+                    left: 25%;
+                }
+            }
+
+            /* Cursor 3: MEMBER_B (Orange) */
+            .cursor-3 {
+                animation: cursorPath3 14s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                animation-delay: -7s;
+            }
+
+            .cursor-3 .cursor-icon {
+                fill: #ff9933;
+            }
+
+            .cursor-3 .cursor-nametag {
+                border-left: 3px solid #ff9933;
+            }
+
+            @keyframes cursorPath3 {
+                0% {
+                    top: 35%;
+                    left: 80%;
+                }
+
+                25% {
+                    top: 50%;
+                    left: 60%;
+                }
+
+                50% {
+                    top: 25%;
+                    left: 30%;
+                }
+
+                75% {
+                    top: 65%;
+                    left: 55%;
+                }
+
+                100% {
+                    top: 35%;
+                    left: 80%;
+                }
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 1024px) {
+                .central-mockup {
+                    width: 85%;
+                    height: 70%;
+                }
+
+                .comment-bubble {
+                    font-size: 0.75rem;
+                    padding: 12px 16px;
+                    max-width: 220px;
+                    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    cursor: pointer;
+                }
+
+                /* [ADD] Hover Effect - Natural Expansion */
+                .comment-bubble:hover {
+                    transform: scale(1.15) !important;
+                    /* Override pulse animation */
+                    z-index: 50;
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+                    border-color: rgba(255, 255, 255, 0.8);
+                }
+
+                .collab-cursor {
+                    display: none;
+                    /* Hide cursors on smaller screens to reduce clutter */
+                }
+            }
+        </style>
+
+        <div class="ui-bar bar-top">
+            <span class="deco-box">COLLABORATION : ACTIVE</span>
+            <span>TEAM_PROJECT : REALTIME_SYNC</span>
+            <span style="font-size: 1.5rem;">+</span>
+        </div>
+
+        <!-- Grid Background -->
+        <div class="workspace-background"></div>
+
+        <!-- Central Project Mockup -->
+        <div class="central-mockup">
+            <img src="images/team-project.png" alt="Team Project Mockup - Collaborative Web Development">
+        </div>
+
+        <!-- Floating Comment Bubbles -->
+        <div class="comment-bubble bubble-1">
+            <div class="bubble-pointer"></div>
+            <div class="bubble-header">/// PROJECT GOAL</div>
+            <div class="bubble-content">
+                협업을 통한 반응형 웹사이트 구축. 사용자 경험 최적화와 브랜드 아이덴티티 구현에 집중.
+            </div>
+        </div>
+
+        <div class="comment-bubble bubble-2">
+            <div class="bubble-pointer"></div>
+            <div class="bubble-header">/// TECH STACK</div>
+            <div class="bubble-content">
+                Git (Version Control)<br>
+                Figma (Design Collaboration)<br>
+                HTML/CSS/JavaScript<br>
+                Responsive Design Patterns
+            </div>
+        </div>
+
+        <div class="comment-bubble bubble-3">
+            <div class="bubble-pointer"></div>
+            <div class="bubble-header">/// MY CONTRIBUTION</div>
+            <div class="bubble-content">
+                전체 퍼블리싱 담당 (100%)<br>
+                UI/UX 디자인 협업<br>
+                반응형 레이아웃 구현<br>
+                크로스 브라우저 호환성 확보
+            </div>
+        </div>
+
+        <!-- Collaborative Cursors -->
+        <div class="collab-cursor cursor-1">
+            <svg class="cursor-icon" viewBox="0 0 24 24">
+                <path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" />
+            </svg>
+            <div class="cursor-nametag">[SEOYOUNG: Publisher]</div>
+        </div>
+
+        <div class="collab-cursor cursor-2">
+            <svg class="cursor-icon" viewBox="0 0 24 24">
+                <path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" />
+            </svg>
+            <div class="cursor-nametag">[MEMBER_A: Developer]</div>
+        </div>
+
+        <div class="collab-cursor cursor-3">
+            <svg class="cursor-icon" viewBox="0 0 24 24">
+                <path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" />
+            </svg>
+            <div class="cursor-nametag">[MEMBER_B: Designer]</div>
+        </div>
+
+        <div class="ui-bar bar-bottom">
+            <span style="font-size: 1.5rem;">+</span>
+            <span class="deco-box">STATUS : SYNCED</span>
+            <span>3 MEMBERS ONLINE</span>
+        </div>
+    </div>
+</div>
