@@ -1308,6 +1308,22 @@
             border-right: 2px solid var(--point-color);
         }
 
+        /* [REF] 사이드바 섹션 공통 스타일 재정의 */
+        .inspector-section {
+            width: 100%;
+            box-sizing: border-box;
+            /* 패딩 포함 크기 계산 */
+            flex-shrink: 0;
+        }
+
+        /* [REF] 타이틀 섹션 (인라인 스타일 보조) */
+        .inspector-section.header-section {
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: flex-end !important;
+        }
+
         .inspector-section {
             margin-bottom: clamp(15px, 2vh, 25px);
             /* Adjusted margin for compactness */
@@ -1387,10 +1403,16 @@
         /* Description Container */
         .desc-container {
             position: relative;
-            max-height: clamp(60px, 8vh, 90px);
-            /* Further reduced height */
-            overflow: hidden;
-            border-bottom: 0px solid transparent;
+            max-height: 300px;
+            /* Increased to show all content on desktop */
+            overflow-y: auto;
+            /* Allow scroll if extremely long */
+            scrollbar-width: none;
+            /* Hide scrollbar for clean look */
+        }
+
+        .desc-container::-webkit-scrollbar {
+            display: none;
         }
 
         /* Short View (Default) - Now shows multiple lines */
@@ -1647,9 +1669,9 @@
                 margin-bottom: 6px;
             }
 
-            /* 설명 칸 축소 (사용자 요청: 내용이 조금만 보이게) */
+            /* 설명 칸 (내용 충분히 보이기) */
             .desc-container {
-                max-height: 40px !important;
+                max-height: 200px !important;
             }
 
             /* 카운터 글자 크기 축소 (줄바꿈 방지) */
@@ -1683,7 +1705,7 @@
                 padding: 0 !important;
                 gap: 0 !important;
                 flex: 1;
-                overflow: hidden;
+                overflow: visible !important;
                 /* 내부 스크롤 관리 */
             }
 
@@ -1693,7 +1715,7 @@
                 /* 탭과 목업이 보일 충분한 높이 확보 */
                 padding: 20px 0;
                 position: relative;
-                z-index: 5;
+                z-index: 50 !important;
                 /* 사이드바보다 위일 수도 있음, 상황에 따라 조정 */
                 display: flex;
                 flex-direction: column;
@@ -1702,14 +1724,48 @@
                 background: transparent;
             }
 
-            /* 탭 버튼 강제 노출 및 Z-Index 상향 */
+            /* [REF] 사이드바 내부로 이동된 탭 버튼 스타일 초기화 */
             .device-tabs {
-                position: relative;
-                z-index: 50 !important;
-                /* 사이드바보다 확실히 위 */
-                margin-bottom: 10px;
+                position: static !important;
+                transform: translateY(-13px) !important;
+                /* 살짝 위로 이동 */
+                margin: 0;
+                z-index: auto;
                 display: flex !important;
-                justify-content: center;
+                gap: 5px;
+                flex-shrink: 0 !important;
+                /* 줄바꿈 방지 */
+            }
+
+            .title-group {
+                flex: 1 !important;
+                /* 남은 공간 차지 */
+                min-width: 0 !important;
+                /* 텍스트 유동성 확보 */
+                margin-right: 10px;
+            }
+
+            .mobile-mockup-wrapper {
+                width: 200px !important;
+                margin: 0 auto;
+            }
+
+            /* [REF] 네비게이션 컨트롤 스타일 */
+            .nav-controls {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: flex-end !important;
+                gap: 10px;
+                margin: 0 !important;
+                padding: 0 !important;
+                margin-right: -28px !important;
+                /* 살짝 우측으로 이동 */
+            }
+
+            .inspector-section.slider-nav {
+                padding: 0 !important;
+                /* 부모 패딩 제거 오버라이드 */
+                margin-right: 0 !important;
             }
 
             .tilt-mockup {
@@ -1787,29 +1843,37 @@
                 color: var(--point-color);
             }
 
-            /* [FIX] 설명 칸 한 줄 제한 */
+            /* [FIX] 모바일/태블릿(1024px 이하)에서는 다시 1줄로 제한 */
             .ins-desc.short-view {
                 display: -webkit-box;
                 -webkit-line-clamp: 1 !important;
-                /* 1줄 제한 */
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: normal;
-                height: 1.6em;
-                /* 1줄 높이 */
+                height: 1.5em !important;
                 color: #ccc;
             }
 
             .desc-container {
-                max-height: 50px !important;
+                max-height: 42px !important;
+                /* 1줄에 맞춰 높이 축소 */
                 margin-bottom: 20px;
+                overflow: hidden;
             }
 
             .inspector-section {
                 margin-bottom: 10px;
                 flex: 1;
                 /* 섹션들이 공간을 나눠가지도록 */
+            }
+
+            /* [FIX] OPEN SITE 버튼 텍스트 중앙 정렬 */
+            .footer-action .ins-btn {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                text-align: center !important;
             }
 
             /* 하단 액션 버튼 복구 */
@@ -2837,10 +2901,7 @@
 
                 <div class="inspector-wrapper">
                     <div class="canvas-area">
-                        <div class="device-tabs">
-                            <button class="tab-btn active" onclick="switchDevice('pc')">PC_MODE</button>
-                            <button class="tab-btn" onclick="switchDevice('mobile')">MOBILE_MODE</button>
-                        </div>
+                        <!-- device-tabs moved to sidebar -->
 
                         <div class="front-mockup-wrapper pc-view active" id="pc-mockup">
                             <img src="images/mockup.png" alt="PC Monitor" class="monitor-frame">
@@ -2853,20 +2914,30 @@
                         <div class="mobile-mockup-wrapper mobile-view" id="mobile-mockup">
                             <img src="images/phone_mockup.png" alt="Mobile Frame" class="phone-frame">
                             <div class="phone-screen">
-                                <img src="images/DUSTLINE_mobile.png" alt="Dustline Mobile" class="scroll-img"
+                                <img src="images/DUSTLINE_mobile.jpg" alt="Dustline Mobile" class="scroll-img"
                                     id="project-mobile-scroll-img">
                             </div>
                         </div>
                     </div>
 
                     <aside class="inspector-sidebar">
-                        <div class="inspector-section">
-                            <span class="ins-label">PROPERTIES</span>
-                            <h2 class="ins-title">DUSTLINE</h2>
-                            <p class="ins-subtitle">#브랜드 정체성 구축 및 반응형 웹 디자인</p>
+                        <!-- Group 1: Title + Tabs -->
+                        <!-- [FIX] Added flex container for Title and Tabs -->
+                        <div class="inspector-section"
+                            style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
+                            <div class="title-group">
+                                <span class="ins-label">PROPERTIES</span>
+                                <h2 class="ins-title" style="margin-bottom: 5px;">DUSTLINE</h2>
+                                <p class="ins-subtitle">#브랜드 정체성 구축 및 반응형 웹 디자인</p>
+                            </div>
+                            <div class="device-tabs">
+                                <button class="tab-btn active" onclick="switchDevice('pc')">PC_MODE</button>
+                                <button class="tab-btn" onclick="switchDevice('mobile')">MOBILE_MODE</button>
+                            </div>
                         </div>
 
-                        <div class="inspector-section inspector-row">
+                        <!-- Group 2: Contribution + Pages -->
+                        <div class="inspector-section inspector-row" style="justify-content: space-between;">
                             <div class="inspector-col">
                                 <span class="ins-label">CONTRIBUTION</span>
                                 <ul class="ins-list">
@@ -2875,14 +2946,15 @@
                                     <li>PUBLISHING: 100%</li>
                                 </ul>
                             </div>
-                            <div class="inspector-col">
+                            <div class="inspector-col" style="text-align: right;">
                                 <span class="ins-label">PAGES</span>
                                 <p class="ins-page-count">MAIN + 2 SUB</p>
                             </div>
                         </div>
 
+                        <!-- Group 3: Description + Plus Button -->
                         <div class="inspector-section description-group">
-                            <div class="desc-header">
+                            <div class="desc-header" style="justify-content: space-between;">
                                 <span class="ins-label">DESCRIPTION</span>
                                 <div class="desc-plus-btn">+</div>
                             </div>
@@ -2903,15 +2975,17 @@
                             </div>
                         </div>
 
+                        <!-- Group 4: Navigator -->
                         <div class="inspector-section slider-nav" style="position: relative;">
-                            <div class="nav-controls">
+                            <div class="nav-controls" style="justify-content: flex-end;">
                                 <button onclick="switchProject(-1)" class="ctrl-btn">[PREV_FILE]</button>
-                                <span id="project-counter">01 / 02</span>
+                                <span id="project-counter" style="margin: 0 15px;">01 / 02</span>
                                 <button onclick="switchProject(1)" class="ctrl-btn"
                                     id="next-file-btn">[NEXT_FILE]</button>
                             </div>
                         </div>
 
+                        <!-- Group 5: Open Site -->
                         <div class="inspector-section footer-action">
                             <a href="https://kellylyyk-svg.github.io/DUSTLINE-Website/" target="_blank"
                                 rel="noopener noreferrer" class="ins-btn" id="open-site-btn">OPEN SITE →</a>
@@ -3505,37 +3579,57 @@
                         }
                     }
 
-                    /* Responsive adjustments */
+                    /* Responsive adjustments - Maintain Original Layout */
                     @media (max-width: 1024px) {
                         .central-mockup {
-                            width: 100%;
-                            height: auto;
+                            flex: 0 0 45%;
+                            /* Give more space to console */
                             margin-bottom: 0px;
-                            padding-top: 40px;
+                            padding-top: 20px;
                         }
 
                         .unified-console {
-                            grid-template-columns: 1fr;
-                            max-height: 40vh;
-                            overflow-y: auto;
+                            /* Keep 3 columns */
+                            grid-template-columns: repeat(3, 1fr);
+                            max-height: 50vh;
+                            width: 100%;
+                            margin: 0;
+                            padding: 0;
                         }
 
                         .console-column {
-                            border-right: none;
-                            border-bottom: 1px solid rgba(0, 255, 170, 0.1);
-                            padding: 20px;
+                            padding: 15px;
+                            /* Tighter padding */
+                        }
+
+                        .bubble-header {
+                            font-size: 0.9rem;
+                            /* Smaller header */
+                            margin-bottom: 10px;
+                        }
+
+                        .bubble-content p {
+                            font-size: 0.75rem;
+                            /* Smaller body text */
+                            line-height: 1.4;
                         }
 
                         .collab-cursor {
-                            display: none !important;
+                            display: block !important;
+                            /* Restore cursors */
+                            scale: 0.7;
+                            /* Scale down slightly */
                         }
 
                         .open-site-btn {
-                            position: fixed;
-                            bottom: 80px;
-                            right: 20px;
-                            transform: none !important;
-                            z-index: 1000;
+                            /* Return to relative/absolute positioning inside console if needed, 
+                               but for now just remove the fixed jump */
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            transform: translateY(-100%);
+                            font-size: 0.7rem;
+                            padding: 6px 12px;
                         }
                     }
 

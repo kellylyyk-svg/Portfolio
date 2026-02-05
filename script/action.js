@@ -49,8 +49,10 @@ new fullpage('#fullpage', {
     /* 800 -> 1200 (스크롤 과민 반응 방지 위해 속도 늦춤) */
     autoScrolling: true,
 
-    // [중요] 이 영역 안에서는 전체 페이지 스크롤을 멈춥니다.
-    normalScrollElements: '.graphic-archive-wrapper',
+    // [중요] 특정 요소 내부에서만 스크롤이 작동하게 하려면 여기 등록하여 
+    // fullpage.js가 이 영역의 이벤트를 하이재킹하지 않도록 합니다.
+    normalScrollElements: '.about-hologram-layout, .graphic-archive-wrapper, .realtime-workspace, .dev-log-container, .terminal-content, .unified-console',
+
 
     fitToSection: true,
     fitToSectionDelay: 500,
@@ -665,17 +667,57 @@ function triggerNextFileActivation() {
 }
 
 /* =========================================
-   [SCROLL PROGAGATION FIX]
-   Prevent fullPage.js from hijacking scroll in About Me section
+   [SCROLL PROPAGATION FIX]
+   내부 스크롤이 있는 영역에서 끝까지 도달했을 때만 
+   fullPage.js의 섹션 이동이 작동하도록 제어
 ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    const scrollContainer = document.querySelector('.about-hologram-layout');
-    if (scrollContainer) {
-        scrollContainer.addEventListener('wheel', (e) => {
-            // Only stop propagation if potential to scroll exists
-            if (scrollContainer.scrollHeight > scrollContainer.clientHeight) {
+    // 제어할 컨테이너 목록
+    const scrollContainers = [
+        '.about-hologram-layout',
+        '.graphic-archive-wrapper',
+        '.realtime-workspace',
+        '.dev-log-container',
+        '.terminal-content',
+        '.unified-console'
+    ];
+
+    scrollContainers.forEach(selector => {
+        const container = document.querySelector(selector);
+        if (!container) return;
+
+        let lastWheelTime = 0;
+        const throttleTime = 1000; // 스크롤이 너무 빠르게 연달아 호출되는 것 방지
+
+        container.addEventListener('wheel', (e) => {
+            const delta = e.deltaY;
+            const scrollTop = container.scrollTop;
+            const scrollHeight = container.scrollHeight;
+            const clientHeight = container.clientHeight;
+
+            // 내부 스크롤이 불가능한 상태라면 무시 (전체 페이지 스크롤 허용)
+            if (scrollHeight <= clientHeight) return;
+
+            const now = Date.now();
+
+            // 1. 위로 스크롤할 때: 이미 맨 위라면 이전 섹션으로 이동
+            if (delta < 0 && scrollTop <= 0) {
+                if (now - lastWheelTime > throttleTime) {
+                    if (window.fullpage_api) fullpage_api.moveSectionUp();
+                    lastWheelTime = now;
+                }
+            }
+            // 2. 아래로 스크롤할 때: 이미 맨 아래라면 다음 섹션으로 이동
+            else if (delta > 0 && scrollTop + clientHeight >= scrollHeight - 1) {
+                if (now - lastWheelTime > throttleTime) {
+                    if (window.fullpage_api) fullpage_api.moveSectionDown();
+                    lastWheelTime = now;
+                }
+            }
+            // 그 외에는 내부 스크롤을 수행 (normalScrollElements에 등록되어 있으므로 전파 중단은 선택사항)
+            else {
                 e.stopPropagation();
             }
         }, { passive: false });
-    }
+    });
 });
