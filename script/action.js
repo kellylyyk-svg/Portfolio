@@ -51,7 +51,7 @@ new fullpage('#fullpage', {
 
     // [중요] 특정 요소 내부에서만 스크롤이 작동하게 하려면 여기 등록하여 
     // fullpage.js가 이 영역의 이벤트를 하이재킹하지 않도록 합니다.
-    normalScrollElements: '.about-hologram-layout, .graphic-archive-wrapper, .realtime-workspace, .dev-log-container, .terminal-content, .unified-console',
+    normalScrollElements: '.about-hologram-layout, .graphic-archive-wrapper, .terminal-content',
 
 
     fitToSection: true,
@@ -676,10 +676,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollContainers = [
         '.about-hologram-layout',
         '.graphic-archive-wrapper',
-        '.realtime-workspace',
-        '.dev-log-container',
-        '.terminal-content',
-        '.unified-console'
+        '.terminal-content'
     ];
 
     scrollContainers.forEach(selector => {
@@ -687,7 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!container) return;
 
         let lastWheelTime = 0;
-        const throttleTime = 1000; // 스크롤이 너무 빠르게 연달아 호출되는 것 방지
+        const throttleTime = 500; // 스크롤이 너무 빠르게 연달아 호출되는 것 방지
 
         container.addEventListener('wheel', (e) => {
             const delta = e.deltaY;
@@ -695,20 +692,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrollHeight = container.scrollHeight;
             const clientHeight = container.clientHeight;
 
-            // 내부 스크롤이 불가능한 상태라면 무시 (전체 페이지 스크롤 허용)
-            if (scrollHeight <= clientHeight) return;
-
             const now = Date.now();
 
-            // 1. 위로 스크롤할 때: 이미 맨 위라면 이전 섹션으로 이동
-            if (delta < 0 && scrollTop <= 0) {
+            // 1. 위로 스크롤할 때: 이미 맨 위거나 내부 스크롤이 불필요한 경우 이전 섹션으로 이동
+            if (delta < 0 && (scrollTop <= 0 || scrollHeight <= clientHeight)) {
                 if (now - lastWheelTime > throttleTime) {
                     if (window.fullpage_api) fullpage_api.moveSectionUp();
                     lastWheelTime = now;
                 }
             }
-            // 2. 아래로 스크롤할 때: 이미 맨 아래라면 다음 섹션으로 이동
-            else if (delta > 0 && scrollTop + clientHeight >= scrollHeight - 1) {
+            // 2. 아래로 스크롤할 때: 이미 맨 아래거나 내부 스크롤이 불필요한 경우 다음 섹션으로 이동
+            else if (delta > 0 && (scrollTop + clientHeight >= scrollHeight - 1 || scrollHeight <= clientHeight)) {
                 if (now - lastWheelTime > throttleTime) {
                     if (window.fullpage_api) fullpage_api.moveSectionDown();
                     lastWheelTime = now;
