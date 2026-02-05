@@ -14,11 +14,11 @@
     <style>
         /* --- [1. 기본 변수 및 설정] --- */
         :root {
-            --main-color: #ffffff;
+            --main-color: rgba(255, 255, 255, 0.8);
             --bg-color: #0a0a0a;
             --accent-color: rgba(255, 255, 255, 0.5);
-            --point-color: #cacaca;
-            /* 네온 민트 포인트 */
+            --point-color: #E5E4E2;
+            /* 화이트 실버 포인트 */
         }
 
         html,
@@ -32,6 +32,24 @@
             font-family: 'Rajdhani', 'Pretendard', monospace;
             background-color: transparent;
             cursor: crosshair;
+        }
+
+        /* 제목 및 강조 텍스트 순백색 처리 */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .hero-title,
+        .panel-label,
+        .ins-title,
+        .index-name,
+        .contents-title,
+        .group-title,
+        strong,
+        b {
+            color: #ffffff !important;
         }
 
         /* --- [2. 배경 및 공통 UI] --- */
@@ -174,7 +192,7 @@
             background: transparent;
             border: none;
             color: #fff;
-            font-family: 'Share Tech Mono', 'Pretendard', monospace;
+            font-family: 'Rajdhani', 'Pretendard', sans-serif;
             font-size: 1.2rem;
             cursor: pointer;
             z-index: 10001;
@@ -262,7 +280,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            font-family: 'Share Tech Mono', 'Pretendard', monospace;
+            font-family: 'Rajdhani', 'Pretendard', sans-serif;
         }
 
         .modal-text-box h2 {
@@ -290,7 +308,7 @@
             font-size: 0.8rem;
             letter-spacing: 2.5px;
             opacity: 1;
-            font-family: 'Share Tech Mono', 'Pretendard', monospace;
+            font-family: 'Rajdhani', 'Pretendard', sans-serif;
             text-transform: uppercase;
         }
 
@@ -565,14 +583,18 @@
         }
 
         .panel-label {
-            font-size: clamp(1rem, 1.8vw, 1.3rem);
-            color: var(--point-color);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            color: #FFFFFF;
             margin-bottom: 20px;
             font-weight: bold;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(241, 241, 241, 0.3);
-            padding-bottom: 5px;
-            display: inline-block;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
         }
 
         .panel-text {
@@ -1262,22 +1284,27 @@
 
         #project-counter {
             font-size: 1.2rem;
-            color: #fff;
+            color: #FFFFFF;
+            /* Pure White */
             letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
+            /* Blue Aura */
         }
 
         .inspector-sidebar {
             flex: 0.8;
             height: clamp(500px, 65vh, 800px);
             /* Reduced height */
-            background: rgba(10, 10, 12, 0.6);
-            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: clamp(15px, 2vw, 40px);
             /* Reduced padding */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
+            /* Stack from top */
             position: relative;
             min-width: clamp(280px, 20vw, 420px);
             /* Slightly reduced min-width */
@@ -1322,6 +1349,8 @@
             flex-direction: row !important;
             justify-content: space-between !important;
             align-items: flex-end !important;
+            margin-bottom: 25px;
+            /* Increased from 15px */
         }
 
         .inspector-section {
@@ -1340,20 +1369,31 @@
         .inspector-row {
             min-height: clamp(70px, 8vh, 110px);
             /* Compact min-height */
+            margin-bottom: 25px;
+            /* Increased from 15px default */
         }
 
         /* Description section - Interaction Mode */
         .inspector-section:nth-of-type(3) {
+            flex: 1;
+            /* Take all remaining space */
             min-height: 0;
             position: relative;
             overflow: visible !important;
+            /* Allow popup to show */
+            display: flex;
+            flex-direction: column;
         }
 
         /* Group wrapper */
         .description-group {
             position: relative;
-            margin: 0 0 clamp(15px, 2vh, 25px) 0;
-            /* Tightened margin */
+            margin: 0;
+            /* Remove margin to flush with bottom */
+            flex: 1;
+            /* Fill parent */
+            display: flex;
+            flex-direction: column;
             cursor: default;
         }
 
@@ -1409,19 +1449,33 @@
             /* Allow scroll if extremely long */
             scrollbar-width: none;
             /* Hide scrollbar for clean look */
+            height: 100%;
+            /* Fill flex parent */
+            overflow: hidden;
+            /* Ensure overflow hidden for ellipsis */
         }
 
         .desc-container::-webkit-scrollbar {
             display: none;
         }
 
-        /* Short View (Default) - Now shows multiple lines */
+        /* [ADD] Paragraph spacing for <br> and overflow ellipsis */
+        .ins-desc br {
+            display: block;
+            margin-top: 20px;
+            /* Increased and changed to margin-top for visibility */
+            content: " ";
+            /* Adding a space content to ensure it takes space */
+        }
+
         .ins-desc.short-view {
-            white-space: normal;
-            /* Allow multi-line wrapping */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5;
+            line-clamp: 5;
+            /* Standard property */
             overflow: hidden;
-            opacity: 0.9;
-            transition: opacity 0.3s;
+            text-overflow: ellipsis;
         }
 
         .description-group:hover .ins-desc.short-view {
@@ -1506,30 +1560,49 @@
         }
 
         .ins-label {
-            font-family: 'Share Tech Mono', 'Pretendard', monospace;
-            color: var(--point-color);
-            font-size: clamp(0.7rem, 0.5vw, 0.9rem);
-            /* Responsive font size */
-            display: block;
-            margin-bottom: clamp(8px, 0.8vh, 15px);
-            /* Responsive margin */
-            letter-spacing: 2px;
-            opacity: 0.8;
+            font-family: 'Pretendard', sans-serif;
+            color: #FFFFFF;
+            /* Pure White Korean */
+            font-weight: bold;
+            font-size: 1.1rem;
+            /* Reduced from 1.25rem */
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            letter-spacing: 0.1em;
+            /* Requested 0.1em */
+            margin-bottom: 10px;
+        }
+
+        .ins-tag {
+            color: #FDF5E6;
+            /* Ivory Tag */
+            font-family: 'Rajdhani', sans-serif;
+            margin-right: 2px;
         }
 
         .ins-label::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: rgba(68, 68, 68, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            margin-left: 10px;
+        }
+
+        .header-sub-ko {
+            font-family: 'Pretendard', sans-serif;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: normal;
+            margin-left: 8px;
+            letter-spacing: 0;
+            vertical-align: middle;
         }
 
         .ins-title {
             font-family: 'Cinzel', 'Pretendard', serif;
-            font-size: clamp(1.8rem, 6vw, 4rem);
+            font-size: clamp(2rem, 6vw, 4rem);
+            /* Increased slightly to balance header removal */
             color: #fff;
             line-height: 1;
             margin: 0 0 clamp(5px, 1vh, 15px) 0;
@@ -1542,7 +1615,7 @@
 
         .ins-subtitle {
             font-family: 'Pretendard';
-            font-size: clamp(0.8rem, 0.6vw, 1rem);
+            font-size: clamp(0.95rem, 0.8vw, 1.2rem);
             /* Slightly smaller to fit better */
             color: #aaa;
             margin: 0;
@@ -1574,14 +1647,17 @@
         .ins-list li::before {
             content: '■';
             font-size: 0.6rem;
-            color: var(--point-color);
+            color: #FFFFFF;
+            /* Pure White */
+            text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
+            /* Blue Aura */
         }
 
         .ins-desc {
             font-family: 'Pretendard';
-            line-height: 1.7;
-            color: #ccc;
-            font-size: clamp(0.9rem, 0.75vw, 1.1rem);
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: clamp(1rem, 0.9vw, 1.2rem);
             /* Responsive font size */
             margin: 0;
             word-break: keep-all;
@@ -1589,8 +1665,8 @@
         }
 
         .ins-btn {
-            border: 1px solid var(--point-color);
-            color: var(--point-color);
+            border: 1px solid #FFFFFF;
+            color: #000;
             padding: clamp(10px, 1.2vh, 16px) clamp(20px, 2vw, 40px);
             /* Responsive padding */
             text-decoration: none;
@@ -1600,7 +1676,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(0, 255, 170, 0.05);
+            background: rgba(255, 255, 255, 0.8);
             font-size: clamp(0.9rem, 0.8vw, 1.1rem);
             /* Responsive font size */
         }
@@ -1628,11 +1704,14 @@
         }
 
         .ins-page-count {
-            color: var(--point-color);
+            color: #FFFFFF;
+            /* Pure White */
+            text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
+            /* Blue Aura */
             font-family: 'Share Tech Mono', 'Pretendard', monospace;
             font-size: clamp(0.9rem, 0.8vw, 1.2rem);
             /* Responsive font size */
-            margin-top: 10px;
+            margin-top: 0;
         }
 
         /* [REFINED] 1400px 이하: 컴팩트 모드 (Compact Mode) 적용 */
@@ -1783,18 +1862,19 @@
                 padding: 25px 30px;
                 /* 내부 여백 */
                 margin: 0 !important;
-                background: #0a0a0c !important;
-                /* 불투명 배경 */
+                background: rgba(0, 0, 0, 0.6) !important;
+                /* Translucent dark background */
+                backdrop-filter: blur(20px);
                 border-radius: 0 !important;
                 flex: 1;
-                /* 남은 공간 채우기 */
+                /* Allow flex grow */
                 display: flex;
                 flex-direction: column;
                 border-top: 1px solid rgba(255, 255, 255, 0.15);
                 z-index: 20;
                 position: relative;
                 box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-                /* 상단 그림자 */
+                /* Top shadow */
             }
 
             /* [FIX] PROPERTIES 라벨 숨김 (첫 번째 섹션의 라벨) */
@@ -1840,7 +1920,10 @@
             .ins-label {
                 font-size: 0.85rem;
                 margin-bottom: 8px;
-                color: var(--point-color);
+                color: rgba(255, 255, 255, 0.6);
+                /* 60% White */
+                text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
+                /* Blue Aura */
             }
 
             /* [FIX] 모바일/태블릿(1024px 이하)에서는 다시 1줄로 제한 */
@@ -1851,15 +1934,19 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: normal;
-                height: 1.5em !important;
+                height: auto !important;
+                /* Allow auto height */
+                min-height: 1.8em;
+                /* Ensure at least 1 line visible */
                 color: #ccc;
             }
 
             .desc-container {
-                max-height: 42px !important;
-                /* 1줄에 맞춰 높이 축소 */
+                max-height: none !important;
+                height: auto !important;
+                /* Override global 100% */
                 margin-bottom: 20px;
-                overflow: hidden;
+                overflow: visible;
             }
 
             .inspector-section {
@@ -1893,9 +1980,14 @@
                 width: 100%;
                 justify-content: center;
                 font-size: 1.1rem;
-                border: 1px solid var(--point-color);
-                background: rgba(0, 255, 170, 0.05);
-                color: var(--point-color);
+                padding: 15px 0;
+                width: 100%;
+                justify-content: center;
+                font-size: 1.1rem;
+                border: 1px solid #FFFFFF;
+                background: rgba(255, 255, 255, 0.8);
+                color: #000;
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             }
 
             /* 네비게이션 버튼 가시성 확보 */
@@ -1912,8 +2004,9 @@
             /* 모바일에서 네비게이션 버튼 스타일 보정 */
             .ctrl-btn {
                 padding: 8px 12px;
-                background: #000;
-                border: 1px solid #333;
+                background: rgba(0, 0, 0, 0.5);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                color: #fff;
             }
         }
 
@@ -2602,12 +2695,12 @@
                         }
 
                         .tool-badge {
-                            background: rgba(0, 255, 170, 0.1);
-                            border: 1px solid rgba(109, 109, 109, 0.3);
+                            background: rgba(255, 255, 255, 0.1);
+                            border: 1px solid rgba(229, 228, 226, 0.5);
                             color: #fff;
                             padding: 4px 10px;
                             font-size: 0.9rem;
-                            font-family: 'Share Tech Mono';
+                            font-family: 'Rajdhani', 'Pretendard', sans-serif;
                             border-radius: 4px;
                         }
 
@@ -2649,15 +2742,16 @@
                         }
 
                         .radar-path {
-                            fill: rgba(0, 255, 170, 0.2);
-                            stroke: #818181;
-                            stroke-width: 2;
-                            filter: drop-shadow(0 0 8px rgba(0, 255, 170, 0.4));
+                            fill: rgba(255, 255, 255, 0.1);
+                            stroke: #E5E4E2;
+                            stroke-width: 1.5;
+                            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+                            /* 화이트 글로우 */
                             animation: radarPulse 3s infinite alternate;
                         }
 
                         .radar-label {
-                            font-family: 'Share Tech Mono';
+                            font-family: 'Rajdhani', 'Pretendard', sans-serif;
                             font-size: 0.6rem;
                             fill: rgba(255, 255, 255, 0.7);
                             text-anchor: middle;
@@ -2731,7 +2825,8 @@
                     <div class="about-panels-wrapper" style="display: contents;">
                         <!-- 1. [Top-Left] PROFILE -->
                         <div class="data-panel panel-tl">
-                            <h2 class="panel-label">HELLO! SYSTEM</h2>
+                            <h2 class="panel-label"><span class="ins-tag">::</span> PROFILE <span
+                                    class="header-sub-ko">인적사항</span></h2>
                             <p class="panel-text"
                                 style="font-size: 0.95rem; line-height: 1.7; letter-spacing: -0.3px; word-break: keep-all; overflow-wrap: break-word;">
                                 <strong style="font-size: 1rem;">김서영 (Kim Seo-Young)</strong><br>
@@ -2745,7 +2840,8 @@
 
                         <!-- 2. [Bottom-Left] TOOL_SET_LOG -->
                         <div class="data-panel panel-bl">
-                            <h3 class="panel-label">TOOL_SET_LOG</h3>
+                            <h3 class="panel-label"><span class="ins-tag">::</span> TOOL SET <span
+                                    class="header-sub-ko">보유 기술</span></h3>
                             <div class="tool-group">
                                 <span class="tool-category">Software</span>
                                 <div class="tool-icons">
@@ -2772,7 +2868,8 @@
 
                         <!-- 3. [Top-Right] SYSTEM_DATA_LOG (Radar Chart) -->
                         <div class="data-panel panel-tr">
-                            <h3 class="panel-label">SYSTEM_DATA_LOG</h3>
+                            <h3 class="panel-label"><span class="ins-tag">::</span> STATISTICS <span
+                                    class="header-sub-ko">업무 역량</span></h3>
                             <div class="radar-chart-container">
                                 <svg class="radar-svg" viewBox="0 0 100 100">
                                     <!-- Background Pentagon -->
@@ -2784,11 +2881,11 @@
                                     <polygon class="radar-path" points="50,14 84,42 70,79 28,81 16,42" />
 
                                     <!-- Labels -->
-                                    <text x="50" y="2" class="radar-label">습득력</text>
-                                    <text x="116" y="40" class="radar-label">커뮤니케이션</text>
-                                    <text x="85" y="102" class="radar-label">문제해결력</text>
-                                    <text x="5" y="102" class="radar-label">피드백수용력</text>
-                                    <text x="-10" y="40" class="radar-label">눈치</text>
+                                    <text x="50" y="2" class="radar-label" fill="#E5E4E2">습득력</text>
+                                    <text x="116" y="40" class="radar-label" fill="#E5E4E2">커뮤니케이션</text>
+                                    <text x="85" y="102" class="radar-label" fill="#E5E4E2">문제해결력</text>
+                                    <text x="5" y="102" class="radar-label" fill="#E5E4E2">피드백수용력</text>
+                                    <text x="-10" y="40" class="radar-label" fill="#E5E4E2">눈치</text>
                                 </svg>
                             </div>
                             <div class="ai-collab">
@@ -2805,7 +2902,8 @@
 
                         <!-- 4. [Bottom-Right] EXP. LOG -->
                         <div class="data-panel panel-br">
-                            <h3 class="panel-label">EXP. LOG</h3>
+                            <h3 class="panel-label"><span class="ins-tag">::</span> EXPERIENCE <span
+                                    class="header-sub-ko">경력 사항</span></h3>
                             <ul class="exp-list" style="padding:0; margin:0;">
                                 <li>
                                     <span class="exp-date">아트머그 (2026-Present)</span><br>
@@ -2923,10 +3021,9 @@
                     <aside class="inspector-sidebar">
                         <!-- Group 1: Title + Tabs -->
                         <!-- [FIX] Added flex container for Title and Tabs -->
-                        <div class="inspector-section"
+                        <div class="inspector-section header-section"
                             style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
-                            <div class="title-group">
-                                <span class="ins-label">PROPERTIES</span>
+                            <div class="title-group" style="margin-bottom: 20px;"> <!-- Reverted negative margin -->
                                 <h2 class="ins-title" style="margin-bottom: 5px;">DUSTLINE</h2>
                                 <p class="ins-subtitle">#브랜드 정체성 구축 및 반응형 웹 디자인</p>
                             </div>
@@ -2939,28 +3036,37 @@
                         <!-- Group 2: Contribution + Pages -->
                         <div class="inspector-section inspector-row" style="justify-content: space-between;">
                             <div class="inspector-col">
-                                <span class="ins-label">CONTRIBUTION</span>
+                                <span class="ins-label"><span class="ins-tag">::</span> 작업 기여도 <span
+                                        class="header-sub-en">CONTRIBUTION</span></span>
                                 <ul class="ins-list">
-                                    <li>PLANNING: 100%</li>
-                                    <li>DESIGN: 100%</li>
-                                    <li>PUBLISHING: 100%</li>
+                                    <li>PLANNING: <span
+                                            style="color: #FFFFFF; text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);">100%</span>
+                                    </li>
+                                    <li>DESIGN: <span
+                                            style="color: #FFFFFF; text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);">100%</span>
+                                    </li>
+                                    <li>PUBLISHING: <span
+                                            style="color: #FFFFFF; text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);">100%</span>
+                                    </li>
                                 </ul>
                             </div>
-                            <div class="inspector-col" style="text-align: right;">
-                                <span class="ins-label">PAGES</span>
+                            <div class="inspector-col">
+                                <span class="ins-label"><span class="ins-tag">::</span> 구성 페이지 <span
+                                        class="header-sub-en">PAGES</span></span>
                                 <p class="ins-page-count">MAIN + 2 SUB</p>
                             </div>
                         </div>
 
                         <!-- Group 3: Description + Plus Button -->
-                        <div class="inspector-section description-group">
-                            <div class="desc-header" style="justify-content: space-between;">
-                                <span class="ins-label">DESCRIPTION</span>
+                        <div class="inspector-section description-group" style="margin-top: 15px;">
+                            <div class="desc-header" style="justify-content: space-between; margin-bottom: 25px;">
+                                <span class="ins-label"><span class="ins-tag">::</span> 프로젝트 설명 <span
+                                        class="header-sub-en">DESCRIPTION</span></span>
                                 <div class="desc-plus-btn">+</div>
                             </div>
                             <div class="desc-container">
                                 <p class="ins-desc short-view">
-                                    배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.
+                                    배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.<br>
                                     정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
                                     장르적 몰입감을 극대화했습니다.
                                 </p>
@@ -3020,7 +3126,7 @@
                             <!-- Commercial items -->
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="commercial"
                                 data-title="방송 스케줄표 : 쿠*님" data-requirements="고양이 컨셉으로 과하지는 않게, 색감은 노랑색/갈색 위주로 해주세요."
-                                data-process="평소 방송 스타일을 세밀하게 탐색하여, 스트리머 특유의 통통 튀고 귀여운 음성과 캐릭터 컨셉에 최적화된 아기자기한 다이어리 테마를 기획했습니다. 클라이언트의 요구사항을 적극 반영하여 고양이 요소를 곳곳에 배치하되 전체적인 균형을 해치지 않도록 절제하여 디자인했으며, 따뜻한 브라운과 옐로우 컬러를 메인으로 활용해 포근하고 친근한 이미지를 완성했습니다."
+                                data-process="평소 방송 스타일을 세밀하게 탐색하여, 스트리머 특유의 통통 튀고 귀여운 음성과 캐릭터 컨셉에 최적화된 아기자기한 다이어리 테마를 기획했습니다.<br>클라이언트의 요구사항을 적극 반영하여 고양이 요소를 곳곳에 배치하되 전체적인 균형을 해치지 않도록 절제하여 디자인했으며, 따뜻한 브라운과 옐로우 컬러를 메인으로 활용해 포근하고 친근한 이미지를 완성했습니다."
                                 data-review="소통 최선을 다해주시고 작업물도 고지 받았던 것보다 훨 빨리 받았습니다 감사합니다!">
                                 <span class="category-tag">COMMERCIAL</span>
                                 <img src="images/commercial1.png" alt="Commercial Work 1">
@@ -3028,7 +3134,7 @@
 
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="commercial"
                                 data-title="방송 스케줄표 : 융*님" data-requirements="리본이 아이덴티티라 리본을 사용해주시고 색감은 베이지색으로 부탁드려요!"
-                                data-process="캐릭터의 외형과 스트리머의 음성이 지닌 사랑스럽고 여리여리한 분위기를 극대화하기 위해 전체적으로 따스한 베이지 톤을 베이스로 사용했습니다. 여기에 캐릭터의 눈동자 색상에서 착안한 스카이블루 컬러를 포인트로 활용하여 시각적 생동감을 부여했으며, 다양한 형태의 리본 요소를 곳곳에 배치함으로써 한층 더 풍성하고 감성적인 디자인을 완성했습니다."
+                                data-process="캐릭터의 외형과 스트리머의 음성이 지닌 사랑스럽고 여리여리한 분위기를 극대화하기 위해 전체적으로 따스한 베이지 톤을 베이스로 사용했습니다.<br>여기에 캐릭터의 눈동자 색상에서 착안한 스카이블루 컬러를 포인트로 활용하여 시각적 생동감을 부여했으며, 다양한 형태의 리본 요소를 곳곳에 배치함으로써 한층 더 풍성하고 감성적인 디자인을 완성했습니다."
                                 data-review="작업 진짜 진짜 진짜 너무 예쁘고 맘에들고 디자인 감각이 그냥 미쳤어요.... 미쳐버린 색감 + 센스있는 아이덴티티 디자인 + 완전 빠른 마감 삼박자가 쿵짝 대박이에요!! 저는 오마카세로 부탁드렸는데 뚝딱하고 디자인 뽑아주시니까 어느 작가님께 작업 맡기실지 고민이시라면 작가님 진짜 강추드립니다!">
                                 <span class="category-tag">COMMERCIAL</span>
                                 <img src="images/commercial2.png" alt="Commercial Work 2">
@@ -3038,7 +3144,7 @@
                                 data-title="방송 스케줄표 : 유**님"
                                 data-images="images/commercial3.png,images/commercial3-2.jpg"
                                 data-requirements="놀이공원 컨셉, 티켓 느낌이나 관람차 이런 느낌으로 하고싶어요~ 색상은 핑크 파랑이 메인이었으면 좋겠어요."
-                                data-process="놀이공원이라는 테마를 충실히 구현하기 위해 캐릭터 프레임은 관람차로, 텍스트 칸은 티켓 모양으로 제작하여 시각적인 통일감을 주었습니다. 디자인의 영감은 캐릭터가 가진 선명한 오드아이와 장난스러운 송곳니라는 특징에서 얻었으며, 이를 바탕으로 초안은 화려한 불꽃놀이가 터지는 밤의 놀이공원 컨셉으로 작업했습니다. 하지만 매주 사용해야 하는 스케줄표의 특성상 화려한 배경은 장기적으로 사용하기에 시각적 피로도가 높을 수 있다고 판단했습니다. 이에 따라 밝고 화사한 분위기의 시안을 추가로 제작하여 총 두 가지 선택지를 제안함으로써 클라이언트의 취항은 물론 실제 사용 환경에서의 실용성까지 고려한 디자인 결과물을 도출했습니다."
+                                data-process="놀이공원이라는 테마를 충실히 구현하기 위해 캐릭터 프레임은 관람차로, 텍스트 칸은 티켓 모양으로 제작하여 시각적인 통일감을 주었습니다. 디자인의 영감은 캐릭터가 가진 선명한 오드아이와 장난스러운 송곳니라는 특징에서 얻었으며, 이를 바탕으로 초안은 화려한 불꽃놀이가 터지는 밤의 놀이공원 컨셉으로 작업했습니다.<br>하지만 매주 사용해야 하는 스케줄표의 특성상 화려한 배경은 장기적으로 사용하기에 시각적 피로도가 높을 수 있다고 판단했습니다.<br>이에 따라 밝고 화사한 분위기의 시안을 추가로 제작하여 총 두 가지 선택지를 제안함으로써 클라이언트의 취향은 물론 실제 사용 환경에서의 실용성까지 고려한 디자인 결과물을 도출했습니다."
                                 data-review="작가님 작업물이 너무 이뻐요! 레퍼런스 짜놓은 것도 없이 대충 컨셉이랑 사진만 드렸는데 너무 이쁘게 컨셉 잘 잡아서 보내주셔서 너무 이쁘게 쓰고 있습니다! 쓰는 법도 자세히 알려주시고 답장도 빠르셨어요! 작업 기간도 예상 기간보다 빨랐습니다!">
                                 <span class="category-tag">COMMERCIAL</span>
                                 <img src="images/commercial3.png" alt="Commercial Work 3">
@@ -3047,7 +3153,7 @@
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="commercial"
                                 data-title="방송 스케줄표 : 즈*님" data-images="images/commercial4.png,images/commercial4-2.jpg"
                                 data-requirements="병맛, 콜라주, 낙서느낌을 내주세요. 흑백 바탕에 빨강 조금 넣어주세요. 구도는 세로로 해주세요. 폰트는 내용이 눈에 잘 띄면 좋겠어요. '당일 마감 신청합니다'"
-                                data-process="당일 마감이라는 긴박한 일정에 맞춰 신속하게 작업을 진행하면서도, 캐릭터의 개성 있는 매력을 극대화할 수 있는 독창적인 디자인을 시도했습니다. 콜라주 특유의 감성을 살리기 위해 종이를 오려 붙인 듯한 질감의 배경을 직접 제작했으며, 요일 칸은 손으로 그린 듯한 낙서 테마를 적용해 자유롭고 유니크한 분위기를 연출했습니다. 기획 초기에는 '콜라주'와 '병맛'이라는 키워드에 집중하여 강렬한 악동 느낌의 시안을 제작했으나, 실제 방송 분위기를 모니터링한 결과 조금 더 정돈된 무드가 적합하다고 판단했습니다. 이에 따라 시각적인 개성은 유지하되 한층 차분해진 두 번째 시안을 함께 제작하여 제안해 드렸으며, 최종적으로 스트리머의 감성과 더 잘 어우러지는 두 번째 안이 채택되어 높은 만족도를 끌어낼 수 있었습니다."
+                                data-process="당일 마감이라는 긴박한 일정에 맞춰 신속하게 작업을 진행하면서도, 캐릭터의 개성 있는 매력을 극대화할 수 있는 독창적인 디자인을 시도했습니다. 콜라주 특유의 감성을 살리기 위해 종이를 오려 붙인 듯한 질감의 배경을 직접 제작했으며, 요일 칸은 손으로 그린 듯한 낙서 테마를 적용해 자유롭고 유니크한 분위기를 연출했습니다.<br>기획 초기에는 '콜라주'와 '병맛'이라는 키워드에 집중하여 강렬한 악동 느낌의 시안을 제작했으나, 실제 방송 분위기를 모니터링한 결과 조금 더 정돈된 무드가 적합하다고 판단했습니다.<br>이에 따라 시각적인 개성은 유지하되 한층 차분해진 두 번째 시안을 함께 제작하여 제안해 드렸으며, 최종적으로 스트리머의 감성과 더 잘 어우러지는 두 번째 안이 채택되어 높은 만족도를 끌어낼 수 있었습니다."
                                 data-review="후기 잘 안적는데 너무 친절하시고 잘해주셔서 기분이 좋았습니다 늘 응원해요">
                                 <span class="category-tag">COMMERCIAL</span>
                                 <img src="images/commercial4.png" alt="Commercial Work 4">
@@ -3063,14 +3169,14 @@
                         <div class="banner-grid graphics-grid">
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="banner"
                                 data-title="요거트 브랜드 팝업 스토어 홍보 배너 디자인" data-tools="Photoshop"
-                                data-desc="신선한 원유와 생과일의 조화를 시각적으로 극대화하기 위해 비비드한 컬러감과 역동적인 그래픽을 사용했습니다. 브랜드의 젊고 활기찬 이미지를 강조하기 위해 옐로우와 블루를 메인 컬러로 매치했으며, 요거트가 튀어 오르는 듯한 스플래시 효과를 더해 생동감 넘치는 비주얼을 완성했습니다.\n\n사용자의 시선 흐름을 고려하여 좌측에는 주요 카피와 CTA(버튼)를, 우측에는 제품 이미지를 배치함으로써 이벤트 정보 습득과 클릭 유도를 동시에 만족시키는 구조를 설계했습니다.">
+                                data-desc="신선한 원유와 생과일의 조화를 시각적으로 극대화하기 위해 비비드한 컬러감과 역동적인 그래픽을 사용했습니다.<br>브랜드의 젊고 활기찬 이미지를 강조하기 위해 옐로우와 블루를 메인 컬러로 매치했으며, 요거트가 튀어 오르는 듯한 스플래시 효과를 더해 생동감 넘치는 비주얼을 완성했습니다.<br>사용자의 시선 흐름을 고려하여 좌측에는 주요 카피와 CTA(버튼)를, 우측에는 제품 이미지를 배치함으로써 이벤트 정보 습득과 클릭 유도를 동시에 만족시키는 구조를 설계했습니다.">
                                 <span class="category-tag">BANNER</span>
                                 <img src="images/banner1.png" alt="Banner 1">
                             </div>
 
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="banner"
                                 data-title="전통차 특별 에디션 선물 세트 홍보 배너" data-tools="Photoshop, Figma"
-                                data-desc="가상 차 브랜드 '다원'의 브랜드 스타일에 맞추어, 소중한 사람에게 전하는 정성과 고요함을 시각화한 배너를 디자인했습니다. 차분한 그린 컬러와 한지의 질감을 살린 배경을 바탕으로, 전통적인 창살무늬 요소를 현대적으로 배치하여 단아하고 격조 잇는 선물 세트의 이미지를 완성했습니다.">
+                                data-desc="가상 차 브랜드 '다원'의 브랜드 스타일에 맞추어, 소중한 사람에게 전하는 정성과 고요함을 시각화한 배너를 디자인했습니다.<br> 차분한 그린 컬러와 한지의 질감을 살린 배경을 바탕으로, 전통적인 창살무늬 요소를 현대적으로 배치하여 단아하고 격조 잇는 선물 세트의 이미지를 완성했습니다.">
                                 <span class="category-tag">BANNER</span>
                                 <img src="images/banner2.png" alt="Banner 2">
                             </div>
@@ -3086,14 +3192,14 @@
                         <div class="poster-grid graphics-grid">
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="poster"
                                 data-title="Waversa Systems 'W Phono Lite' 제품 홍보 포스터" data-tools="Photoshop"
-                                data-desc="하이엔드 앰프인 'W Phono Lite'의 정교한 기술력과 순수한 음질을 시각화하기 위해 무한한 우주 공간을 디자인 컨셉으로 적용했습니다. 소리의 파동을 신비로운 빛의 궤적에 빗대어 표현했으며,우주적인 컨셉에 맞춰 세련된 폰트와 간결한 카피를 배치하여 하이엔드 브랜드의 전문성과 세련된 감도를 동시에 전달했습니다.">
+                                data-desc="하이엔드 앰프인 'W Phono Lite'의 정교한 기술력과 순수한 음질을 시각화하기 위해 무한한 우주 공간을 디자인 컨셉으로 적용했습니다.<br>소리의 파동을 신비로운 빛의 궤적에 빗대어 표현했으며,우주적인 컨셉에 맞춰 세련된 폰트와 간결한 카피를 배치하여 하이엔드 브랜드의 전문성과 세련된 감도를 동시에 전달했습니다.">
                                 <span class="category-tag">POSTER</span>
                                 <img src="images/poster1.png" alt="Poster 1">
                             </div>
 
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="poster"
                                 data-title="한국예술종합학교 3단 홍보 브로셔" data-tools="Figma / Illustrator"
-                                data-desc="한국예술종합학교의 예술적 깊이와 전문성을 시각화했습니다. 강렬한 색채 대비와 역동적인 레이아웃을 통해 학교의 예술적 에너지를 표현했습니다. 표지에는 예술 학교만의 개성을 살린 디자인에 중점을 두었고, 내부 페이지는 많은 양의 정보를 시각적으로 피로감 없이 전달할 수 있도록 가독성을 높였습니다."
+                                data-desc="한국예술종합학교의 예술적 깊이와 전문성을 시각화했습니다. 강렬한 색채 대비와 역동적인 레이아웃을 통해 학교의 예술적 에너지를 표현했습니다.<br> 표지에는 예술 학교만의 개성을 살린 디자인에 중점을 두었고, 내부 페이지는 많은 양의 정보를 시각적으로 피로감 없이 전달할 수 있도록 가독성을 높였습니다."
                                 data-images="images/broche-01.png,images/broche-02.png">
                                 <span class="category-tag">POSTER</span>
                                 <img src="images/broche-01.png" alt="Brochure Design">
@@ -3101,7 +3207,7 @@
 
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="poster"
                                 data-title="가상 SF 영화 '인피니티' 홍보 포스터" data-tools="Photoshop, Illustrator"
-                                data-desc="무한한 우주 공간에서의 고독과 탐험을 주제로 한 가상 SF 영화 '인피니티'의 포스터를 기획했습니다. 광활한 어둠 속에서 빛나는 지구에서 떨어지는 듯한 우주비행사의 모습을 대조적으로 배치하여, 미지의 세계에 대한 경외감과 긴장감을 시각화했습니다.">
+                                data-desc="무한한 우주 공간에서의 고독과 탐험을 주제로 한 가상 SF 영화 '인피니티'의 포스터를 기획했습니다.<br>광활한 어둠 속에서 빛나는 지구에서 떨어지는 듯한 우주비행사의 모습을 대조적으로 배치하여, 미지의 세계에 대한 경외감과 긴장감을 시각화했습니다.">
                                 <span class="category-tag">POSTER</span>
                                 <img src="images/poster2.jpg" alt="Poster 2">
                             </div>
@@ -3117,7 +3223,7 @@
                             <!-- Detail Page Item: Fixed Height, Hover Scroll -->
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="detail"
                                 data-title="주얼리 브랜드 '누베딜리' 제품 상세페이지 디자인" data-tools="Figma / Nano Banana"
-                                data-desc="메인 페이지에서 구축한 브랜드 아이덴티티를 바탕으로, 제품의 디테일과 고급스러움을 극대화하는 데 집중했습니다. 제품의 섬세한 디테일을 강조하기 위해 여백을 충분히 활용하고, 시선이 자연스럽게 제품으로 향하도록 유도하는 레이아웃을 구성했습니다. 제품에 대한 상세정보와 감성적인 착용샷을 적절히 배치하여 제품의 매력을 극대화했습니다.">
+                                data-desc="메인 페이지에서 구축한 브랜드 아이덴티티를 바탕으로, 제품의 디테일과 고급스러움을 극대화하는 데 집중했습니다.<br> 제품의 섬세한 디테일을 강조하기 위해 여백을 충분히 활용하고, 시선이 자연스럽게 제품으로 향하도록 유도하는 레이아웃을 구성했습니다.<br>제품에 대한 상세정보와 감성적인 착용샷을 적절히 배치하여 제품의 매력을 극대화했습니다.">
                                 <span class="category-tag">DETAIL</span>
                                 <div class="detail-scroll-wrapper">
                                     <img src="images/detailpage.png" alt="Detail Page Design" class="detail-scroll-img">
@@ -3133,21 +3239,21 @@
                         <div class="square-grid graphics-grid">
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="3d"
                                 data-title="아이소메트릭 룸 모델링 모작" data-tools="Blender"
-                                data-desc="레퍼런스 이미지를 바탕으로 3D 공간감과 모델링을 똑같이 구현해 보는 것을 목표로 한 모델링 작업물입니다. 단순히 형태를 만드는 것을 넘어, 노드 구성을 통해 플라스틱, 러그 등 다양한 텍스처의 질감 표현을 구현하는 데 집중했습니다.">
+                                data-desc="레퍼런스 이미지를 바탕으로 3D 공간감과 모델링을 똑같이 구현해 보는 것을 목표로 한 모델링 작업물입니다.<br>단순히 형태를 만드는 것을 넘어, 노드 구성을 통해 플라스틱, 러그 등 다양한 텍스처의 질감 표현을 구현하는 데 집중했습니다.">
                                 <span class="category-tag">3D ART</span>
                                 <img src="images/3d1.png" alt="3D Work 1">
                             </div>
 
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="3d"
                                 data-title="버츄얼 스트리머 방송용 3D 배경 디자인" data-tools="Blender"
-                                data-desc="버츄얼 스트리머의 방송 컨셉에 맞춰, 시청자에게 편안하고 산뜻한 인상을 줄 수 있는 민트 그린 톤의 스튜디오를 기획했습니다. 단순히 방을 꾸미는 것을 넘어, 실제 방송 화면에 캐릭터와 채팅창이 배치되었을 떄의 구도와 깊이감을 최우선으로 고려하여 디자인했습니다.">
+                                data-desc="버츄얼 스트리머의 방송 컨셉에 맞춰, 시청자에게 편안하고 산뜻한 인상을 줄 수 있는 민트 그린 톤의 스튜디오를 기획했습니다.<br>단순히 방을 꾸미는 것을 넘어, 실제 방송 화면에 캐릭터와 채팅창이 배치되었을 떄의 구도와 깊이감을 최우선으로 고려하여 디자인했습니다.">
                                 <span class="category-tag">3D ART</span>
                                 <img src="images/3d2.png" alt="3D Work 2">
                             </div>
 
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="3d"
                                 data-title="버츄얼 스트리머를 모던 룸 3D 배경 디자인" data-tools="Blender"
-                                data-desc="방송 시청자에게 차분하고 지적인 이미지를 전달할 수 있도록 블루와 화이트를 메인 컬러로 사용하여 모던한 원룸 스튜디오를 연출했습니다. 복잡한 장식보다는 깔끔한 가구 배치와 조명 연출에 집중하여 시청자의 시선이 자연스럽게 스트리머에게 향하도록 유도하는 데 집중했습니다.">
+                                data-desc="방송 시청자에게 차분하고 지적인 이미지를 전달할 수 있도록 블루와 화이트를 메인 컬러로 사용하여 모던한 원룸 스튜디오를 연출했습니다.<br>복잡한 장식보다는 깔끔한 가구 배치와 조명 연출에 집중하여 시청자의 시선이 자연스럽게 스트리머에게 향하도록 유도하는 데 집중했습니다.">
                                 <span class="category-tag">3D ART</span>
                                 <img src="images/3d3.png" alt="3D Work 3">
                             </div>
@@ -3191,8 +3297,8 @@
                         width: 100%;
                         height: 100%;
                         background-image:
-                            linear-gradient(rgba(0, 255, 170, 0.03) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(0, 255, 170, 0.03) 1px, transparent 1px);
+                            linear-gradient(rgba(229, 228, 226, 0.05) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(229, 228, 226, 0.05) 1px, transparent 1px);
                         background-size: 50px 50px;
                         z-index: 1;
                         pointer-events: none;
@@ -3287,26 +3393,28 @@
                     .open-site-btn {
                         position: absolute;
                         top: 0;
-                        right: 5%;
                         /* Inset from edge */
                         transform: translateY(-100%);
                         padding: clamp(8px, 1.5vw, 12px) clamp(15px, 3vw, 30px);
+                        right: 0;
+                        /* Aligned to right end */
                         /* Fluid padding */
                         border: none;
                         /* Clean look since background is solid */
-                        background: #00ffcc;
-                        /* Solid Neon Mint */
+                        background: #FFFFFF;
+                        /* Opaque White Point */
                         color: #000;
                         /* Black Text for Contrast */
                         font-family: 'Share Tech Mono', monospace;
-                        font-size: clamp(0.8rem, 1.5vw, 1rem);
+                        font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+                        /* Slightly Larger */
                         font-weight: bold;
                         /* Bold Text */
                         text-decoration: none;
                         letter-spacing: 2px;
                         z-index: 50;
-                        box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
-                        /* Glow Effect */
+                        box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+                        /* White Glow */
                         transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
                         display: flex;
                         align-items: center;
@@ -3323,7 +3431,7 @@
                         background: #fff;
                         /* White Flash on Hover */
                         color: #000;
-                        box-shadow: 0 0 30px rgba(0, 255, 204, 0.9);
+                        box-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
                         /* Stronger Glow */
                         transform: translateY(-100%) scale(1.05);
                     }
@@ -3351,14 +3459,16 @@
                         /* Cap height */
                         flex-shrink: 0;
                         /* Prevent shrinking */
-                        background: rgba(5, 10, 20, 0.95);
+                        background: rgba(255, 255, 255, 0.05);
+                        /* Translucent White */
                         border-top: 1px solid rgba(255, 255, 255, 0.1);
                         display: grid;
                         grid-template-columns: repeat(3, 1fr);
                         align-items: center;
                         z-index: 40;
                         /* Increased Z-index to cover monitor bottom if needed */
-                        backdrop-filter: blur(10px);
+                        backdrop-filter: blur(15px);
+                        /* Stronger Blur */
                     }
 
                     /* Console Column Item */
@@ -3367,7 +3477,8 @@
                         height: 100%;
                         padding: 30px 40px;
                         /* Adjusted padding */
-                        border-right: 1px solid rgba(0, 255, 170, 0.1);
+                        border-right: 1px solid rgba(255, 255, 255, 0.1);
+                        /* Soft White Border */
                         display: flex;
                         flex-direction: column;
                         justify-content: flex-start;
@@ -3380,22 +3491,53 @@
 
                     /* Console Typography Reset */
                     .bubble-header {
-                        color: var(--point-color);
-                        font-family: 'Share Tech Mono', monospace;
-                        font-size: 1.3rem;
-                        margin-bottom: 15px;
-                        text-shadow: 0 0 8px rgba(187, 187, 187, 0.4);
+                        color: #FFFFFF;
+                        /* Pure White */
+                        font-family: 'Pretendard', sans-serif;
+                        font-weight: bold;
+                        /* Bold */
+                        font-size: 1.35rem;
+                        /* Reduced from 1.5rem */
+                        letter-spacing: 2px;
+                        /* Wide spacing */
+                        margin-bottom: 18px;
+                        /* Slightly reduced */
                         display: block;
-                        border: none;
-                        /* Remove old border */
-                        padding: 0;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                        padding-bottom: 8px;
+                    }
+
+                    /* Graphic Design Modal Subheaders */
+                    .modal-info-group strong {
+                        display: block;
+                        color: #FFFFFF;
+                        font-family: 'Pretendard', sans-serif;
+                        font-weight: bold;
+                        font-size: 1.1rem;
+                        /* Reduced from 1.2rem */
+                        letter-spacing: 2px;
+                        margin-bottom: 10px;
+                        /* Slightly reduced */
+                    }
+
+                    .header-sub-en {
+                        font-family: 'Rajdhani', sans-serif;
+                        font-size: 0.8rem;
+                        /* Very small */
+                        color: rgba(255, 255, 255, 0.4);
+                        /* Faint White */
+                        font-weight: normal;
+                        margin-left: 8px;
+                        letter-spacing: 1px;
+                        vertical-align: middle;
                     }
 
                     .bubble-content p {
                         font-family: 'Pretendard', sans-serif;
                         font-weight: 300;
-                        font-size: 0.95rem;
-                        line-height: 1.6;
+                        font-size: 1.05rem;
+                        /* Increased size */
+                        line-height: 1.7;
                         color: rgba(255, 255, 255, 0.8);
                         margin-bottom: 8px;
                     }
@@ -3668,18 +3810,21 @@
 
                     <!-- Column 1: Goal -->
                     <div class="console-column">
-                        <div class="bubble-header">/// PROJECT GOAL</div>
+                        <div class="bubble-header"><span class="ins-tag">::</span> 프로젝트 기획 의도 <span
+                                class="header-sub-en">GOAL & CONCEPT</span></div>
                         <div class="bubble-content">
-                            <p><strong style="color: #00ffcc;">Concept:</strong> 텍스트 위주의 '읽는 웹'에서, 이미지 중심의 <strong>'보는
+                            <p><strong style="color: #FFFFFF;">Concept:</strong> 텍스트 위주의 '읽는 웹'에서, 이미지 중심의 <strong>'보는
                                     매거진(Watch Magazine)'</strong>으로 재해석.</p>
-                            <p><strong style="color: #00ffcc;">Goal:</strong> 기존의 정적인 그리드를 탈피하고, VOGUE만의 압도적인 비주얼과 에디토리얼
+                            <p><strong style="color: #FFFFFF;">Goal:</strong> 기존의 정적인 그리드를 탈피하고, VOGUE만의 압도적인 비주얼과 에디토리얼
                                 무드를 웹상에서 직관적으로 경험하도록 설계.</p>
                         </div>
                     </div>
 
                     <!-- Column 2: Role -->
                     <div class="console-column">
-                        <div class="bubble-header">/// MY ROLE</div>
+                        <div class="bubble-header"><span class="ins-tag">::</span> 나의 역할 및 기여도 <span
+                                class="header-sub-en">MY ROLE &
+                                CONTRIBUTION</span></div>
                         <div class="bubble-content">
                             <p><strong style="color: #00ffcc;">Design:</strong> 메인 비주얼 컨셉 공동 기획 & 디자인, <strong>Video /
                                     Fashion 섹션 상세 페이지 단독 디자인 (100%)</strong>.</p>
@@ -3690,7 +3835,9 @@
 
                     <!-- Column 3: Process -->
                     <div class="console-column">
-                        <div class="bubble-header">/// PROCESS & TOOLS</div>
+                        <div class="bubble-header"><span class="ins-tag">::</span> 작업 과정 및 사용툴 <span
+                                class="header-sub-en">PROCESS & TOOLS</span>
+                        </div>
                         <div class="bubble-content">
                             <p><strong style="color: #00ffcc;">AI Collaboration:</strong> Replit & Antigravity를 페어
                                 프로그래머로 활용. 복잡한 스크립트 오류를 신속하게 해결하고 <strong>디자인 디테일 구현에 집중</strong>.</p>
@@ -3792,9 +3939,9 @@
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
-                        border-right: 1px solid rgba(0, 255, 170, 0.2);
+                        border-right: 1px solid rgba(255, 255, 255, 0.2);
                         overflow: hidden;
-                        background: radial-gradient(circle at center, rgba(0, 255, 170, 0.05) 0%, transparent 70%);
+                        background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
                         opacity: 0;
                         /* Initial Hidden State */
                         transition: opacity 1s ease;
@@ -3806,8 +3953,8 @@
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%);
-                        color: #ff3333;
-                        font-family: 'Share Tech Mono';
+                        color: #FDF5E6;
+                        font-family: 'Rajdhani', 'Pretendard', sans-serif;
                         font-size: 1.5rem;
                         font-weight: bold;
                         letter-spacing: 3px;
@@ -3840,7 +3987,7 @@
 
                     .mosaic-tile {
                         background: #000;
-                        border: 1px solid rgba(0, 255, 170, 0.1);
+                        border: 1px solid rgba(255, 255, 255, 0.15);
                         transition: opacity 0.5s ease;
                     }
 
@@ -3848,8 +3995,8 @@
                         width: 90%;
                         height: 75%;
                         position: relative;
-                        border: 2px solid rgba(255, 255, 255, 0.1);
-                        box-shadow: 0 0 30px rgba(0, 255, 170, 0.1);
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
                         overflow: hidden;
                     }
 
@@ -3861,7 +4008,7 @@
                         left: -2px;
                         right: -2px;
                         bottom: -2px;
-                        background: linear-gradient(45deg, var(--point-color), #3399ff, transparent, var(--point-color));
+                        background: linear-gradient(45deg, #ffffff, #e0e0e0, transparent, #ffffff);
                         z-index: -1;
                         background-size: 400%;
                         animation: electricFlow 3s linear infinite;
@@ -3883,22 +4030,24 @@
                         height: 100%;
                         object-fit: contain;
                         /* Changed from cover to contain to prevent cropping */
-                        filter: contrast(1.2) brightness(0.9) grayscale(20%);
+                        /* filter: contrast(1.2) brightness(0.9) grayscale(20%); REMOVED */
                         transition: all 0.5s;
                     }
 
                     .visual-frame:hover .visual-img {
-                        filter: contrast(1.4) brightness(1.1) grayscale(0%);
+                        /* filter: contrast(1.4) brightness(1.1) grayscale(0%); REMOVED */
                     }
 
                     .visual-caption {
                         margin-top: 25px;
-                        font-family: 'Share Tech Mono';
-                        color: var(--point-color);
+                        font-family: 'Rajdhani', 'Pretendard', sans-serif;
+                        color: #ffffff;
+                        /* Explicit White */
                         font-size: 0.95rem;
                         letter-spacing: 2px;
                         text-align: center;
-                        text-shadow: 0 0 10px rgba(0, 255, 170, 0.5);
+                        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+                        /* 화이트 포인트 활용 */
                     }
 
                     /* Right: Terminal Pane */
@@ -3911,7 +4060,7 @@
                         position: relative;
                         padding: 40px 30px;
                         /* Reduced padding to save space */
-                        font-family: 'Share Tech Mono', monospace;
+                        font-family: 'Rajdhani', 'Pretendard', sans-serif;
                         overflow: hidden;
                         display: flex;
                         flex-direction: column;
@@ -3926,15 +4075,17 @@
                         left: 0;
                         width: 100%;
                         height: 100%;
-                        background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 170, 0.02) 50%);
+                        background: linear-gradient(to bottom, transparent 50%, rgba(255, 255, 255, 0.05) 50%);
                         background-size: 100% 4px;
                         pointer-events: none;
                         z-index: 10;
                     }
 
                     .terminal-content {
-                        color: #00ffaa;
-                        /* Default Mint */
+                        color: #FFFFFF;
+                        /* Pure White */
+                        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+                        /* Thin White Glow */
                         font-size: 1rem;
                         line-height: 1.7;
                         white-space: pre-wrap;
@@ -3950,7 +4101,7 @@
                     }
 
                     .terminal-content::-webkit-scrollbar-thumb {
-                        background: rgba(0, 255, 170, 0.3);
+                        background: rgba(255, 255, 255, 0.3);
                         border-radius: 3px;
                     }
 
@@ -3959,24 +4110,60 @@
                     }
 
                     .log-error {
-                        color: #ff3333;
-                        text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+                        color: #FDF5E6;
+                        /* Champagne White */
+                        text-shadow: 0 0 5px rgba(253, 245, 230, 0.5);
+                        font-size: 1.15rem;
+                        font-weight: bold;
+                        /* Make PHASE text bolder */
+                        /* Increased size */
                     }
 
                     .log-success {
-                        color: #3399ff;
+                        color: rgba(255, 255, 255, 0.8);
+                        /* Brighter */
+                        font-size: 1.1rem;
+                        /* Increased size */
+                        /* Translucent Light Grey */
                     }
 
                     .log-system {
-                        color: #888;
-                        font-size: 0.9rem;
+                        color: #aaa;
+                        /* Slightly brighter gray */
+                        font-size: 1.05rem;
+                        /* Increased size */
+                    }
+
+                    .log-highlight {
+                        color: #FDF5E6;
+                        /* Champagne White to match PHASE */
+                        font-family: 'Rajdhani', sans-serif;
+                        font-size: 1.4rem;
+                        /* Prominent Size */
+                        font-weight: bold;
+                        text-shadow: 0 0 15px rgba(253, 245, 230, 0.6);
+                        /* Warm Glow */
+                        letter-spacing: 1px;
+                        line-height: 2;
+                        /* More breathing room */
+                    }
+
+                    .log-tool-highlight {
+                        color: #ffffff;
+                        font-family: 'Rajdhani', sans-serif;
+                        /* Keep English Font */
+                        font-weight: bold;
+                        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+                        font-size: 1.1rem;
+                        /* Match surroundings */
                     }
 
                     .cursor {
                         display: inline-block;
                         width: 10px;
                         height: 18px;
-                        background: var(--point-color);
+                        background: #ffffff;
+                        /* White Cursor */
                         animation: blink 1s step-end infinite;
                         vertical-align: middle;
                         margin-left: 5px;
@@ -4007,7 +4194,7 @@
                         }
 
                         .visual-pane {
-                            border-bottom: 1px solid rgba(0, 255, 170, 0.2);
+                            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
                         }
 
                         .visual-frame {
@@ -4061,11 +4248,11 @@
                             { text: "INITIALIZING SYSTEM LOG...\n", class: "log-system" },
                             { text: "PROJECT: AI_EXPERIMENTAL_PORTFOLIO\n", class: "log-system" },
                             { text: "ROLE: Project Director & UI/UX Designer\n", class: "log-system" },
-                            { text: "TOOLS: Antigravity, HTML/CSS/JS\n\n", class: "log-system" },
+                            { text: "TOOLS: Gemini, Antigravity, HTML/CSS/JS\n\n", class: "log-system" },
 
                             { text: "----------------------------------------\n", class: "log-system" },
                             { text: "[1. PROJECT OVERVIEW]\n", class: "log-success" },
-                            { text: "\"Logic by Human, Syntax by AI\"\n", class: "log-system" },
+                            { text: "\"Logic by Human, Syntax by AI\"\n", class: "log-highlight" },
                             { text: "이 프로젝트는 단순히 AI에게 코딩을 맡긴 것이 아니라, 디자이너가 '설계자(Architect)'가 되어 AI를 '페어 프로그래머'로 활용한 실험작입니다.\n", class: "" },
                             { text: "복잡한 인터랙션과 반응형 레이아웃을 구현하는 과정에서 AI의 효율성을 빌리되, 최종적인 심미성과 사용자 경험(UX)은 디자이너의 집요한 디렉팅과 수정을 통해 완성했습니다.\n\n", class: "" },
 
@@ -4076,7 +4263,11 @@
                             { text: "> 웹사이트의 전체적인 정보 구조(IA)와 디자인 시스템(컬러, 폰트, 무드)을 먼저 정의하고, AI가 이해할 수 있는 명확한 구조적 프롬프트를 설계했습니다.\n\n", class: "" },
 
                             { text: "[PHASE 02] AI Generation (생성)\n", class: "log-error" },
-                            { text: "> Replit과 Antigravity를 활용하여 기본 마크업과 스크립트 초안을 빠르게 생성함으로써 개발 시간을 약 60% 단축했습니다.\n\n", class: "" },
+                            { text: "> ", class: "" },
+                            { text: "Gemini", class: "log-tool-highlight" },
+                            { text: "와 ", class: "" },
+                            { text: "Antigravity", class: "log-tool-highlight" },
+                            { text: "를 활용하여 기본 마크업과 스크립트 초안을 빠르게 생성함으로써 개발 시간을 약 60% 단축했습니다.\n\n", class: "" },
 
                             { text: "[PHASE 03] Debugging & Optimization (디렉팅)\n", class: "log-error" },
                             { text: "> AI가 해결하지 못한 CSS 레이아웃 충돌(반응형 깨짐 등)과 스크롤 로직 오류를 직접 분석하고 수정했습니다.\n", class: "" },
@@ -4142,6 +4333,89 @@
             </div>
         </div>
     </div>
+
+    <style>
+        /* Responsive Modal Fix - Enhanced for Tall Images */
+        @media (max-width: 1024px) {
+            .modal-content {
+                width: 95% !important;
+                height: 85vh !important;
+                max-height: 90vh !important;
+                flex-direction: column !important;
+                overflow-y: auto !important;
+                /* Scrollable container */
+                padding: 20px !important;
+                display: flex !important;
+            }
+
+            .modal-body {
+                flex-direction: column !important;
+                display: flex !important;
+                height: auto !important;
+                width: 100% !important;
+                gap: 0px !important;
+                /* Controlled by margin */
+                overflow: visible !important;
+            }
+
+            .modal-img-box {
+                width: 100% !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                /* Allow full height */
+                flex: none !important;
+                overflow: visible !important;
+                margin-bottom: 30px !important;
+                /* Formatting space */
+                position: relative !important;
+            }
+
+            .modal-img-box img {
+                width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                /* Show full image */
+                max-height: none !important;
+                display: block !important;
+            }
+
+            .modal-overlay {
+                align-items: flex-end !important;
+                /* Bottom sheet feel optional, or center */
+                padding-bottom: 0;
+            }
+
+            .modal-text-box {
+                width: 100% !important;
+                height: auto !important;
+                padding-left: 0 !important;
+                margin-left: 0 !important;
+                position: relative !important;
+                /* Fix overlap */
+                top: auto !important;
+                bottom: auto !important;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                order: 2 !important;
+                /* Ensure text is below image */
+            }
+
+            .modal-info-group {
+                margin-bottom: 25px;
+                word-break: break-word;
+                /* Prevent text overflow */
+            }
+        }
+
+        /* [ADD] Spacer for modal text line breaks */
+        .modal-text-spacer {
+            display: block;
+            height: 12px;
+            /* Adjust paragraphs gap */
+        }
+    </style>
 
     <!-- [MODAL CONTAINER] -->
     <div id="graphic-modal" class="modal-overlay">

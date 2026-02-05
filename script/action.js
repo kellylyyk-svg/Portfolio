@@ -107,7 +107,7 @@ const projectData = [{
     title: "DUSTLINE",
     topic: "# 브랜드 정체성 구축 및 반응형 웹 디자인",
     contribution: "PLANNING: 100% / DESIGN: 100% / PUBLISHING: 100%",
-    desc: "배틀로얄/FPS 장르 특유의 거칠고 묵직한 분위기를 시각화했습니다. '생존'이라는 키워드에 맞춰 Dark & Grunge 톤을 베이스로 잡고, 전장의 현장감을 주는 텍스처를 적극 활용했습니다.",
+    desc: "배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.<br>정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여 장르적 몰입감을 극대화했습니다.",
     // 스크롤 목업용 긴 이미지를 지정
     img: "images/DUSTLINE.jpg",
     mobileImg: "images/DUSTLINE_mobile.jpg", // [추가] 모바일 이미지 경로
@@ -118,7 +118,7 @@ const projectData = [{
     title: "WAVERSA SYSTEMS",
     topic: "#하이엔드 오디오 기업 웹사이트 디자인 제작",
     contribution: "DESIGN: 100% / PUBLISHING: 100%",
-    desc: "웨이버사시스템즈의 독자적인 기술력과 정교함을 시각화하기 위해 불필요한 장식을 배제한 미니멀리즘 스타일을 구축했습니다. 화이트 톤과 넓은 여백을 활용해 정제된 공간감을 연출하고, 브랜드 로고의 고채도 레드를 포인트 컬러로 사용하여 자칫 정적일 수 있는 화면에 강렬한 시각적 리듬감을 더했습니다. 또한, 직관적인 그리드 레이아웃을 통해 다양한 제품 라인업을 사용자가 한눈에 파악할 수 있도록 설계했습니다.",
+    desc: "웨이버사시스템즈의 독자적인 기술력과 정교함을 시각화하기 위해 불필요한 장식을 배제한 미니멀리즘 스타일을 구축했습니다.<br>화이트 톤과 넓은 여백을 활용해 정제된 공간감을 연출하고, 브랜드 로고의 고채도 레드를 포인트 컬러로 사용하여 자칫 정적일 수 있는 화면에 강렬한 시각적 리듬감을 더했습니다.",
     img: "images/waversa.jpg",
     mobileImg: "images/waversa.jpg", // 모바일 이미지가 없어 PC 이미지로 대체 (추후 변경 가능)
     pages: "MAIN",
@@ -128,7 +128,7 @@ const projectData = [{
     title: "ARTE CENTER",
     topic: "#복합 문화 예술 공간 '아르떼 센터' 웹사이트 구축",
     contribution: "PLANNING: 100% / DESIGN: 100% / PUBLISHING: 100%",
-    desc: "예술과 일상의 연결을 지향하는 아르떼 센터의 정체성을 담기 위해 클래식하고 우아한 무드를 컨셉으로 설정했습니다. 시대를 초월한 예술적 가치를 상징하는 세피아(Sepia) 톤과 베이지 컬러를 메인으로 사용하여 따뜻하면서도 품격 있는 공간감을 조성했습니다. 어떤 환경에서도 원활한 이용이 가능하도록 반응형 퍼블리싱까지 진행하였습니다.",
+    desc: "예술과 일상의 연결을 지향하는 아르떼 센터의 정체성을 담기 위해 클래식하고 우아한 무드를 컨셉으로 설정했습니다.<br>시대를 초월한 예술적 가치를 상징하는 세피아(Sepia) 톤과 베이지 컬러를 메인으로 사용하여 따뜻하면서도 품격 있는 공간감을 조성했습니다.",
     img: "images/artecenter.jpg",
     mobileImg: "images/artecenter_mobile.jpg",
     pages: "MAIN + 1 SUB",
@@ -138,7 +138,7 @@ const projectData = [{
     title: "NOUVEDILIE",
     topic: "#주얼리 브랜드 '누베딜리' 웹사이트 메인 디자인",
     contribution: "DESIGN: 100%",
-    desc: "누베딜리가 추구하는 '변하지 않는 가치'를 전달하기 위해 클래식하면서도 현대적인 고급스러움을 컨셉으로 설정했습니다. 깊이감 있는 브라운과 아이보리 컬러를 매치하여 브랜드의 무게감을 더했으며, 제품이 돋보일 수 있도록 고전 회화 무드의 배경을 활용하여 예술적인 감성을 극대화했습니다.",
+    desc: "누베딜리가 추구하는 '변하지 않는 가치'를 전달하기 위해 클래식하면서도 현대적인 고급스러움을 컨셉으로 설정했습니다.<br>깊이감 있는 브라운과 아이보리 컬러를 매치하여 브랜드의 무게감을 더했으며, 제품이 돋보일 수 있도록 고전 회화 무드의 배경을 활용하여 예술적인 감성을 극대화했습니다.",
     img: "images/ring.jpg",
     mobileImg: "images/ring.jpg",
     pages: "MAIN ONLY",
@@ -148,7 +148,7 @@ const projectData = [{
     title: "FUJIFILM",
     topic: "#후지필름 브랜드 웹사이트 리디자인",
     contribution: "DESIGN: 100%",
-    desc: "후지필름이 지닌 독보적인 아날로그 감성과 기록의 가치를 전달하기 위해 '필름 사진'의 색채를 담은 따뜻한 톤앤매너를 구축했습니다. 필름 시뮬레이션을 연상시키는 깊은 브라운과 오렌지 컬러를 감각적으로 배치하여 브랜드의 헤리티지를 강조했으며, 넓은 여백과 정제된 레이아웃을 통해 사용자가 사진 결과물에 온전히 몰입할 수 있도록 디자인했습니다.",
+    desc: "후지필름이 지닌 독보적인 아날로그 감성과 기록의 가치를 전달하기 위해 '필름 사진'의 색채를 담은 따뜻한 톤앤매너를 구축했습니다.<br>필름 시뮬레이션을 연상시키는 깊은 브라운과 오렌지 컬러를 감각적으로 배치하여 브랜드의 헤리티지를 강조했으며, 넓은 여백과 정제된 레이아웃을 통해 사용자가 사진 결과물에 온전히 몰입할 수 있도록 디자인했습니다.",
     img: "images/fuji.jpg",
     mobileImg: "images/fuji_mobile.jpg",
     pages: "MAIN + 1 SUB",
@@ -158,7 +158,7 @@ const projectData = [{
     title: "DAWON",
     topic: "#가상 전통차 브랜드 '다원' 웹사이트 디자인",
     contribution: "PLANNING: 100% / DESIGN: 100%",
-    desc: "'차(Tea) 한 잔이 주는 일상의 여유'라는 가치를 전달하기 위해 자연 친화적이고 평온한 무드를 컨셉으로 설정했습니다. 숲과 차 밭을 연상시키는 톤 다운된 그린과 베이지 컬러를 메인으로 활용하여 시각적 안정감을 주었으며, 한지의 질감을 살린 배경 그래픽을 통해 브랜드의 전통적인 미학을 현대적으로 재해석했습니다.",
+    desc: "'차(Tea) 한 잔이 주는 일상의 여유'라는 가치를 전달하기 위해 자연 친화적이고 평온한 무드를 컨셉으로 설정했습니다.<br>숲과 차 밭을 연상시키는 톤 다운된 그린과 베이지 컬러를 메인으로 활용하여 시각적 안정감을 주었으며, 한지의 질감을 살린 배경 그래픽을 통해 브랜드의 전통적인 미학을 현대적으로 재해석했습니다.",
     img: "images/dawon.jpg",
     mobileImg: "images/dawon.jpg",
     pages: "MAIN ONLY",
@@ -249,7 +249,7 @@ function switchProject(direction) {
                 // Determine if this is short view or full view
                 // Actually they are both .ins-desc, so loop handles both.
                 // Just ensure we aren't missing any.
-                desc.innerText = data.desc;
+                desc.innerHTML = data.desc;
                 desc.classList.remove('data-load-reveal');
                 void desc.offsetWidth;
                 desc.classList.add('data-load-reveal');
@@ -465,14 +465,24 @@ function openGraphicModal(card) {
         const process = card.getAttribute('data-process');
         const review = card.getAttribute('data-review');
 
-        mLabel1.innerText = "/// CLIENT REQUIREMENTS";
-        mData1.innerText = requirements ? requirements : 'No requirements data.';
+        const formatText = (text) => text ? text.replace(/<br\s*\/?>/gi, '<span class="modal-text-spacer"></span>') : '';
 
-        mLabel2.innerText = "/// WORK PROCESS";
-        mData2.innerText = process ? process : 'No process data.';
+        // Clear previous data
+        if (mLabel1) mLabel1.innerHTML = "";
+        if (mData1) mData1.innerHTML = "";
+        if (mLabel2) mLabel2.innerHTML = "";
+        if (mData2) mData2.innerHTML = "";
+        if (mLabel3) mLabel3.innerHTML = "";
+        if (mData3) mData3.innerHTML = "";
 
-        mLabel3.innerText = "/// CLIENT REVIEW";
-        mData3.innerText = review ? review : 'No review data.';
+        if (mLabel1) mLabel1.innerHTML = "<span class='ins-tag'>::</span> 클라이언트 요구사항 <span class='header-sub-en'>CLIENT REQUIREMENTS</span>";
+        if (mData1) mData1.innerHTML = requirements ? formatText(requirements) : 'No requirements data.';
+
+        if (mLabel2) mLabel2.innerHTML = "<span class='ins-tag'>::</span> 작업 과정 <span class='header-sub-en'>WORK PROCESS</span>";
+        if (mData2) mData2.innerHTML = process ? formatText(process) : 'No process data.';
+
+        if (mLabel3) mLabel3.innerHTML = "<span class='ins-tag'>::</span> 클라이언트 리뷰 <span class='header-sub-en'>CLIENT REVIEW</span>";
+        if (mData3) mData3.innerHTML = review ? formatText(review) : 'No review data.';
 
         if (mGroup3) mGroup3.style.display = 'block';
     } else {
@@ -480,11 +490,13 @@ function openGraphicModal(card) {
         const tools = card.getAttribute('data-tools');
         const desc = card.getAttribute('data-desc');
 
-        mLabel1.innerText = "/// TOOLS USED";
-        mData1.innerText = tools ? tools : 'No tools specified.';
+        const formatText = (text) => text ? text.replace(/<br\s*\/?>/gi, '<span class="modal-text-spacer"></span>') : '';
 
-        mLabel2.innerText = "/// PROJECT DESCRIPTION";
-        mData2.innerText = desc ? desc : 'No description available.';
+        mLabel1.innerHTML = "<span class='ins-tag'>::</span> 사용 툴 <span class='header-sub-en'>TOOLS USED</span>";
+        mData1.innerHTML = tools ? formatText(tools) : 'No tools specified.';
+
+        mLabel2.innerHTML = "<span class='ins-tag'>::</span> 프로젝트 설명 <span class='header-sub-en'>PROJECT DESCRIPTION</span>";
+        mData2.innerHTML = desc ? formatText(desc) : 'No description available.';
 
         if (mGroup3) mGroup3.style.display = 'none';
     }

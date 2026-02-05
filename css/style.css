@@ -1,12 +1,12 @@
 :root {
-    --main-color: #ffffff;
+    --main-color: rgba(255, 255, 255, 0.8);
     /* 메인 텍스트 색상 */
     --bg-color: #0a0a0a;
     /* 배경색 */
     --accent-color: rgba(255, 255, 255, 0.5);
     /* 보조 색상 */
-    --point-color: #00ffaa;
-    /* 포인트 네온 컬러 */
+    --point-color: #E5E4E2;
+    /* 화이트 실버 포인트 */
 }
 
 .fp-watermark {
@@ -30,7 +30,7 @@ body {
     color: var(--main-color);
     overflow-x: hidden;
     /* 가로 스크롤 방지 */
-    font-family: 'Share Tech Mono', 'Pretendard', monospace;
+    font-family: 'Rajdhani', 'Pretendard', sans-serif;
     display: block;
 }
 
@@ -149,7 +149,7 @@ body {
 }
 
 .hero-title {
-    font-family: 'Abril Fatface', 'Playfair Display SC', 'Cinzel', 'Pretendard', serif;
+    font-family: 'Cinzel', 'Pretendard', serif;
     font-size: 6vw;
     font-weight: 400;
     letter-spacing: 0.05em;
@@ -159,7 +159,7 @@ body {
 }
 
 .hero-subtitle {
-    font-family: 'Ubuntu Mono', 'Rajdhani', sans-serif;
+    font-family: 'Rajdhani', 'Pretendard', sans-serif;
     font-size: 1rem;
     color: var(--accent-color);
     letter-spacing: 0.5em;
@@ -601,7 +601,7 @@ body {
 }
 
 .index-num {
-    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Rajdhani', 'Pretendard', sans-serif;
     font-size: 1rem;
     color: var(--accent-color);
     margin-right: 40px;
