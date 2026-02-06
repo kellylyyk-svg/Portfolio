@@ -524,35 +524,83 @@ let aboutMeTriggered = false;
 
 function triggerAboutMeReveal() {
     if (aboutMeTriggered) return;
-    aboutMeTriggered = true;
 
-    // Ordered selection: PROFILE, STATISTICS, TOOL SET, EXPERIENCE
-    // Select based on class names
-    const panels = [
-        document.querySelector('.panel-tl'), // Profile
-        document.querySelector('.panel-tr'), // Statistics
-        document.querySelector('.panel-bl'), // Tool Set
-        document.querySelector('.panel-br')  // Experience
-    ];
+    // [MODIFIED] Check if we are in mobile/responsive mode (native scroll)
+    const isMobile = window.innerWidth <= 768 || document.body.classList.contains('fp-responsive');
 
-    panels.forEach((panel, index) => {
-        if (!panel) return;
+    if (isMobile) {
+        // Mobile: Use IntersectionObserver for scroll-based reveal
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
 
-        setTimeout(() => {
-            // 1. Reveal Panel
-            panel.classList.add('reveal-active');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const panel = entry.target;
 
-            // 2. Trigger Title Flash
-            const label = panel.querySelector('.panel-label');
-            if (label) {
-                // Short delay to sync flash with the end of the float-up
-                setTimeout(() => {
-                    label.classList.add('title-flash');
-                }, 250);
-            }
-        }, index * 150); // 0.15s Stagger
-    });
+                    // Reveal Panel
+                    panel.classList.add('reveal-active');
+
+                    // Trigger Title Flash
+                    const label = panel.querySelector('.panel-label');
+                    if (label) {
+                        setTimeout(() => {
+                            label.classList.add('title-flash');
+                        }, 250);
+                    }
+
+                    // Unobserve after reveal
+                    observer.unobserve(panel);
+                }
+            });
+        }, observerOptions);
+
+        const panels = document.querySelectorAll('.data-panel');
+        panels.forEach(panel => observer.observe(panel));
+
+        // Mark as triggered so fullpage callback handles it gracefully if mixed
+        aboutMeTriggered = true;
+
+    } else {
+        // Desktop: Original Timer-based Sequence
+        aboutMeTriggered = true;
+
+        // Ordered selection: PROFILE, STATISTICS, TOOL SET, EXPERIENCE
+        const panels = [
+            document.querySelector('.panel-tl'), // Profile
+            document.querySelector('.panel-tr'), // Statistics
+            document.querySelector('.panel-bl'), // Tool Set
+            document.querySelector('.panel-br')  // Experience
+        ];
+
+        panels.forEach((panel, index) => {
+            if (!panel) return;
+
+            setTimeout(() => {
+                // 1. Reveal Panel
+                panel.classList.add('reveal-active');
+
+                // 2. Trigger Title Flash
+                const label = panel.querySelector('.panel-label');
+                if (label) {
+                    setTimeout(() => {
+                        label.classList.add('title-flash');
+                    }, 250);
+                }
+            }, index * 150); // 0.15s Stagger
+        });
+    }
 }
+
+// [ADD] Initialize Mobile Observer on Load
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth <= 768) {
+        triggerAboutMeReveal();
+    }
+});
 
 /* =========================================
    [ADD] DEV LOG SEQUENCE ANIMATION LOGIC
