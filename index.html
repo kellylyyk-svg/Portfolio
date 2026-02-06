@@ -905,8 +905,7 @@
                 width: clamp(150px, 30vh, 250px);
                 height: clamp(150px, 30vh, 250px);
                 margin-bottom: 40px;
-                margin-top: 60px;
-                /* [FIX] Increased from 20px to prevent overlap */
+                margin-top: 20px;
                 flex-shrink: 0;
             }
 
@@ -1931,16 +1930,6 @@
 
         /* [REFINED] 1024px 이하: 브레이크아웃 풀프레임 (Breakout Full-Frame) - 부모 패딩 무시하고 꽉 채우기 */
         @media (max-width: 1024px) {
-
-            /* [ADD] Mobile Native Scroll Support */
-            body.fp-responsive .section,
-            .section {
-                height: auto !important;
-                min-height: 100vh;
-                padding-bottom: 50px;
-                /* Add spacing between sections */
-            }
-
             .project-inspector-mode .bar-bottom {
                 display: none !important;
                 /* 하단 UI 제거 */

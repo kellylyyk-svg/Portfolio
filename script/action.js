@@ -48,7 +48,6 @@ new fullpage('#fullpage', {
     scrollingSpeed: 1200,
     /* 800 -> 1200 (스크롤 과민 반응 방지 위해 속도 늦춤) */
     autoScrolling: true,
-    responsiveWidth: 768, /* Mobile: Disable Snap Scroll */
 
     // [중요] 특정 요소 내부에서만 스크롤이 작동하게 하려면 여기 등록하여 
     // fullpage.js가 이 영역의 이벤트를 하이재킹하지 않도록 합니다.
@@ -524,83 +523,35 @@ let aboutMeTriggered = false;
 
 function triggerAboutMeReveal() {
     if (aboutMeTriggered) return;
+    aboutMeTriggered = true;
 
-    // [MODIFIED] Check if we are in mobile/responsive mode (native scroll)
-    const isMobile = window.innerWidth <= 768 || document.body.classList.contains('fp-responsive');
+    // Ordered selection: PROFILE, STATISTICS, TOOL SET, EXPERIENCE
+    // Select based on class names
+    const panels = [
+        document.querySelector('.panel-tl'), // Profile
+        document.querySelector('.panel-tr'), // Statistics
+        document.querySelector('.panel-bl'), // Tool Set
+        document.querySelector('.panel-br')  // Experience
+    ];
 
-    if (isMobile) {
-        // Mobile: Use IntersectionObserver for scroll-based reveal
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+    panels.forEach((panel, index) => {
+        if (!panel) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const panel = entry.target;
+        setTimeout(() => {
+            // 1. Reveal Panel
+            panel.classList.add('reveal-active');
 
-                    // Reveal Panel
-                    panel.classList.add('reveal-active');
-
-                    // Trigger Title Flash
-                    const label = panel.querySelector('.panel-label');
-                    if (label) {
-                        setTimeout(() => {
-                            label.classList.add('title-flash');
-                        }, 250);
-                    }
-
-                    // Unobserve after reveal
-                    observer.unobserve(panel);
-                }
-            });
-        }, observerOptions);
-
-        const panels = document.querySelectorAll('.data-panel');
-        panels.forEach(panel => observer.observe(panel));
-
-        // Mark as triggered so fullpage callback handles it gracefully if mixed
-        aboutMeTriggered = true;
-
-    } else {
-        // Desktop: Original Timer-based Sequence
-        aboutMeTriggered = true;
-
-        // Ordered selection: PROFILE, STATISTICS, TOOL SET, EXPERIENCE
-        const panels = [
-            document.querySelector('.panel-tl'), // Profile
-            document.querySelector('.panel-tr'), // Statistics
-            document.querySelector('.panel-bl'), // Tool Set
-            document.querySelector('.panel-br')  // Experience
-        ];
-
-        panels.forEach((panel, index) => {
-            if (!panel) return;
-
-            setTimeout(() => {
-                // 1. Reveal Panel
-                panel.classList.add('reveal-active');
-
-                // 2. Trigger Title Flash
-                const label = panel.querySelector('.panel-label');
-                if (label) {
-                    setTimeout(() => {
-                        label.classList.add('title-flash');
-                    }, 250);
-                }
-            }, index * 150); // 0.15s Stagger
-        });
-    }
+            // 2. Trigger Title Flash
+            const label = panel.querySelector('.panel-label');
+            if (label) {
+                // Short delay to sync flash with the end of the float-up
+                setTimeout(() => {
+                    label.classList.add('title-flash');
+                }, 250);
+            }
+        }, index * 150); // 0.15s Stagger
+    });
 }
-
-// [ADD] Initialize Mobile Observer on Load
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth <= 768) {
-        triggerAboutMeReveal();
-    }
-});
 
 /* =========================================
    [ADD] DEV LOG SEQUENCE ANIMATION LOGIC
