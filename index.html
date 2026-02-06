@@ -1007,8 +1007,10 @@
         }
 
         /* 호버 시 배경 및 텍스트 효과 */
+        /* 호버 시 배경 및 텍스트 효과 */
         .index-item:hover {
-            background: rgba(0, 255, 170, 0.03);
+            background: rgba(255, 255, 255, 0.05);
+            /* White light background */
             /* 포인트 컬러 배경 살짝 추가 */
             padding-left: 30px;
         }
@@ -1032,6 +1034,8 @@
             letter-spacing: clamp(2px, 0.5vw, 4px);
             color: #fff;
             transition: all 0.4s;
+            white-space: nowrap;
+            /* Prevent wrapping on mobile */
         }
 
         .index-item:hover .index-name {
