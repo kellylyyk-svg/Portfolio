@@ -19,6 +19,7 @@
             --accent-color: rgba(255, 255, 255, 0.5);
             --point-color: #E5E4E2;
             /* 화이트 실버 포인트 */
+            --ivory-glow: #FDF5E6;
         }
 
         html,
@@ -149,6 +150,158 @@
             right: -1px;
             border-left: none;
             border-top: none;
+        }
+
+        /* --- [NEW: TOP GNB] --- */
+        .top-gnb {
+            position: fixed;
+            top: 1.5vh;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .gnb-menu {
+            display: flex;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .top-gnb.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .gnb-item {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1.5px;
+            position: relative;
+            padding: 5px 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .gnb-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: var(--ivory-glow);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px var(--ivory-glow);
+        }
+
+        .gnb-item:hover {
+            color: var(--ivory-glow);
+            text-shadow: 0 0 10px rgba(253, 245, 230, 0.8);
+        }
+
+        .gnb-item:hover::after {
+            width: 100%;
+        }
+
+        .gnb-item.active {
+            color: #ffffff;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+        }
+
+        .gnb-item.active::after {
+            width: 100%;
+            background: #ffffff;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        /* --- GNB TOGGLE (Mobile) --- */
+        .gnb-toggle {
+            display: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-line {
+            width: 30px;
+            height: 2px;
+            background: #ffffff;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .top-gnb {
+                top: 1.2vh;
+                width: 100%;
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .gnb-toggle {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                margin-bottom: 20px;
+            }
+
+            .gnb-menu {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 30px 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                opacity: 0;
+                transform: translateY(-20px);
+                visibility: hidden;
+                transition: all 0.4s ease;
+                position: absolute;
+                top: 45px;
+                left: 0;
+            }
+
+            .top-gnb.menu-open .gnb-menu {
+                opacity: 1;
+                transform: translateY(0);
+                visibility: visible;
+            }
+
+            .top-gnb.menu-open .toggle-line:nth-child(1) {
+                transform: translateY(4px) rotate(45deg);
+                background: var(--ivory-glow);
+                box-shadow: 0 0 12px var(--ivory-glow);
+            }
+
+            .top-gnb.menu-open .toggle-line:nth-child(2) {
+                transform: translateY(-4px) rotate(-45deg);
+                background: var(--ivory-glow);
+                box-shadow: 0 0 12px var(--ivory-glow);
+            }
+
+            .gnb-item {
+                font-size: 18px;
+                padding: 10px 0;
+            }
         }
 
         /* [MODAL CSS] */
@@ -529,8 +682,8 @@
             /* 반투명 어두운 배경 */
             border: 1px solid rgba(248, 248, 248, 0.3);
             /* 네온 보더 */
-            padding: clamp(15px, 2.5vw, 35px);
-            /* Fluid padding */
+            padding: clamp(8px, 1.25vw, 15px);
+            /* Reduced padding by 15% to prevent scrolling */
             backdrop-filter: blur(10px);
             /* 유리 효과 */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -586,7 +739,7 @@
             font-family: 'Rajdhani', sans-serif;
             font-size: 1.1rem;
             color: #FFFFFF;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-weight: bold;
             letter-spacing: 0.1em;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -598,15 +751,15 @@
         }
 
         .panel-text {
-            font-family: 'Pretendard', sans-serif;
-            font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+            font-family: 'Rajdhani', 'Pretendard', sans-serif;
+            font-size: 0.9rem;
             line-height: 1.7;
             color: rgba(255, 255, 255, 0.95);
         }
 
         .panel-list {
             list-style: none;
-            font-family: 'Pretendard';
+            font-family: 'Rajdhani', 'Pretendard', sans-serif;
             font-size: 1.1rem;
             line-height: 1.7;
         }
@@ -812,8 +965,8 @@
         /* [ADD] Category Description */
         .group-desc {
             font-family: 'Pretendard', sans-serif;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.7);
             margin: 0 0 50px 15px;
             /* [ADJUSTED] Reduced from 70px to 50px */
             padding-left: 5px;
@@ -2118,8 +2271,8 @@
         /* [REFINED] 카테고리 소제목 (Share Tech Mono + Mint) */
         .group-title {
             font-family: 'Cinzel', serif;
-            font-size: clamp(1.3rem, 0.94vw, 1.8rem);
-            /* Responsive scaling */
+            font-size: clamp(2rem, 1.25vw, 2.2rem);
+            /* Increased responsive scaling */
             color: var(--point-color);
             margin: 120px 0 clamp(15px, 1.04vw, 20px) 0;
             /* [INCREASED] Margin top 60px -> 120px, bottom 20px -> 40px */
@@ -2281,76 +2434,7 @@
            [FLOATING NAVIGATION BAR]
         ========================================= */
         .floating-nav {
-            position: fixed;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .floating-nav.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .floating-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .floating-nav-num {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            min-width: 16px;
-            text-align: right;
-        }
-
-        .floating-nav-line {
-            width: 20px;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        /* Active state */
-        .floating-nav-item.active .floating-nav-num {
-            color: var(--point-color);
-            text-shadow: 0 0 8px rgba(223, 223, 223, 0.6);
-            font-size: 14px;
-        }
-
-        .floating-nav-item.active .floating-nav-line {
-            background: var(--point-color);
-            box-shadow: 0 0 8px rgba(197, 197, 197, 0.4);
-            width: 30px;
-        }
-
-        /* Hover state */
-        .floating-nav-item:hover .floating-nav-num {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .floating-nav-item:hover .floating-nav-line {
-            background: rgba(255, 255, 255, 0.5);
-            width: 25px;
-        }
-
-        @media (max-width: 1024px) {
-            .floating-nav {
-                display: none;
-            }
+            display: none !important;
         }
 
         /* =========================================
@@ -2394,23 +2478,23 @@
             .about-hologram-layout {
                 display: grid;
                 /* Comfortable Wide Columns */
-                grid-template-columns: 440px auto 440px;
+                grid-template-columns: 420px auto 420px;
                 grid-template-rows: max-content max-content;
                 justify-content: center;
-                gap: 60px;
-                /* Increased spacing slightly */
+                gap: clamp(20px, 3.5vh, 40px);
+                /* Optimized spacing */
 
-                /* SCROLL ENGINE */
+                /* SCROLL ENGINE REMOVED */
                 height: 100%;
                 /* Fill the frame */
-                overflow-y: auto;
-                /* Enable internal scroll */
-                align-content: start;
-                /* Start from top */
+                overflow: hidden !important;
+                /* Ensure no scroll */
+                align-content: center;
+                /* Center vertically */
                 align-items: stretch;
                 /* Ensure panels in same row are equal height */
-                padding: 40px;
-                /* Breathing room */
+                padding: 2.5vh 40px;
+                /* Balanced vertical padding */
                 box-sizing: border-box;
 
                 /* Hide Scrollbar for Chrome/Safari/Opera (Optional clean look) */
@@ -2535,7 +2619,7 @@
             }
 
             .group-title {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
 
             .index-arrow {
@@ -2545,7 +2629,8 @@
             /* About Me Panel Size Enhancement for 4K */
             .data-panel {
                 max-width: 450px;
-                padding: 40px;
+                padding: 30px;
+                /* Tightened from 40px */
             }
 
             /* Description Visibility - Remove Toggle Interaction */
@@ -2609,7 +2694,22 @@
     </style>
     <div class="noise-overlay"></div>
 
-    <!-- Floating Navigation Bar -->
+    <!-- Top Navigation Bar -->
+    <nav class="top-gnb" id="topGnb">
+        <div class="gnb-toggle" id="gnbToggle">
+            <span class="toggle-line"></span>
+            <span class="toggle-line"></span>
+        </div>
+        <div class="gnb-menu" id="gnbMenu">
+            <div class="gnb-item" data-section="2">ABOUT ME</div>
+            <div class="gnb-item" data-section="4">WEB DESIGN</div>
+            <div class="gnb-item" data-section="5">GRAPHIC DESIGN</div>
+            <div class="gnb-item" data-section="6">TEAM PROJECT</div>
+            <div class="gnb-item" data-section="7">AI PROJECT</div>
+        </div>
+    </nav>
+
+    <!-- Floating Navigation Bar (Hidden via CSS) -->
     <div class="floating-nav" id="floatingNav">
         <div class="floating-nav-item" data-section="4">
             <span class="floating-nav-num">01</span>
@@ -2661,7 +2761,7 @@
                 <div class="corner br"></div>
                 <div class="ui-bar bar-top">
                     <div><span class="deco-box">DATA : ARCHIVE</span></div>
-                    <div><span>USER_ID: CMJ_2001</span></div>
+                    <div><span>USER_ID: SYK_2001</span></div>
                     <div><span style="font-size: 1.5rem;">+</span></div>
                 </div>
 
@@ -2678,12 +2778,13 @@
 
                         /* TOOL SET LOG */
                         .tool-group {
-                            margin-bottom: 15px;
+                            margin-bottom: 10px;
                         }
 
                         .tool-category {
-                            font-size: 0.9rem;
-                            color: rgba(255, 255, 255, 0.6);
+                            font-size: 0.95rem;
+                            font-weight: bold;
+                            color: rgba(255, 255, 255, 0.8);
                             margin-bottom: 5px;
                             display: block;
                         }
@@ -2698,20 +2799,24 @@
                             background: rgba(255, 255, 255, 0.1);
                             border: 1px solid rgba(229, 228, 226, 0.5);
                             color: #fff;
-                            padding: 4px 10px;
-                            font-size: 0.9rem;
+                            padding: 3px 8px;
+                            font-size: 0.85rem;
                             font-family: 'Rajdhani', 'Pretendard', sans-serif;
                             border-radius: 4px;
                         }
 
                         .tool-edu-text {
-                            font-size: 0.95rem;
-                            line-height: 1.7;
+                            font-size: 0.85rem;
+                            line-height: 1.4;
+                            /* Slightly reduced */
+                            font-family: 'Rajdhani', 'Pretendard', sans-serif;
                             letter-spacing: -0.3px;
                             color: #ddd;
                             margin-top: 10px;
+                            /* Reduced from 15px */
                             border-top: 1px solid rgba(255, 255, 255, 0.1);
                             padding-top: 10px;
+                            /* Reduced from 15px */
                         }
 
                         .tool-edu-text strong {
@@ -2794,13 +2899,12 @@
 
                         /* EXP LOG */
                         .exp-list li {
-                            margin-bottom: 12px;
-                            font-size: 0.95rem;
-                            line-height: 1.7;
-                            letter-spacing: -0.3px;
+                            margin-bottom: 10px;
+                            /* Reduced from 15px */
                             list-style: none;
                             position: relative;
                             padding-left: 10px;
+                            font-family: 'Rajdhani', 'Pretendard', sans-serif;
                         }
 
                         .exp-list li::before {
@@ -2808,12 +2912,26 @@
                             position: absolute;
                             left: 0;
                             color: var(--point-color);
+                            font-size: 0.9rem;
+                            top: 1px;
+                            /* Adjusted */
                         }
 
                         .exp-date {
-                            color: var(--point-color);
+                            color: #FFFFFF;
                             font-weight: bold;
                             font-size: 1rem;
+                            display: block;
+                            margin-bottom: 4px;
+                            letter-spacing: -0.3px;
+                        }
+
+                        .exp-content {
+                            font-size: 0.85rem;
+                            color: rgba(255, 255, 255, 0.65);
+                            line-height: 1.5;
+                            display: block;
+                            letter-spacing: -0.3px;
                         }
                     </style>
 
@@ -2827,15 +2945,18 @@
                         <div class="data-panel panel-tl">
                             <h2 class="panel-label"><span class="ins-tag">::</span> PROFILE <span
                                     class="header-sub-ko">인적사항</span></h2>
-                            <p class="panel-text"
-                                style="font-size: 0.95rem; line-height: 1.7; letter-spacing: -0.3px; word-break: keep-all; overflow-wrap: break-word;">
-                                <strong style="font-size: 1rem;">김서영 (Kim Seo-Young)</strong><br>
-                                <span style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.75);">2001. EST / Digital
-                                    Designer</span><br><br>
-                                속도와 퀄리티의 최적점을 찾아내는 실전형 디자이너입니다.
-                                유연한 소통과 스펀지 같은 습득력으로 어떤 작업 환경에서도
-                                효율적으로 제 몫을 해냅니다.
-                            </p>
+                            <div class="panel-text"
+                                style="font-size: 1rem; line-height: 1.7; letter-spacing: -0.3px; word-break: keep-all; overflow-wrap: break-word;">
+                                <strong style="font-size: 1.5rem;">김서영 (Kim Seo-Young)</strong><br>
+                                <span style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.75);">2001. EST / Digital
+                                    Designer</span>
+                                <div style="height: 1px; background: rgba(255, 255, 255, 0.1); margin: 15px 0;"></div>
+                                <span style="line-height: 2.0; display: block;">
+                                    속도와 퀄리티의 최적점을 찾아내는 실전형 디자이너입니다.
+                                    유연한 소통과 스펀지 같은 습득력으로 어떤 작업 환경에서도
+                                    효율적으로 제 몫을 해냅니다.
+                                </span>
+                            </div>
                         </div>
 
                         <!-- 2. [Bottom-Left] TOOL_SET_LOG -->
@@ -2852,7 +2973,7 @@
                                     <span class="tool-badge">Blender</span>
                                 </div>
                             </div>
-                            <div class="tool-group">
+                            <div class="tool-group" style="margin-bottom: 8px;">
                                 <span class="tool-category">Code</span>
                                 <div class="tool-icons">
                                     <span class="tool-badge">HTML</span>
@@ -2861,8 +2982,34 @@
                                 </div>
                             </div>
                             <div class="tool-edu-text">
-                                <strong>그린컴퓨터아카데미</strong><br>
-                                웹디자인 & 웹퍼블리셔 과정 수료
+                                <div style="margin-bottom: 18px;">
+                                    <strong
+                                        style="color: var(--point-color); font-size: 0.95rem; letter-spacing: 1.5px; display: block; margin-bottom: 8px; font-family: 'Rajdhani', sans-serif;">
+                                        EDUCATION <span
+                                            style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.4); margin-left: 6px; font-weight: 400; font-family: 'Pretendard', sans-serif;">교육
+                                            사항</span>
+                                    </strong>
+                                    <strong
+                                        style="font-size: 1rem; display: block; margin-bottom: 4px;">그린컴퓨터아카데미</strong>
+                                    <span
+                                        style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.65); line-height: 1.5;">웹디자인
+                                        & 웹퍼블리셔 과정
+                                        수료</span>
+                                </div>
+                                <div>
+                                    <strong
+                                        style="color: var(--point-color); font-size: 0.95rem; letter-spacing: 1.5px; display: block; margin-bottom: 8px; font-family: 'Rajdhani', sans-serif;">
+                                        AWARDS <span
+                                            style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.4); margin-left: 6px; font-weight: 400; font-family: 'Pretendard', sans-serif;">수상
+                                            이력</span>
+                                    </strong>
+                                    <strong style="font-size: 1rem; display: block; margin-bottom: 4px;">협성대학교 신문사 로고
+                                        공모전</strong>
+                                    <span
+                                        style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.65); line-height: 1.5;">협성대학교
+                                        신문사 로고 공모전
+                                        우수상 (2025)</span>
+                                </div>
                             </div>
                         </div>
 
@@ -2889,14 +3036,14 @@
                                 </svg>
                             </div>
                             <div class="ai-collab">
-                                <span class="ai-label">AI Collab :</span>
-                                <span class="ai-badge">Midjourney</span>
-                                <span class="ai-badge">Gemini</span>
-                                <span class="ai-badge">ChatGPT</span>
-                                <span class="ai-badge">Runway ML</span>
-                                <span class="ai-badge">Antigravity</span>
-                                <span class="ai-badge">Replit</span>
-                                <span class="ai-badge">Ideogram</span>
+                                <span class="ai-label" style="font-size: 0.95rem; font-weight: bold;">AI Collab :</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">Midjourney</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">Gemini</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">ChatGPT</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">Runway ML</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">Antigravity</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">Replit</span>
+                                <span class="ai-badge" style="font-size: 0.85rem;">Ideogram</span>
                             </div>
                         </div>
 
@@ -2906,20 +3053,24 @@
                                     class="header-sub-ko">경력 사항</span></h3>
                             <ul class="exp-list" style="padding:0; margin:0;">
                                 <li>
-                                    <span class="exp-date">아트머그 (2026-Present)</span><br>
-                                    방송용 그래픽 외주 제작
+                                    <span class="exp-date">아트머그 (2026-Present)</span>
+                                    <span class="exp-content">방송용 그래픽 외주 제작</span>
                                 </li>
                                 <li>
-                                    <span class="exp-date">주노소프트 (2025-2026)</span><br>
-                                    웹 에이전시 디자인 및 제작
+                                    <span class="exp-date">주노소프트 (2025.11-2026.01)</span>
+                                    <span class="exp-content">웹 에이전시 디자인 및 제작</span>
                                 </li>
                                 <li>
-                                    <span class="exp-date">모쿠모리 & 브랜드 (2023-2025)</span><br>
-                                    BI 구축 및 이커머스 비주얼 설계
+                                    <span class="exp-date">외주 프로젝트</span>
+                                    <span class="exp-content">누베딜리, 웹네스트 메인/상세페이지 제작</span>
                                 </li>
                                 <li>
-                                    <span class="exp-date">외주 프로젝트</span><br>
-                                    누베딜리, 웹네스트 메인/상세페이지 제작
+                                    <span class="exp-date">모쿠모리 & 브랜드 (2025.06-2025.08)</span>
+                                    <span class="exp-content">BI 구축 및 이커머스 비주얼 설계</span>
+                                </li>
+                                <li>
+                                    <span class="exp-date">머금다 (2023.11-2024.05)</span>
+                                    <span class="exp-content">상세페이지, 썸네일 제작</span>
                                 </li>
                             </ul>
                         </div>
@@ -2927,7 +3078,7 @@
                 </div>
                 <div class="ui-bar bar-bottom">
                     <div><span style="font-size: 1.5rem;">+</span></div>
-                    <div><span>010-9082-8043 | @unpulw</span></div>
+                    <div><span>010-9974-7705 | @unpulw</span></div>
                     <div><span class="deco-box">VER 1.0.2</span></div>
                 </div>
             </div>
@@ -3164,8 +3315,7 @@
                     <!-- 2. BANNER (Moved Up) -->
                     <div class="archive-group">
                         <h3 class="group-title">BANNER</h3>
-                        <p class="group-desc">Engaging web banners and promotional graphics tailored for digital
-                            platforms.</p>
+                        <p class="group-desc">브랜드 아이덴티티를 강조한 목적별 맞춤형 광고 배너 기획 및 제작</p>
                         <div class="banner-grid graphics-grid">
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="banner"
                                 data-title="요거트 브랜드 팝업 스토어 홍보 배너 디자인" data-tools="Photoshop"
@@ -3187,8 +3337,7 @@
                     <!-- 3. POSTER (Moved Up) -->
                     <div class="archive-group">
                         <h3 class="group-title">POSTER</h3>
-                        <p class="group-desc">Creative poster art, brochures, and editorial layouts with rhythmical
-                            composition.</p>
+                        <p class="group-desc">타이포그래피와 레이아웃 실험을 통한 감각적인 비주얼 메시지 기록</p>
                         <div class="poster-grid graphics-grid">
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="poster"
                                 data-title="Waversa Systems 'W Phono Lite' 제품 홍보 포스터" data-tools="Photoshop"
@@ -3217,8 +3366,7 @@
                     <!-- 4. DETAIL PAGE (Moved Down) -->
                     <div class="archive-group">
                         <h3 class="group-title">DETAIL PAGE</h3>
-                        <p class="group-desc">Immersive landing pages and detailed product views with interactive scroll
-                            behaviors.</p>
+                        <p class="group-desc">제품의 특성을 분석하여 구매 전환을 유도하는 최적화된 정보 설계 및 비주얼 기획</p>
                         <div class="detail-grid graphics-grid">
                             <!-- Detail Page Item: Fixed Height, Hover Scroll -->
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="detail"
@@ -3235,7 +3383,7 @@
                     <!-- 5. 3D WORK -->
                     <div class="archive-group">
                         <h3 class="group-title">3D WORK</h3>
-                        <p class="group-desc">Creative 3D modeling and rendering projects.</p>
+                        <p class="group-desc">Blender를 활용한 입체적 오브젝트 모델링 및 가상 공간 라이팅 구현</p>
                         <div class="square-grid graphics-grid">
                             <div class="graphic-item" onclick="openGraphicModal(this)" data-type="3d"
                                 data-title="아이소메트릭 룸 모델링 모작" data-tools="Blender"
@@ -4456,57 +4604,73 @@
         // Navigation functionality
         document.addEventListener('DOMContentLoaded', function () {
             const indexItems = document.querySelectorAll('.index-item[data-section]');
-            const floatingNav = document.getElementById('floatingNav');
-            const floatingNavItems = document.querySelectorAll('.floating-nav-item');
+            const topGnb = document.getElementById('topGnb');
+            const gnbItems = document.querySelectorAll('.gnb-item');
+
+            // Generic click navigation function
+            function handleNavClick() {
+                const sectionNumber = this.getAttribute('data-section');
+                if (window.fullpage_api) {
+                    window.fullpage_api.moveTo(sectionNumber);
+                }
+            }
 
             // Index items click navigation
-            indexItems.forEach(item => {
+            indexItems.forEach(item => item.addEventListener('click', handleNavClick));
+
+            // Top GNB click navigation
+            gnbItems.forEach(item => {
                 item.addEventListener('click', function () {
-                    const sectionNumber = this.getAttribute('data-section');
-                    if (window.fullpage_api) {
-                        window.fullpage_api.moveTo(sectionNumber);
-                    }
+                    handleNavClick.call(this);
+                    // Close mobile menu on click
+                    topGnb.classList.remove('menu-open');
                 });
             });
 
-            // Floating nav click navigation
-            floatingNavItems.forEach(item => {
-                item.addEventListener('click', function () {
-                    const sectionNumber = this.getAttribute('data-section');
-                    if (window.fullpage_api) {
-                        window.fullpage_api.moveTo(sectionNumber);
-                    }
+            // Mobile GNB Toggle Logic
+            const gnbToggle = document.getElementById('gnbToggle');
+            if (gnbToggle) {
+                gnbToggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    topGnb.classList.toggle('menu-open');
                 });
+            }
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function (e) {
+                if (topGnb.classList.contains('menu-open') && !topGnb.contains(e.target)) {
+                    topGnb.classList.remove('menu-open');
+                }
             });
 
             // Update active state and visibility on section change
-            function updateFloatingNav(index) {
-                // Show floating nav after section 3 (index 2, which is the CONTENTS section)
-                if (index >= 3) {
-                    floatingNav.classList.add('visible');
+            function updateNavigation(index) {
+                // Show top GNB after section 1 (Hero is index 0)
+                if (index >= 1) {
+                    topGnb.classList.add('visible');
                 } else {
-                    floatingNav.classList.remove('visible');
+                    topGnb.classList.remove('visible');
                 }
 
-                // Update active state for sections 4-7 (WEB, GRAPHIC, TEAM, AI)
-                floatingNavItems.forEach(navItem => {
-                    const navSection = parseInt(navItem.getAttribute('data-section'));
+                // Update active state for GNB items
+                gnbItems.forEach(gnbItem => {
+                    const navSection = parseInt(gnbItem.getAttribute('data-section'));
+                    // Note: CONTACT shares section 7 with AI, so index 6 matches both.
                     if (navSection === index + 1) {
-                        navItem.classList.add('active');
+                        gnbItem.classList.add('active');
                     } else {
-                        navItem.classList.remove('active');
+                        gnbItem.classList.remove('active');
                     }
                 });
             }
 
-            // Listen for fullpage.js callbacks if available
-            // This will be called from action.js after fullpage initialization
+            // Listen for fullpage.js callbacks
             window.onFullpageAfterLoad = function (origin, destination, direction) {
-                updateFloatingNav(destination.index);
+                updateNavigation(destination.index);
             };
 
             window.onFullpageOnLeave = function (origin, destination, direction) {
-                updateFloatingNav(destination.index);
+                updateNavigation(destination.index);
             };
         });
     </script>

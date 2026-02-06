@@ -78,12 +78,12 @@ new fullpage('#fullpage', {
         // 4. Graphic Design
         // 5. Dev Log (New)
         // So index should be 4 (0-based).
-        if (destination.index === 4) {
+        if (destination.index === 6) {
             triggerDevLogSequence();
         }
 
-        // [ADD] Trigger NEXT_FILE button activation on Web Design section entry (index 1)
-        if (destination.index === 1) {
+        // [ADD] Trigger NEXT_FILE button activation on Web Design section entry (index 3)
+        if (destination.index === 3) {
             triggerNextFileActivation();
         }
 
@@ -541,56 +541,23 @@ function generateMosaicGrid() {
 }
 
 function triggerDevLogSequence() {
-    if (devLogTriggered) return; // Run only once
+    if (devLogTriggered) return;
     devLogTriggered = true;
 
     const warning = document.getElementById('dev-log-warning');
     const visualPane = document.getElementById('visual-pane');
     const terminalPane = document.getElementById('terminal-pane');
-    const grid = document.getElementById('mosaic-grid');
 
-    // Init Grid
-    generateMosaicGrid();
+    // Hide Warning immediately
+    if (warning) warning.style.display = 'none';
 
-    // Stage 1: Show Warning (Already handled by HTML structure, but ensure display)
-    if (warning) warning.style.display = 'block';
+    // Reveal Panes immediately
+    if (visualPane) visualPane.style.opacity = '1';
+    if (terminalPane) terminalPane.style.opacity = '1';
 
-    // Stage 2: After 1.5s
-    setTimeout(() => {
-        // Hide Warning
-        if (warning) {
-            warning.style.opacity = '0'; // Fade out effect if desired, or just hide
-            setTimeout(() => warning.style.display = 'none', 200);
-        }
-
-        // Reveal Panes
-        if (visualPane) visualPane.style.opacity = '1';
-        if (terminalPane) terminalPane.style.opacity = '1';
-
-        // Stage 3: Mosaic Reveal
-        const tiles = document.querySelectorAll('.mosaic-tile');
-
-        // Sequential reveal (Top-down, Left-to-right) - No shuffle
-        const indices = Array.from({ length: 100 }, (_, i) => i);
-
-        indices.forEach((tileIndex, i) => {
-            setTimeout(() => {
-                if (tiles[tileIndex]) tiles[tileIndex].style.opacity = '0';
-            }, i * 150); // 150ms per tile -> 15s total wave (synced with typing speed)
-        });
-
-        // Start Typewriter
-        //Need to expose the typeWriter function or re-trigger it.
-        // Since the typewriter script is inside index.html IIFE, we can't call it easily.
-        // We should move the Typewriter logic here OR trigger it via a custom event.
-        // Let's refactor the Typewriter to be global or triggerable.
-        // For now, I will dispatch a custom event 'startTypewriter'.
-        window.dispatchEvent(new Event('startTypewriter'));
-
-        // Stage 4: Start Image Carousel
-        startImageCarousel();
-
-    }, 1500);
+    // Start Typewriter and Carousel immediately
+    window.dispatchEvent(new Event('startTypewriter'));
+    startImageCarousel();
 }
 
 // Image Carousel Logic
