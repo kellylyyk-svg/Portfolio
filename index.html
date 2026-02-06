@@ -2064,10 +2064,12 @@
 
             .inspector-row {
                 display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 30px;
-                margin-bottom: 20px;
+                flex-direction: column;
+                /* Force vertical stacking */
+                flex-wrap: nowrap;
+                gap: 15px;
+                /* Consistent spacing */
+                margin-bottom: 15px;
             }
 
             .ins-list {
@@ -2110,9 +2112,11 @@
             }
 
             .inspector-section {
-                margin-bottom: 10px;
-                flex: 1;
-                /* 섹션들이 공간을 나눠가지도록 */
+                margin-bottom: 15px;
+                flex: none;
+                /* Disable flex scaling */
+                height: auto;
+                /* allow natural expansion */
             }
 
             /* [FIX] OPEN SITE 버튼 텍스트 중앙 정렬 */
@@ -2150,23 +2154,28 @@
                 box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             }
 
-            /* 네비게이션 버튼 가시성 확보 */
+            /* 네비게이션 버튼 가시성 확보 및 배치 수정 */
             .nav-controls {
-                position: absolute;
-                bottom: 20px;
-                right: 30px;
-                z-index: 70 !important;
-                /* 버튼보다 위 */
-                display: flex;
+                position: static !important;
+                /* Remove absolute positioning */
+                width: 100% !important;
+                display: flex !important;
+                justify-content: flex-end !important;
                 gap: 10px;
+                margin-bottom: 15px !important;
+                /* Space above OPEN SITE button */
+                margin-right: 0 !important;
+                padding: 0 !important;
+                z-index: 70 !important;
             }
 
             /* 모바일에서 네비게이션 버튼 스타일 보정 */
             .ctrl-btn {
-                padding: 8px 12px;
+                padding: 8px 15px;
                 background: rgba(0, 0, 0, 0.5);
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 color: #fff;
+                font-size: 0.9rem;
             }
         }
 
@@ -2591,108 +2600,6 @@
                 transform: translateY(-5px) !important;
                 z-index: 10;
                 box-shadow: 0 10px 40px rgba(122, 122, 122, 0.2);
-            }
-        }
-
-
-        /* Mobile Accordion Styles */
-        @media (max-width: 1024px) {
-            .inspector-wrapper {
-                flex-direction: column;
-                padding: 0 20px;
-                gap: 20px;
-                overflow-y: auto;
-                /* Enable scrolling */
-            }
-
-            .inspector-col,
-            .description-group {
-                width: 100%;
-                margin-bottom: 10px;
-                background: rgba(255, 255, 255, 0.03);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                overflow: hidden;
-                /* Hide collapsed content */
-                transition: all 0.3s ease;
-            }
-
-            .inspector-section.inspector-row {
-                flex-direction: column;
-                gap: 0;
-                min-height: auto;
-                margin-bottom: 10px;
-            }
-
-            /* Headers become Buttons */
-            .ins-label {
-                display: flex !important;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                padding: 15px;
-                margin-bottom: 0 !important;
-                background: rgba(0, 0, 0, 0.2);
-                cursor: pointer;
-                border: none;
-                transition: all 0.3s;
-                pointer-events: auto;
-                /* Ensure clickable */
-            }
-
-            .ins-label::after {
-                content: '+';
-                font-family: 'Rajdhani', sans-serif;
-                font-size: 1.2rem;
-                font-weight: bold;
-                transition: transform 0.3s;
-            }
-
-            /* Active State (Expanded) */
-            .accordion-active .ins-label {
-                background: rgba(255, 255, 255, 0.1);
-                color: #fff;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .accordion-active .ins-label::after {
-                transform: rotate(45deg);
-                /* Turn + to x */
-            }
-
-            /* Content hidden by default */
-            .ins-list,
-            .ins-page-count,
-            .desc-container {
-                display: none;
-                padding: 15px;
-            }
-
-            /* Show content when active */
-            .accordion-active .ins-list,
-            .accordion-active .ins-page-count,
-            .accordion-active .desc-container {
-                display: block;
-            }
-
-            /* Remove list styling override */
-            .ins-list li {
-                margin-bottom: 8px;
-            }
-
-            .desc-header {
-                margin-bottom: 0 !important;
-                /* Remove header margin in accordion */
-                padding: 0;
-            }
-
-            .description-group .ins-label {
-                width: 100%;
-            }
-
-            .desc-plus-btn {
-                display: none !important;
-                /* Hide original plus button on mobile */
             }
         }
 
@@ -4825,34 +4732,6 @@
             window.onFullpageOnLeave = function (origin, destination, direction) {
                 updateNavigation(destination.index);
             };
-
-            // [ADD] Mobile Inspector Accordion Logic
-            const accordions = document.querySelectorAll('.inspector-col, .description-group');
-
-            accordions.forEach(group => {
-                // Find the label (header) to act as the trigger
-                const label = group.querySelector('.ins-label');
-
-                if (label) {
-                    label.addEventListener('click', function (e) {
-                        // Check if we are in mobile mode (simple check by width)
-                        if (window.innerWidth <= 1024) {
-                            e.preventDefault();
-                            e.stopPropagation();
-
-                            // Toggle current
-                            const isActive = group.classList.contains('accordion-active');
-
-                            // Optional: Close others (for true accordion behavior)
-                            accordions.forEach(other => other.classList.remove('accordion-active'));
-
-                            if (!isActive) {
-                                group.classList.add('accordion-active');
-                            }
-                        }
-                    });
-                }
-            });
         });
     </script>
     <script src="script/action.js"></script>
