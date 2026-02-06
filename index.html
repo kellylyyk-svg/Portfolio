@@ -2594,6 +2594,108 @@
             }
         }
 
+
+        /* Mobile Accordion Styles */
+        @media (max-width: 1024px) {
+            .inspector-wrapper {
+                flex-direction: column;
+                padding: 0 20px;
+                gap: 20px;
+                overflow-y: auto;
+                /* Enable scrolling */
+            }
+
+            .inspector-col,
+            .description-group {
+                width: 100%;
+                margin-bottom: 10px;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+                overflow: hidden;
+                /* Hide collapsed content */
+                transition: all 0.3s ease;
+            }
+
+            .inspector-section.inspector-row {
+                flex-direction: column;
+                gap: 0;
+                min-height: auto;
+                margin-bottom: 10px;
+            }
+
+            /* Headers become Buttons */
+            .ins-label {
+                display: flex !important;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                padding: 15px;
+                margin-bottom: 0 !important;
+                background: rgba(0, 0, 0, 0.2);
+                cursor: pointer;
+                border: none;
+                transition: all 0.3s;
+                pointer-events: auto;
+                /* Ensure clickable */
+            }
+
+            .ins-label::after {
+                content: '+';
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 1.2rem;
+                font-weight: bold;
+                transition: transform 0.3s;
+            }
+
+            /* Active State (Expanded) */
+            .accordion-active .ins-label {
+                background: rgba(255, 255, 255, 0.1);
+                color: #fff;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .accordion-active .ins-label::after {
+                transform: rotate(45deg);
+                /* Turn + to x */
+            }
+
+            /* Content hidden by default */
+            .ins-list,
+            .ins-page-count,
+            .desc-container {
+                display: none;
+                padding: 15px;
+            }
+
+            /* Show content when active */
+            .accordion-active .ins-list,
+            .accordion-active .ins-page-count,
+            .accordion-active .desc-container {
+                display: block;
+            }
+
+            /* Remove list styling override */
+            .ins-list li {
+                margin-bottom: 8px;
+            }
+
+            .desc-header {
+                margin-bottom: 0 !important;
+                /* Remove header margin in accordion */
+                padding: 0;
+            }
+
+            .description-group .ins-label {
+                width: 100%;
+            }
+
+            .desc-plus-btn {
+                display: none !important;
+                /* Hide original plus button on mobile */
+            }
+        }
+
         /* =========================================
            [4K RESOLUTION FIX - 3840px+]
            Restore full scale for large monitors
@@ -4723,36 +4825,34 @@
             window.onFullpageOnLeave = function (origin, destination, direction) {
                 updateNavigation(destination.index);
             };
-            updateNavigation(destination.index);
-        };
 
-        // [ADD] Mobile Inspector Accordion Logic
-        const accordions = document.querySelectorAll('.inspector-col, .description-group');
+            // [ADD] Mobile Inspector Accordion Logic
+            const accordions = document.querySelectorAll('.inspector-col, .description-group');
 
-        accordions.forEach(group => {
-            // Find the label (header) to act as the trigger
-            const label = group.querySelector('.ins-label');
+            accordions.forEach(group => {
+                // Find the label (header) to act as the trigger
+                const label = group.querySelector('.ins-label');
 
-            if (label) {
-                label.addEventListener('click', function (e) {
-                    // Check if we are in mobile mode (simple check by width)
-                    if (window.innerWidth <= 1024) {
-                        e.preventDefault();
-                        e.stopPropagation();
+                if (label) {
+                    label.addEventListener('click', function (e) {
+                        // Check if we are in mobile mode (simple check by width)
+                        if (window.innerWidth <= 1024) {
+                            e.preventDefault();
+                            e.stopPropagation();
 
-                        // Toggle current
-                        const isActive = group.classList.contains('accordion-active');
+                            // Toggle current
+                            const isActive = group.classList.contains('accordion-active');
 
-                        // Optional: Close others (for true accordion behavior)
-                        accordions.forEach(other => other.classList.remove('accordion-active'));
+                            // Optional: Close others (for true accordion behavior)
+                            accordions.forEach(other => other.classList.remove('accordion-active'));
 
-                        if (!isActive) {
-                            group.classList.add('accordion-active');
+                            if (!isActive) {
+                                group.classList.add('accordion-active');
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
         });
     </script>
     <script src="script/action.js"></script>
