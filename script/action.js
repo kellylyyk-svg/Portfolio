@@ -68,16 +68,12 @@ new fullpage('#fullpage', {
 
     // [ADD] afterLoad Callback for Dev Log Sequence
     afterLoad: function (origin, destination, direction) {
-        // Dev Log Section is the 5th section (index 4)
-        // Adjust index if needed based on actual section count.
-        // Web Design (0), Team Project (1), Graphic (2), AI/DevLog (3 - Moved to end).
-        // Let's verify index. original index.html structure:
-        // 1. Intro/Main
-        // 2. Web Design
-        // 3. Team Project
-        // 4. Graphic Design
-        // 5. Dev Log (New)
-        // So index should be 4 (0-based).
+        // [ADD] Trigger About Me Reveal on entry (index 1)
+        if (destination.index === 1) {
+            triggerAboutMeReveal();
+        }
+
+        // Dev Log Section is the 7th section (index 6)
         if (destination.index === 6) {
             triggerDevLogSequence();
         }
@@ -519,6 +515,43 @@ window.addEventListener('click', (e) => {
         closeGraphicModal();
     }
 });
+
+/* =========================================
+   [ADD] ABOUT ME ENTRY ANIMATION LOGIC
+   ========================================= */
+let aboutMeTriggered = false;
+
+function triggerAboutMeReveal() {
+    if (aboutMeTriggered) return;
+    aboutMeTriggered = true;
+
+    // Ordered selection: PROFILE, STATISTICS, TOOL SET, EXPERIENCE
+    // Select based on class names
+    const panels = [
+        document.querySelector('.panel-tl'), // Profile
+        document.querySelector('.panel-tr'), // Statistics
+        document.querySelector('.panel-bl'), // Tool Set
+        document.querySelector('.panel-br')  // Experience
+    ];
+
+    panels.forEach((panel, index) => {
+        if (!panel) return;
+
+        setTimeout(() => {
+            // 1. Reveal Panel
+            panel.classList.add('reveal-active');
+
+            // 2. Trigger Title Flash
+            const label = panel.querySelector('.panel-label');
+            if (label) {
+                // Short delay to sync flash with the end of the float-up
+                setTimeout(() => {
+                    label.classList.add('title-flash');
+                }, 250);
+            }
+        }, index * 150); // 0.15s Stagger
+    });
+}
 
 /* =========================================
    [ADD] DEV LOG SEQUENCE ANIMATION LOGIC

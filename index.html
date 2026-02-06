@@ -2774,6 +2774,41 @@
                             margin-bottom: 15px;
                             font-size: 1.1rem;
                             letter-spacing: 2px;
+                            transition: all 0.5s ease;
+                        }
+
+                        /* Reveal Animation Base */
+                        .data-panel {
+                            opacity: 0;
+                            transform: translateY(20px);
+                            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+                        }
+
+                        .data-panel.reveal-active {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+
+                        /* Ivory Title Flash Effect */
+                        .panel-label.title-flash {
+                            animation: titleFlashEffect 1s ease-out forwards;
+                        }
+
+                        @keyframes titleFlashEffect {
+                            0% {
+                                color: #fff;
+                                text-shadow: none;
+                            }
+
+                            50% {
+                                color: #FDF5E6;
+                                text-shadow: 0 0 15px #FDF5E6, 0 0 30px rgba(253, 245, 230, 0.5);
+                            }
+
+                            100% {
+                                color: #fff;
+                                text-shadow: none;
+                            }
                         }
 
                         /* TOOL SET LOG */
@@ -3527,15 +3562,24 @@
                         /* Force fill without gaps */
                         object-position: 0% 0%;
                         /* Start at Left Top */
-                        transition: object-position 8s ease-in-out;
-                        /* Keep smooth scroll */
+                        animation: autoHorizontalScroll 25s ease-in-out infinite;
                     }
 
-                    /* Interaction: Horizontal Scroll on Hover */
-                    .monitor-container:hover .scrolling-website {
-                        object-position: 100% 0%;
-                        /* Scroll to Right strictly */
+                    @keyframes autoHorizontalScroll {
+                        0% {
+                            object-position: 0% 0%;
+                        }
+
+                        50% {
+                            object-position: 100% 0%;
+                        }
+
+                        100% {
+                            object-position: 0% 0%;
+                        }
                     }
+
+                    /* Interaction: Hover scroll removed as per user request for automatic motion */
 
                     /* Open Site Button - Cyberpunk Style (High Visibility) */
                     .open-site-btn {
