@@ -4723,6 +4723,36 @@
             window.onFullpageOnLeave = function (origin, destination, direction) {
                 updateNavigation(destination.index);
             };
+            updateNavigation(destination.index);
+        };
+
+        // [ADD] Mobile Inspector Accordion Logic
+        const accordions = document.querySelectorAll('.inspector-col, .description-group');
+
+        accordions.forEach(group => {
+            // Find the label (header) to act as the trigger
+            const label = group.querySelector('.ins-label');
+
+            if (label) {
+                label.addEventListener('click', function (e) {
+                    // Check if we are in mobile mode (simple check by width)
+                    if (window.innerWidth <= 1024) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        // Toggle current
+                        const isActive = group.classList.contains('accordion-active');
+
+                        // Optional: Close others (for true accordion behavior)
+                        accordions.forEach(other => other.classList.remove('accordion-active'));
+
+                        if (!isActive) {
+                            group.classList.add('accordion-active');
+                        }
+                    }
+                });
+            }
+        });
         });
     </script>
     <script src="script/action.js"></script>
