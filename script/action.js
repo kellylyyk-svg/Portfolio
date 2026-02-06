@@ -48,6 +48,7 @@ new fullpage('#fullpage', {
     scrollingSpeed: 1200,
     /* 800 -> 1200 (스크롤 과민 반응 방지 위해 속도 늦춤) */
     autoScrolling: true,
+    responsiveWidth: 768, /* Mobile: Disable Snap Scroll */
 
     // [중요] 특정 요소 내부에서만 스크롤이 작동하게 하려면 여기 등록하여 
     // fullpage.js가 이 영역의 이벤트를 하이재킹하지 않도록 합니다.
