@@ -1,0 +1,17 @@
+{
+  "name": "김서영 포트폴리오",
+  "short_name": "김서영 포트폴리오",
+  "description": "김서영 디지털 디자이너 포트폴리오",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    {
+      "src": "images/profile2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

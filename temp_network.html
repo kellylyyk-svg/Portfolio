@@ -1,0 +1,543 @@
+﻿<div class="section">
+    <div class="frame-container network-sync-mode">
+        <style>
+            /* NETWORK_SYNC Theme - Deep Blue/Violet Palette */
+            .network-sync-mode {
+                --network-blue: #4d79ff;
+                --network-violet: #8b5cf6;
+                --network-dark-blue: #1e3a8a;
+                --network-glow: rgba(77, 121, 255, 0.4);
+            }
+
+            .network-sync-mode .ui-bar {
+                border-color: var(--network-blue);
+                background: rgba(30, 58, 138, 0.3);
+            }
+
+            .network-sync-mode .deco-box {
+                background: var(--network-blue);
+                color: #000;
+            }
+
+            /* Main Container */
+            .network-sync-container {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 40px;
+            }
+
+            /* Central Window Stack */
+            .window-stack {
+                position: relative;
+                width: 800px;
+                height: 500px;
+                z-index: 10;
+            }
+
+            .window-panel {
+                position: absolute;
+                width: 420px;
+                height: 320px;
+                background: rgba(0, 10, 35, 0.85);
+                border: 2px solid var(--network-blue);
+                border-radius: 8px;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 32px rgba(77, 121, 255, 0.3);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                overflow: hidden;
+            }
+
+            .window-panel:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 40px rgba(139, 92, 246, 0.5);
+                border-color: var(--network-violet);
+            }
+
+            /* Window Positioning */
+            .window-panel:nth-child(1) {
+                top: 0;
+                left: 0;
+                z-index: 3;
+            }
+
+            .window-panel:nth-child(2) {
+                top: 60px;
+                left: 180px;
+                z-index: 2;
+            }
+
+            .window-panel:nth-child(3) {
+                top: 120px;
+                left: 360px;
+                z-index: 1;
+            }
+
+            /* Window Title Bar */
+            .window-title {
+                padding: 12px 16px;
+                background: linear-gradient(135deg, var(--network-blue), var(--network-violet));
+                font-family: 'Share Tech Mono';
+                font-size: 0.75rem;
+                font-weight: bold;
+                letter-spacing: 1px;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .window-dots {
+                display: flex;
+                gap: 6px;
+            }
+
+            .window-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+            }
+
+            /* Window Content */
+            .window-content {
+                padding: 20px;
+                height: calc(100% - 46px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+            .window-content img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                filter: brightness(0.9) contrast(1.1);
+            }
+
+            .window-content code {
+                font-family: 'Courier New', monospace;
+                font-size: 0.7rem;
+                color: #8b5cf6;
+                line-height: 1.6;
+            }
+
+            /* Team Nodes */
+            .team-nodes {
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .team-nodes-left {
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .team-nodes-right {
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .team-node {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                position: relative;
+            }
+
+            .team-nodes-left .team-node {
+                flex-direction: row;
+            }
+
+            .team-nodes-right .team-node {
+                flex-direction: row-reverse;
+            }
+
+            .node-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--network-blue), var(--network-violet));
+                border: 2px solid var(--network-blue);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: 'Share Tech Mono';
+                font-weight: bold;
+                color: #fff;
+                font-size: 1.2rem;
+                box-shadow: 0 0 20px var(--network-glow);
+                position: relative;
+            }
+
+            .node-avatar::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background: inherit;
+                animation: pulse 2s ease-in-out infinite;
+                opacity: 0.5;
+            }
+
+            @keyframes pulse {
+
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 0.5;
+                }
+
+                50% {
+                    transform: scale(1.15);
+                    opacity: 0;
+                }
+            }
+
+            .node-info {
+                background: rgba(30, 58, 138, 0.5);
+                padding: 6px 12px;
+                border-radius: 4px;
+                border: 1px solid var(--network-blue);
+            }
+
+            .node-name {
+                font-family: 'Share Tech Mono';
+                font-size: 0.8rem;
+                color: #fff;
+                font-weight: bold;
+                display: block;
+            }
+
+            .node-role {
+                font-family: 'Share Tech Mono';
+                font-size: 0.65rem;
+                color: var(--network-violet);
+                display: block;
+            }
+
+            /* Circuit Connection Lines */
+            .circuit-svg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 5;
+            }
+
+            .circuit-line {
+                fill: none;
+                stroke: var(--network-blue);
+                stroke-width: 2;
+                stroke-dasharray: 5, 5;
+                animation: flow 2s linear infinite;
+                opacity: 0.6;
+            }
+
+            @keyframes flow {
+                from {
+                    stroke-dashoffset: 0;
+                }
+
+                to {
+                    stroke-dashoffset: 20;
+                }
+            }
+
+            /* Contribution Chart */
+            .contribution-chart {
+                position: absolute;
+                bottom: 40px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 600px;
+                background: rgba(0, 10, 35, 0.85);
+                border: 2px solid var(--network-blue);
+                border-radius: 8px;
+                padding: 20px;
+                backdrop-filter: blur(10px);
+                z-index: 15;
+            }
+
+            .chart-title {
+                font-family: 'Share Tech Mono';
+                font-size: 0.85rem;
+                color: var(--network-blue);
+                margin-bottom: 15px;
+                letter-spacing: 2px;
+            }
+
+            .chart-bar {
+                margin-bottom: 12px;
+            }
+
+            .bar-label {
+                font-family: 'Share Tech Mono';
+                font-size: 0.7rem;
+                color: #fff;
+                margin-bottom: 5px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .bar-track {
+                width: 100%;
+                height: 8px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 4px;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .bar-fill {
+                height: 100%;
+                background: linear-gradient(90deg, var(--network-blue), var(--network-violet));
+                border-radius: 4px;
+                box-shadow: 0 0 10px var(--network-glow);
+                transition: width 1.5s ease-out;
+                position: relative;
+            }
+
+            .bar-fill::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                animation: shimmer 2s infinite;
+            }
+
+            @keyframes shimmer {
+                0% {
+                    transform: translateX(-100%);
+                }
+
+                100% {
+                    transform: translateX(100%);
+                }
+            }
+
+            /* Responsive */
+            @media (max-width: 1024px) {
+                .window-stack {
+                    width: 100%;
+                    height: 400px;
+                }
+
+                .window-panel {
+                    width: 300px;
+                    height: 250px;
+                }
+
+                .window-panel:nth-child(2) {
+                    left: 120px;
+                }
+
+                .window-panel:nth-child(3) {
+                    left: 240px;
+                }
+
+                .team-nodes {
+                    display: none;
+                }
+
+                .contribution-chart {
+                    width: 90%;
+                    bottom: 20px;
+                }
+            }
+        </style>
+
+        <div class="ui-bar bar-top">
+            <span class="deco-box">NETWORK : SYNC_MODE</span>
+            <span>COLLABORATIVE_DEVELOPMENT</span>
+            <span style="font-size: 1.5rem;">+</span>
+        </div>
+
+        <div class="network-sync-container">
+            <!-- SVG Circuit Connections -->
+            <svg class="circuit-svg">
+                <!-- Left nodes to center windows -->
+                <path class="circuit-line" d="M 70 200 Q 200 200 280 180" />
+                <path class="circuit-line" d="M 70 280 Q 200 280 280 260" />
+                <path class="circuit-line" d="M 70 360 Q 200 360 280 340" />
+
+                <!-- Right nodes to center windows -->
+                <path class="circuit-line" d="M 730 200 Q 600 200 520 220" />
+                <path class="circuit-line" d="M 730 280 Q 600 280 520 300" />
+            </svg>
+
+            <!-- Left Team Nodes -->
+            <div class="team-nodes team-nodes-left">
+                <div class="team-node">
+                    <div class="node-avatar">KS</div>
+                    <div class="node-info">
+                        <span class="node-name">源?쒖쁺</span>
+                        <span class="node-role">UI/UX DESIGN</span>
+                    </div>
+                </div>
+                <div class="team-node">
+                    <div class="node-avatar">A</div>
+                    <div class="node-info">
+                        <span class="node-name">Member A</span>
+                        <span class="node-role">FRONTEND DEV</span>
+                    </div>
+                </div>
+                <div class="team-node">
+                    <div class="node-avatar">B</div>
+                    <div class="node-info">
+                        <span class="node-name">Member B</span>
+                        <span class="node-role">BACKEND DEV</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Team Nodes -->
+            <div class="team-nodes team-nodes-right">
+                <div class="team-node">
+                    <div class="node-avatar">C</div>
+                    <div class="node-info">
+                        <span class="node-name">Member C</span>
+                        <span class="node-role">QA/TEST</span>
+                    </div>
+                </div>
+                <div class="team-node">
+                    <div class="node-avatar">D</div>
+                    <div class="node-info">
+                        <span class="node-name">Member D</span>
+                        <span class="node-role">PUBLISHING</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overlapping Windows -->
+            <div class="window-stack">
+                <!-- Window 1: DESIGN_DOC -->
+                <div class="window-panel">
+                    <div class="window-title">
+                        <span>[DESIGN_DOC]</span>
+                        <div class="window-dots">
+                            <div class="window-dot"></div>
+                            <div class="window-dot"></div>
+                            <div class="window-dot"></div>
+                        </div>
+                    </div>
+                    <div class="window-content">
+                        <img src="images/design_doc.png" alt="Design Documentation">
+                    </div>
+                </div>
+
+                <!-- Window 2: SOURCE_CODE -->
+                <div class="window-panel">
+                    <div class="window-title">
+                        <span>[SOURCE_CODE]</span>
+                        <div class="window-dots">
+                            <div class="window-dot"></div>
+                            <div class="window-dot"></div>
+                            <div class="window-dot"></div>
+                        </div>
+                    </div>
+                    <div class="window-content">
+                        <code>
+&lt;!-- Team Project Structure --&gt;<br>
+?쒋?? index.html<br>
+?쒋?? styles/<br>
+??nbsp;&nbsp; ?쒋?? main.css<br>
+??nbsp;&nbsp; ?붴?? components.css<br>
+?쒋?? scripts/<br>
+??nbsp;&nbsp; ?붴?? app.js<br>
+?붴?? assets/<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?붴?? images/<br>
+<br>
+// Collaborative Development<br>
+const team = {<br>
+&nbsp;&nbsp;design: 'KIM',<br>
+&nbsp;&nbsp;frontend: 'DEV_A',<br>
+&nbsp;&nbsp;backend: 'DEV_B'<br>
+};
+                                </code>
+                    </div>
+                </div>
+
+                <!-- Window 3: LIVE_PREVIEW -->
+                <div class="window-panel">
+                    <div class="window-title">
+                        <span>[LIVE_PREVIEW]</span>
+                        <div class="window-dots">
+                            <div class="window-dot"></div>
+                            <div class="window-dot"></div>
+                            <div class="window-dot"></div>
+                        </div>
+                    </div>
+                    <div class="window-content">
+                        <img src="images/live_preview.png" alt="Live Preview Screenshot">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contribution Chart -->
+            <div class="contribution-chart">
+                <div class="chart-title">MY CONTRIBUTION ANALYSIS</div>
+
+                <div class="chart-bar">
+                    <div class="bar-label">
+                        <span>UI DESIGN</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 95%;"></div>
+                    </div>
+                </div>
+
+                <div class="chart-bar">
+                    <div class="bar-label">
+                        <span>PUBLISHING</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+
+                <div class="chart-bar">
+                    <div class="bar-label">
+                        <span>UX RESEARCH</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <div class="chart-bar">
+                    <div class="bar-label">
+                        <span>PLANNING</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-bar bar-bottom">
+            <span style="font-size: 1.5rem;">+</span>
+            <div class="status-log">LOG: NETWORK_SYNC_COMPLETE</div>
+            <span class="deco-box">STATUS : CONNECTED</span>
+        </div>
+    </div>
+</div>
