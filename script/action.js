@@ -51,7 +51,7 @@ new fullpage('#fullpage', {
 
     // [중요] 특정 요소 내부에서만 스크롤이 작동하게 하려면 여기 등록하여 
     // fullpage.js가 이 영역의 이벤트를 하이재킹하지 않도록 합니다.
-    normalScrollElements: '.graphic-archive-wrapper, .terminal-content',
+    normalScrollElements: '.graphic-archive-wrapper, .terminal-content, .about-hologram-layout',
 
 
     fitToSection: true,
@@ -75,12 +75,13 @@ new fullpage('#fullpage', {
 
         // Dev Log Section is the 7th section (index 6)
         if (destination.index === 6) {
-            triggerDevLogSequence();
+            // Moved to onLeave for faster response
         }
 
         // [ADD] Trigger NEXT_FILE button activation on Web Design section entry (index 3)
         if (destination.index === 3) {
             triggerNextFileActivation();
+            showMobileTapHint(); // [MOBILE] 목업 탭 힌트 3회 표시
         }
 
         // [ADD] Trigger floating navigation update
@@ -91,6 +92,11 @@ new fullpage('#fullpage', {
 
     // [ADD] onLeave callback for floating navigation
     onLeave: function (origin, destination, direction) {
+        // Trigger AI Project reveal as soon as we start moving towards it
+        if (destination.index === 6) {
+            triggerDevLogSequence();
+        }
+
         if (window.onFullpageOnLeave) {
             window.onFullpageOnLeave(origin, destination, direction);
         }
@@ -263,6 +269,8 @@ function switchProject(direction) {
         }
 
         if (counter) counter.innerText = `0${currentIndex + 1} / 0${projectData.length}`;
+        const mobileCounter = document.getElementById('project-counter-mobile');
+        if (mobileCounter) mobileCounter.innerText = `0${currentIndex + 1} / 0${projectData.length}`;
 
         const pageCount = document.querySelector('.ins-page-count');
         if (pageCount && data.pages) pageCount.innerText = data.pages;
@@ -344,7 +352,50 @@ window.addEventListener('load', () => {
     if (counter && projectData.length > 0) {
         counter.innerText = `01 / 0${projectData.length}`;
     }
+    const mobileCounter = document.getElementById('project-counter-mobile');
+    if (mobileCounter && projectData.length > 0) {
+        mobileCounter.innerText = `01 / 0${projectData.length}`;
+    }
 });
+
+/* ── [MOBILE] 목업 탭으로 PC/Mobile 전환 ── */
+(function setupMockupTap() {
+    const canvas = document.querySelector('.canvas-area');
+    if (!canvas) return;
+
+    let isMobileView = false; // 현재 보여지는 모드 추적
+
+    canvas.addEventListener('click', function () {
+        // 모바일 뷰포트에서만 동작
+        if (window.innerWidth > 1024) return;
+        isMobileView = !isMobileView;
+        switchDevice(isMobileView ? 'mobile' : 'pc');
+    });
+})();
+
+/* ── [MOBILE] 탭 힌트 (손가락 + 리플, 3회) ── */
+function showMobileTapHint() {
+    if (window.innerWidth > 1024) return;
+    const canvas = document.querySelector('.canvas-area');
+    if (!canvas) return;
+
+    // 이미 있으면 제거
+    const existing = canvas.querySelector('.tap-hint-overlay');
+    if (existing) existing.remove();
+
+    // 오버레이 생성
+    const overlay = document.createElement('div');
+    overlay.className = 'tap-hint-overlay';
+    overlay.innerHTML = `
+        <div class="tap-hint-ripple"></div>
+        <div class="tap-hint-icon">👆</div>
+    `;
+    canvas.appendChild(overlay);
+
+    // 3회 애니메이션(총 0.55s × 3 = 1.65s) 후 제거
+    const duration = 0.55 * 3 * 1000 + 200; // 약간 여유
+    setTimeout(() => overlay.remove(), duration);
+}
 
 /* =========================================
    [ADD] GRAPHIC ARCHIVE MODAL LOGIC
@@ -697,7 +748,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 제어할 컨테이너 목록
     const scrollContainers = [
         '.graphic-archive-wrapper',
-        '.terminal-content'
+        '.terminal-content',
+        '.about-hologram-layout'
     ];
 
     scrollContainers.forEach(selector => {
@@ -741,33 +793,33 @@ document.addEventListener('DOMContentLoaded', () => {
 const avatar = document.querySelector('.avatar-center-stage .holo-avatar-img');
 
 function setAvatar(src) {
-  avatar.src = src;
+    avatar.src = src;
 }
 
 function resetAvatar() {
-  avatar.src = 'images/profile2.png';
+    avatar.src = 'images/profile2.png';
 }
 
 // panel-tr
 document.querySelectorAll('.panel-tr').forEach(el => {
-  el.addEventListener('mouseover', () => setAvatar('images/profile3.png'));
-  el.addEventListener('mouseout', resetAvatar);
+    el.addEventListener('mouseover', () => setAvatar('images/profile3.png'));
+    el.addEventListener('mouseout', resetAvatar);
 });
 
 // panel-br
 document.querySelectorAll('.panel-br').forEach(el => {
-  el.addEventListener('mouseover', () => setAvatar('images/profile4.png'));
-  el.addEventListener('mouseout', resetAvatar);
+    el.addEventListener('mouseover', () => setAvatar('images/profile4.png'));
+    el.addEventListener('mouseout', resetAvatar);
 });
 
 // panel-tl
 document.querySelectorAll('.panel-tl').forEach(el => {
-  el.addEventListener('mouseover', () => setAvatar('images/profile5.png'));
-  el.addEventListener('mouseout', resetAvatar);
+    el.addEventListener('mouseover', () => setAvatar('images/profile5.png'));
+    el.addEventListener('mouseout', resetAvatar);
 });
 
 // panel-tb
 document.querySelectorAll('.panel-bl').forEach(el => {
-  el.addEventListener('mouseover', () => setAvatar('images/profile6.png'));
-  el.addEventListener('mouseout', resetAvatar);
+    el.addEventListener('mouseover', () => setAvatar('images/profile6.png'));
+    el.addEventListener('mouseout', resetAvatar);
 });

@@ -174,8 +174,11 @@
 
         .gnb-menu {
             display: flex;
-            gap: 45px;
+            gap: clamp(15px, 2.5vw, 45px);
+            /* Fluid gap */
             align-items: center;
+            flex-wrap: nowrap;
+            /* Prevent wrapping */
         }
 
         .top-gnb.visible {
@@ -185,13 +188,16 @@
 
         .gnb-item {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
+            font-size: clamp(14px, 1.1vw, 16px);
+            /* Fluid font size */
             color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
             transition: all 0.3s ease;
             letter-spacing: 1.5px;
             position: relative;
             padding: 5px 0;
+            white-space: nowrap;
+            /* Prevent word wrap */
             -webkit-font-smoothing: antialiased;
         }
 
@@ -1737,6 +1743,8 @@
             letter-spacing: 0.1em;
             /* Requested 0.1em */
             margin-bottom: 10px;
+            white-space: nowrap;
+            /* Prevent labels from wrapping */
         }
 
         .ins-tag {
@@ -1754,7 +1762,8 @@
             margin-left: 10px;
         }
 
-        .header-sub-ko {
+        .header-sub-ko,
+        .header-sub-en {
             font-family: 'Pretendard', sans-serif;
             font-size: 0.65rem;
             color: rgba(255, 255, 255, 0.3);
@@ -1762,6 +1771,13 @@
             margin-left: 8px;
             letter-spacing: 0;
             vertical-align: middle;
+        }
+
+        /* Hide English subtitles when space is narrow (Compact Mode) */
+        @media (max-width: 1400px) {
+            .header-sub-en {
+                display: none !important;
+            }
         }
 
         .ins-title {
@@ -1879,6 +1895,11 @@
             margin-top: 0;
         }
 
+        /* Mobile-only nav row — hidden by default on desktop */
+        .mobile-nav-row {
+            display: none;
+        }
+
         /* [REFINED] 1400px 이하: 컴팩트 모드 (Compact Mode) 적용 */
         @media (max-width: 1400px) {
             .inspector-wrapper {
@@ -1933,16 +1954,26 @@
             }
         }
 
-        /* [REFINED] 1024px 이하: 브레이크아웃 풀프레임 (Breakout Full-Frame) - 부모 패딩 무시하고 꽉 채우기 */
+        /* [ADD] 1200px 이하: 탭 버튼 위치 조정 (목업에 가깝게) */
+        @media (max-width: 1200px) {
+            .device-tabs {
+                top: 65px !important;
+                /* Move closer to mockup */
+            }
+        }
+
+        /* [MOBILE] 1024px 이하: 웹디자인 섹션 전용 모바일 레이아웃 */
         @media (max-width: 1024px) {
+
+            /* ── 프레임 바 제거 ── */
+            .project-inspector-mode .bar-top,
             .project-inspector-mode .bar-bottom {
                 display: none !important;
-                /* 하단 UI 제거 */
             }
 
+            /* ── 래퍼: 컬럼 방향, 패딩 제거 ── */
             .inspector-wrapper {
                 flex-direction: column;
-                /* [FIX] 부모 패딩(60px 40px)을 상쇄하는 음수 마진 적용 */
                 margin: -20px -40px -60px -40px !important;
                 width: calc(100% + 80px) !important;
                 height: calc(100% + 80px) !important;
@@ -1950,116 +1981,94 @@
                 gap: 0 !important;
                 flex: 1;
                 overflow: visible !important;
-                /* 내부 스크롤 관리 */
             }
 
+            /* ── 목업 영역: 컴팩트하게 ── */
             .canvas-area {
                 height: auto;
-                min-height: 240px;
-                /* 탭과 목업이 보일 충분한 높이 확보 */
-                padding: 20px 0;
+                min-height: 180px;
+                max-height: 48vh;
+                padding: 10px 0 0 0;
                 position: relative;
                 z-index: 50 !important;
-                /* 사이드바보다 위일 수도 있음, 상황에 따라 조정 */
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 background: transparent;
-            }
-
-            /* [REF] 사이드바 내부로 이동된 탭 버튼 스타일 초기화 */
-            .device-tabs {
-                position: static !important;
-                transform: translateY(-13px) !important;
-                /* 살짝 위로 이동 */
-                margin: 0;
-                z-index: auto;
-                display: flex !important;
-                gap: 5px;
-                flex-shrink: 0 !important;
-                /* 줄바꿈 방지 */
-            }
-
-            .title-group {
-                flex: 1 !important;
-                /* 남은 공간 차지 */
-                min-width: 0 !important;
-                /* 텍스트 유동성 확보 */
-                margin-right: 10px;
-            }
-
-            .mobile-mockup-wrapper {
-                width: 200px !important;
-                margin: 0 auto;
-            }
-
-            /* [REF] 네비게이션 컨트롤 스타일 */
-            .nav-controls {
-                width: 100% !important;
-                display: flex !important;
-                justify-content: flex-end !important;
-                gap: 10px;
-                margin: 0 !important;
-                padding: 0 !important;
-                margin-right: -28px !important;
-                /* 살짝 우측으로 이동 */
-            }
-
-            .inspector-section.slider-nav {
-                padding: 0 !important;
-                /* 부모 패딩 제거 오버라이드 */
-                margin-right: 0 !important;
+                cursor: pointer;
+                /* Tap hint */
             }
 
             .tilt-mockup {
-                width: 90%;
-                /* 너무 꽉 차지 않게 */
-                max-width: 400px;
+                width: 85%;
+                max-width: 360px;
                 margin-bottom: 0;
                 transform: none;
                 z-index: 5;
             }
 
+            .mobile-mockup-wrapper {
+                width: 120px !important;
+                margin: 0 auto;
+            }
+
+            /* ── PC/MOBILE 탭: 모바일에서는 숨김 (탭으로 전환) ── */
+            .device-tabs {
+                display: none !important;
+            }
+
+            /* ── 사이드바: 하단 반투명 패널, 고정 높이로 겹침 방지 ── */
             .inspector-sidebar {
                 width: 100%;
                 min-width: 100%;
-                padding: 25px 30px;
-                /* 내부 여백 */
+                padding: 16px 20px 14px 20px;
                 margin: 0 !important;
-                background: rgba(0, 0, 0, 0.6) !important;
-                /* Translucent dark background */
+                background: rgba(0, 0, 0, 0.82) !important;
                 backdrop-filter: blur(20px);
                 border-radius: 0 !important;
-                flex: 1;
-                /* Allow flex grow */
+                flex: 0 0 52vh;
+                /* 고정 높이 — 겹침 방지 */
+                max-height: 52vh;
                 display: flex;
                 flex-direction: column;
-                border-top: 1px solid rgba(255, 255, 255, 0.15);
+                border-top: 1px solid rgba(255, 255, 255, 0.12);
                 z-index: 20;
                 position: relative;
                 box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-                /* Top shadow */
+                overflow-y: auto;
             }
 
-            /* [FIX] PROPERTIES 라벨 숨김 (첫 번째 섹션의 라벨) */
+            /* ── 첫 번째 섹션 라벨 숨김 ── */
             .inspector-section:first-of-type .ins-label {
                 display: none !important;
             }
 
-            /* 제목 스타일 */
+            /* ── 제목 ── */
             .ins-title {
-                font-size: clamp(1.5rem, 5vw, 2.2rem);
-                margin-bottom: 15px;
-                /* 여백 확보 */
+                font-size: clamp(1.4rem, 6vw, 2rem);
+                margin-bottom: 4px;
                 white-space: normal !important;
                 line-height: 1.1;
                 color: #fff;
             }
 
-            /* [FIX] # 해시태그 서브타이틀 숨김 */
+            /* ── 해시태그 서브타이틀 숨김 ── */
             .ins-subtitle {
                 display: none !important;
+            }
+
+            .title-group {
+                flex: 1 !important;
+                min-width: 0 !important;
+                margin-right: 0;
+            }
+
+            /* ── 섹션 간격 ── */
+            .inspector-section {
+                margin-bottom: 10px;
+                flex: none;
+                height: auto;
             }
 
             .inspector-section:first-of-type,
@@ -2067,33 +2076,30 @@
                 min-height: 0 !important;
             }
 
+            /* ── 기여도 / 페이지 행 ── */
             .inspector-row {
                 display: flex;
-                flex-direction: column;
-                /* Force vertical stacking */
+                flex-direction: row;
                 flex-wrap: nowrap;
-                gap: 15px;
-                /* Consistent spacing */
-                margin-bottom: 15px;
+                gap: 20px;
+                margin-bottom: 10px;
             }
 
             .ins-list {
                 display: flex;
                 flex-direction: row;
-                gap: 15px;
-                margin-top: 5px;
+                gap: 10px;
+                margin-top: 4px;
             }
 
             .ins-label {
-                font-size: 0.85rem;
-                margin-bottom: 8px;
+                font-size: 0.8rem;
+                margin-bottom: 6px;
                 color: rgba(255, 255, 255, 0.6);
-                /* 60% White */
                 text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
-                /* Blue Aura */
             }
 
-            /* [FIX] 모바일/태블릿(1024px 이하)에서는 다시 1줄로 제한 */
+            /* ── 설명 1줄만 표시 ── */
             .ins-desc.short-view {
                 display: -webkit-box;
                 -webkit-line-clamp: 1 !important;
@@ -2102,29 +2108,68 @@
                 text-overflow: ellipsis;
                 white-space: normal;
                 height: auto !important;
-                /* Allow auto height */
-                min-height: 1.8em;
-                /* Ensure at least 1 line visible */
+                min-height: 1.6em;
                 color: #ccc;
             }
 
             .desc-container {
                 max-height: none !important;
                 height: auto !important;
-                /* Override global 100% */
-                margin-bottom: 20px;
+                margin-bottom: 10px;
                 overflow: visible;
             }
 
-            .inspector-section {
-                margin-bottom: 15px;
-                flex: none;
-                /* Disable flex scaling */
-                height: auto;
-                /* allow natural expansion */
+            /* ── DESKTOP 네비버튼 숨김 ── */
+            .nav-controls {
+                display: none !important;
             }
 
-            /* [FIX] OPEN SITE 버튼 텍스트 중앙 정렬 */
+            /* ── MOBILE 화살표 네비 ── */
+            .mobile-nav-row {
+                display: flex !important;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
+                margin-bottom: 8px;
+            }
+
+            .mobile-nav-btn {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                color: #fff;
+                font-size: 1.1rem;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: background 0.2s;
+                flex-shrink: 0;
+            }
+
+            .mobile-nav-btn:active {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            #project-counter-mobile {
+                font-family: 'Share Tech Mono', monospace;
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.6);
+                letter-spacing: 1px;
+            }
+
+            /* ── OPEN SITE 버튼 ── */
+            .footer-action {
+                margin-top: auto;
+                padding-top: 10px;
+                padding-bottom: 4px;
+                width: 100%;
+                z-index: 60 !important;
+                position: relative;
+            }
+
             .footer-action .ins-btn {
                 width: 100% !important;
                 display: flex !important;
@@ -2132,58 +2177,75 @@
                 text-align: center !important;
             }
 
-            /* 하단 액션 버튼 복구 */
-            /* [FIX] 하단 액션 버튼 Z-Index 상향 및 위치 보정 */
-            .footer-action {
-                margin-top: auto;
-                padding-top: 15px;
-                padding-bottom: 5px;
-                width: 100%;
-                z-index: 60 !important;
-                /* 최상위 */
-                position: relative;
-            }
-
             .ins-btn {
-                padding: 15px 0;
+                padding: 14px 0;
                 width: 100%;
                 justify-content: center;
-                font-size: 1.1rem;
-                padding: 15px 0;
-                width: 100%;
-                justify-content: center;
-                font-size: 1.1rem;
+                font-size: 1rem;
                 border: 1px solid #FFFFFF;
                 background: rgba(255, 255, 255, 0.8);
                 color: #000;
                 box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             }
 
-            /* 네비게이션 버튼 가시성 확보 및 배치 수정 */
-            .nav-controls {
-                position: static !important;
-                /* Remove absolute positioning */
-                width: 100% !important;
-                display: flex !important;
-                justify-content: flex-end !important;
-                gap: 10px;
-                margin-bottom: 15px !important;
-                /* Space above OPEN SITE button */
-                margin-right: 0 !important;
-                padding: 0 !important;
-                z-index: 70 !important;
+            /* ── 탭 힌트: 손가락 아이콘 + 리플 3회 ── */
+            @keyframes tapRipple {
+                0% {
+                    transform: translate(-50%, -50%) scale(0.3);
+                    opacity: 0.9;
+                }
+
+                100% {
+                    transform: translate(-50%, -50%) scale(2.2);
+                    opacity: 0;
+                }
             }
 
-            /* 모바일에서 네비게이션 버튼 스타일 보정 */
-            .ctrl-btn {
-                padding: 8px 15px;
-                background: rgba(0, 0, 0, 0.5);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                color: #fff;
-                font-size: 0.9rem;
+            @keyframes tapBounce {
+
+                0%,
+                100% {
+                    transform: translate(-50%, -50%) scale(1);
+                    opacity: 0.9;
+                }
+
+                50% {
+                    transform: translate(-50%, -50%) scale(0.85);
+                    opacity: 0.7;
+                }
+            }
+
+            .tap-hint-overlay {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                z-index: 200;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .tap-hint-icon {
+                font-size: 2.4rem;
+                animation: tapBounce 0.55s ease-in-out 3;
+                color: rgba(255, 255, 255, 0.9);
+                filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+            }
+
+            .tap-hint-ripple {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid rgba(255, 255, 255, 0.7);
+                animation: tapRipple 0.55s ease-out 3;
             }
         }
-
 
 
         .layered-content {
@@ -3346,11 +3408,19 @@
 
                         <!-- Group 4: Navigator -->
                         <div class="inspector-section slider-nav" style="position: relative;">
+                            <!-- Desktop: PREV / NEXT text buttons -->
                             <div class="nav-controls" style="justify-content: flex-end;">
                                 <button onclick="switchProject(-1)" class="ctrl-btn">[PREV_FILE]</button>
                                 <span id="project-counter" style="margin: 0 15px;">01 / 02</span>
                                 <button onclick="switchProject(1)" class="ctrl-btn"
                                     id="next-file-btn">[NEXT_FILE]</button>
+                            </div>
+                            <!-- Mobile: ◀ project title / counter ▶ -->
+                            <div class="mobile-nav-row" id="mobile-project-nav">
+                                <button class="mobile-nav-btn" data-dir="-1"
+                                    onclick="switchProject(-1)">&#9664;</button>
+                                <span id="project-counter-mobile">01 / 02</span>
+                                <button class="mobile-nav-btn" data-dir="1" onclick="switchProject(1)">&#9654;</button>
                             </div>
                         </div>
 
@@ -4280,7 +4350,7 @@
                         background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
                         opacity: 0;
                         /* Initial Hidden State */
-                        transition: opacity 1s ease;
+                        transition: opacity 0.5s ease;
                     }
 
                     /* Connection Warning */
@@ -4402,7 +4472,7 @@
                         flex-direction: column;
                         opacity: 0;
                         /* Initial Hidden State */
-                        transition: opacity 1s ease;
+                        transition: opacity 0.5s ease;
                     }
 
                     .scanline {
