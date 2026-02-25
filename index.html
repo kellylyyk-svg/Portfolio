@@ -923,6 +923,8 @@
             .about-hologram-layout {
                 flex-direction: column;
                 padding: clamp(10px, 4vw, 40px);
+                padding-top: 80px !important;
+                /* Increase top padding to clear GNB */
                 justify-content: flex-start;
                 overflow-y: auto;
                 position: relative;
@@ -981,7 +983,8 @@
             }
 
             .avatar-center-stage {
-                margin-top: 10px;
+                margin-top: 30px !important;
+                /* Increase margin to prevent clipping */
             }
         }
 
