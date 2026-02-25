@@ -749,7 +749,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollContainers = [
         '.graphic-archive-wrapper',
         '.terminal-content',
-        '.about-hologram-layout'
+        '.about-hologram-layout',
+        '.inspector-sidebar'
     ];
 
     scrollContainers.forEach(selector => {
@@ -757,8 +758,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!container) return;
 
         let lastWheelTime = 0;
+        let lastTouchTime = 0;
+        let touchStartY = 0;
         const throttleTime = 500; // 스크롤이 너무 빠르게 연달아 호출되는 것 방지
 
+        // [PC] Wheel Event Handling
         container.addEventListener('wheel', (e) => {
             const delta = e.deltaY;
             const scrollTop = container.scrollTop;
@@ -781,8 +785,45 @@ document.addEventListener('DOMContentLoaded', () => {
                     lastWheelTime = now;
                 }
             }
-            // 그 외에는 내부 스크롤을 수행 (normalScrollElements에 등록되어 있으므로 전파 중단은 선택사항)
+            // 그 외에는 내부 스크롤을 수행
             else {
+                e.stopPropagation();
+            }
+        }, { passive: false });
+
+        // [MOBILE] Touch Event Handling
+        container.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].pageY;
+        }, { passive: true });
+
+        container.addEventListener('touchmove', (e) => {
+            const touchMoveY = e.touches[0].pageY;
+            const delta = touchStartY - touchMoveY; // positive = swipe up (scroll down)
+            const scrollTop = container.scrollTop;
+            const scrollHeight = container.scrollHeight;
+            const clientHeight = container.clientHeight;
+
+            const now = Date.now();
+
+            // 1. 위로 스와이프(아래로 스크롤 시도): 이미 맨 아래일 때 다음 섹션으로
+            if (delta > 10 && (scrollTop + clientHeight >= scrollHeight - 1 || scrollHeight <= clientHeight)) {
+                if (now - lastTouchTime > throttleTime) {
+                    if (window.fullpage_api) fullpage_api.moveSectionDown();
+                    lastTouchTime = now;
+                }
+            }
+            // 2. 아래로 스와이프(위로 스크롤 시도): 이미 맨 위일 때 이전 섹션으로
+            else if (delta < -10 && (scrollTop <= 0 || scrollHeight <= clientHeight)) {
+                if (now - lastTouchTime > throttleTime) {
+                    if (window.fullpage_api) fullpage_api.moveSectionUp();
+                    lastTouchTime = now;
+                }
+            }
+            // 그 외 내부 스크롤 중일 때는 Fullpage.js 전파 방지
+            else {
+                // 내부 스크롤 중에는 event propagation을 막아 fullpage가 반응하지 않게 함
+                // 하지만 scrollOverflow: false 상태에서 normalScrollElements를 쓰면 
+                // 기본적으로 fullpage가 무시하므로, 여기서는 경계 도달시에만 수동 이동 시킴
                 e.stopPropagation();
             }
         }, { passive: false });
