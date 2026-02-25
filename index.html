@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1200">
     <title>DESIGNER KIM SEOYOUNG PORTFOLIO</title>
 
     <link rel="manifest" href="manifest.json">
@@ -32,9 +32,13 @@
         body {
             margin: 0;
             padding: 0;
+            min-width: 1200px;
+            /* Fixed width floor */
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-x: auto !important;
+            /* Allow horizontal scroll */
+            overflow-y: hidden;
             /* 스크롤바 숨김 */
             font-family: 'Rajdhani', 'Pretendard', monospace;
             background-color: transparent;
@@ -99,7 +103,9 @@
 
         /* 프레임 레이아웃 (95vw, 90vh) */
         .frame-container {
-            width: 95vw;
+            width: 1140px;
+            /* 95% of 1200px */
+            min-width: 1140px;
             height: 90vh;
             margin: 0 auto;
             position: relative;
@@ -107,7 +113,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: clamp(10px, 2vw, 20px);
+            padding: 20px;
             box-sizing: border-box;
             background: rgba(0, 0, 0, 0.05);
             /* 가독성 필터 */
@@ -259,7 +265,8 @@
         }
 
         /* Mobile Responsive Styles */
-        @media (max-width: 1024px) {
+        /* Disabled for Fixed Layout */
+        @media (max-width: 0px) {
             .top-gnb {
                 top: 5px;
                 /* Distinctively Higher */
@@ -512,7 +519,7 @@
             border-left: 2px solid var(--point-color);
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 0px) {
             .modal-content {
                 flex-direction: column;
                 height: 90vh;
@@ -977,7 +984,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 0px) {
             .about-panels-wrapper {
                 grid-template-columns: 1fr;
             }
@@ -1984,7 +1991,8 @@
         }
 
         /* [MOBILE] 1024px 이하: 웹디자인 섹션 전용 모바일 레이아웃 */
-        @media (max-width: 1024px) {
+        /* Disabled for Fixed Layout */
+        @media (max-width: 0px) {
 
             /* ── 프레임 바 제거 (Global rule already handles .ui-bar) ── */
 
@@ -2547,7 +2555,8 @@
             grid-column: span 1;
         }
 
-        @media (max-width: 1024px) {
+        /* Disabled for Fixed Layout */
+        @media (max-width: 0px) {
 
             .commercial-grid,
             .banner-grid {
@@ -2561,7 +2570,7 @@
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 0px) {
             .graphics-grid {
                 grid-template-columns: 1fr !important;
             }
@@ -4182,7 +4191,8 @@
                     }
 
                     /* Responsive adjustments - Maintain Original Layout */
-                    @media (max-width: 1024px) {
+                    /* Disabled for Fixed Layout */
+                    @media (max-width: 0px) {
                         .central-mockup {
                             flex: 0 0 45%;
                             /* Give more space to console */
@@ -4635,7 +4645,8 @@
                         }
                     }
 
-                    @media (max-width: 1024px) {
+                    /* Disabled for Fixed Layout */
+                    @media (max-width: 0px) {
                         .dev-log-container {
                             flex-direction: column;
                             width: 100%;
@@ -4929,7 +4940,8 @@
                     }
 
                     /* RESPONSIVE */
-                    @media (max-width: 1024px) {
+                    /* Disabled for Fixed Layout */
+                    @media (max-width: 0px) {
                         .contact-grid {
                             grid-template-columns: 1fr;
                             gap: 8vh;
@@ -4989,7 +5001,8 @@
 
     <style>
         /* Responsive Modal Fix - Enhanced for Tall Images */
-        @media (max-width: 1024px) {
+        /* Disabled for Fixed Layout */
+        @media (max-width: 0px) {
             .modal-content {
                 width: 95% !important;
                 height: 85vh !important;
