@@ -927,7 +927,8 @@
 
 
         /* 반응형: 화면이 좁아지면 패널들을 중앙 하단으로 정리 */
-        @media (max-width: 1200px) {
+        /* Disabled for Hybrid Layout */
+        @media (max-width: 0px) {
             .about-hologram-layout {
                 flex-direction: column;
                 padding: clamp(10px, 4vw, 40px);
@@ -1867,8 +1868,8 @@
             font-family: 'Pretendard';
             line-height: 1.8;
             color: rgba(255, 255, 255, 0.85);
-            font-size: clamp(1rem, 0.9vw, 1.2rem);
-            /* Responsive font size */
+            font-size: clamp(1rem, 0.9vw, 1.15rem);
+            /* Refined responsive font size */
             margin: 0;
             word-break: keep-all;
             overflow-wrap: break-word;
@@ -2738,10 +2739,10 @@
         }
 
         /* =========================================
-           [4K RESOLUTION FIX - 3840px+]
+           [4K & LARGE MONITOR FIX - 1920px+]
            Restore full scale for large monitors
         ========================================= */
-        @media (min-width: 1921px) {
+        @media (min-width: 1920px) {
 
             /* Restore Large Mockup */
             .front-mockup-wrapper {
@@ -2776,49 +2777,58 @@
                 font-size: 3.5rem;
             }
 
-            /* About Me Panel Size Enhancement for 4K */
+            /* About Me Panel Size Enhancement */
             .data-panel {
                 max-width: 450px;
                 padding: 30px;
-                /* Tightened from 40px */
             }
 
-            /* Description Visibility - Remove Toggle Interaction */
+            /* Description Visibility - Static View for Large Monitors */
             .desc-plus-btn {
-                display: none;
+                display: none !important;
             }
 
             .description-group {
                 cursor: default;
-                margin-bottom: 20px;
+                margin-top: 20px !important;
             }
 
             .ins-desc.short-view {
-                display: none;
+                display: none !important;
             }
 
             .desc-popup {
-                position: static;
-                opacity: 1;
-                visibility: visible;
-                background: transparent;
-                border: none;
-                box-shadow: none;
-                padding: 0;
-                transform: none;
-                pointer-events: auto;
+                position: static !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                transform: none !important;
+                pointer-events: auto !important;
+                margin: 0 !important;
             }
 
             .desc-popup::after {
-                display: none;
+                display: none !important;
             }
 
             .popup-title {
-                display: none;
+                display: none !important;
             }
 
             .ins-desc.full-view {
-                color: #ccc;
+                font-size: 1.15rem !important;
+                line-height: 1.8 !important;
+                color: rgba(255, 255, 255, 0.9) !important;
+                white-space: normal !important;
+            }
+
+            .desc-container {
+                max-height: none !important;
+                overflow: visible !important;
+                background: transparent !important;
             }
         }
     </style>
