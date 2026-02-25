@@ -48,6 +48,7 @@ new fullpage('#fullpage', {
     scrollingSpeed: 1200,
     /* 800 -> 1200 (스크롤 과민 반응 방지 위해 속도 늦춤) */
     autoScrolling: true,
+    responsiveWidth: 1024,
 
     // [중요] 특정 요소 내부에서만 스크롤이 작동하게 하려면 여기 등록하여 
     // fullpage.js가 이 영역의 이벤트를 하이재킹하지 않도록 합니다.
@@ -793,10 +794,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // [MOBILE] Touch Event Handling
         container.addEventListener('touchstart', (e) => {
+            if (window.innerWidth <= 1024) return; // Skip if in responsive mode (mobile)
             touchStartY = e.touches[0].pageY;
-        }, { passive: true });
+        }, {
+            passive: true
+        });
 
         container.addEventListener('touchmove', (e) => {
+            if (window.innerWidth <= 1024) return; // Skip if in responsive mode (mobile)
             const touchMoveY = e.touches[0].pageY;
             const delta = touchStartY - touchMoveY; // positive = swipe up (scroll down)
             const scrollTop = container.scrollTop;
