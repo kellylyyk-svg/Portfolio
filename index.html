@@ -2005,7 +2005,7 @@
                 height: auto;
                 min-height: 180px;
                 max-height: 48vh;
-                padding: 50px 10px 10px 10px;
+                padding: 60px 10px 10px 10px;
                 /* Increased top padding to clear GNB */
                 position: relative;
                 z-index: 50 !important;
@@ -2262,6 +2262,26 @@
                 border-radius: 50%;
                 border: 2px solid rgba(255, 255, 255, 0.7);
                 animation: tapRipple 0.55s ease-out 3;
+            }
+
+            /* ── 상세 설명 팝업 (잘림 방지) ── */
+            .desc-popup {
+                position: fixed !important;
+                bottom: 52vh !important;
+                /* 사이드바 바로 위에 고정 */
+                left: 20px !important;
+                right: 20px !important;
+                width: auto !important;
+                margin: 0 !important;
+                z-index: 10000 !important;
+                transform: translateY(0) scale(1) !important;
+                background: rgba(10, 12, 15, 0.98) !important;
+                backdrop-filter: blur(20px) !important;
+            }
+
+            .desc-popup::after {
+                display: none !important;
+                /* fixed 포지션에서는 화살표 제거 */
             }
         }
 
