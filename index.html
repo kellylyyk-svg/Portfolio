@@ -317,6 +317,24 @@
                 font-size: 18px;
                 padding: 10px 0;
             }
+
+            /* ── Hide UI Bars Globally ── */
+            .ui-bar {
+                display: none !important;
+            }
+
+            /* Adjust frame container padding for mobile */
+            .frame-container {
+                padding: 10px !important;
+                height: 100vh !important;
+                width: 100vw !important;
+                border: none !important;
+                margin: 0 !important;
+            }
+
+            .corner {
+                display: none !important;
+            }
         }
 
         /* [MODAL CSS] */
@@ -1965,11 +1983,7 @@
         /* [MOBILE] 1024px 이하: 웹디자인 섹션 전용 모바일 레이아웃 */
         @media (max-width: 1024px) {
 
-            /* ── 프레임 바 제거 ── */
-            .project-inspector-mode .bar-top,
-            .project-inspector-mode .bar-bottom {
-                display: none !important;
-            }
+            /* ── 프레임 바 제거 (Global rule already handles .ui-bar) ── */
 
             /* ── 래퍼: 컬럼 방향, 패딩 제거 ── */
             .inspector-wrapper {
