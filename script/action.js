@@ -60,11 +60,11 @@ new fullpage('#fullpage', {
     css3: true,
     /* easingcss3 제거 -> 기본값 사용 (안정성 확보) */
     navigation: false,
-    scrollBar: false,
+    scrollBar: true,
+    responsiveWidth: 1200,
     sectionSelector: '.section',
     verticalCentered: false,
     scrollOverflow: false,
-    /* 오버플로우 스크롤 방지 (섹션 넘김에 집중) */
 
     // [ADD] afterLoad Callback for Dev Log Sequence
     afterLoad: function (origin, destination, direction) {
