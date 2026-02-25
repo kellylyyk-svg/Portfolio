@@ -60,11 +60,11 @@ new fullpage('#fullpage', {
     css3: true,
     /* easingcss3 제거 -> 기본값 사용 (안정성 확보) */
     navigation: false,
-    scrollBar: true,
-    responsiveWidth: 1200,
+    scrollBar: false,
     sectionSelector: '.section',
     verticalCentered: false,
     scrollOverflow: false,
+    /* 오버플로우 스크롤 방지 (섹션 넘김에 집중) */
 
     // [ADD] afterLoad Callback for Dev Log Sequence
     afterLoad: function (origin, destination, direction) {
@@ -363,17 +363,18 @@ window.addEventListener('load', () => {
     const canvas = document.querySelector('.canvas-area');
     if (!canvas) return;
 
-    // 모바일 뷰포트 여부 감지 (최초 로드 시)
-    let isMobileView = window.innerWidth <= 1024;
+    // 모바일 기기 여부 감지 (터치 또는 UserAgent)
+    let isMobileDevice = document.body.classList.contains('is-mobile');
+    let isMobileView = true; // Default to mobile rollup on mobile devices
 
-    // 모바일에서 접속 시 최초 1회 모바일 뷰로 강제 전환 (초기화 보정)
-    if (isMobileView) {
+    // 모바일에서 접속 시 최초 1회 모바일 뷰로 강제 전환
+    if (isMobileDevice) {
         setTimeout(() => switchDevice('mobile'), 100);
     }
 
     canvas.addEventListener('click', function () {
-        // 모바일 뷰포트에서만 동작
-        if (window.innerWidth > 1024) return;
+        // 모바일 기기에서만 동작
+        if (!document.body.classList.contains('is-mobile')) return;
         isMobileView = !isMobileView;
         switchDevice(isMobileView ? 'mobile' : 'pc');
     });
@@ -381,7 +382,7 @@ window.addEventListener('load', () => {
 
 /* ── [MOBILE] 탭 힌트 (손가락 + 리플, 3회) ── */
 function showMobileTapHint() {
-    if (window.innerWidth > 1024) return;
+    if (!document.body.classList.contains('is-mobile')) return;
     const canvas = document.querySelector('.canvas-area');
     if (!canvas) return;
 

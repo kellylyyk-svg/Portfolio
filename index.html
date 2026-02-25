@@ -3,7 +3,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200, shrink-to-fit=no">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Force 1200px width on mobile for fixed layout scaling
+        (function () {
+            var ww = window.screen.width;
+            var mw = 1200; // Target fixed width
+            var viewport = document.getElementById('viewport');
+            // Check if device is mobile/tablet or screen is small
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window);
+
+            if (isMobile && ww < mw) {
+                viewport.setAttribute('content', 'width=' + mw + ', initial-scale=' + (ww / mw) + ', user-scalable=yes');
+            }
+        })();
+    </script>
     <title>DESIGNER KIM SEOYOUNG PORTFOLIO</title>
 
     <link rel="manifest" href="manifest.json">
@@ -38,8 +52,8 @@
             height: 100%;
             overflow-x: auto !important;
             /* Allow horizontal scroll */
-            overflow-y: auto;
-            /* Allow vertical scroll */
+            overflow-y: hidden;
+            /* 스크롤바 숨김 */
             font-family: 'Rajdhani', 'Pretendard', monospace;
             background-color: transparent;
             cursor: crosshair;
@@ -639,10 +653,9 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
-        @media (max-width: 1024px) {
-            .mobile-notice {
-                display: inline-block;
-            }
+        /* Show notice for touch-heavy or narrow viewports (Mobile) */
+        .is-mobile .mobile-notice {
+            display: inline-block;
         }
 
         /* --- [4. Fullpage.js 설정] --- */
@@ -2005,7 +2018,8 @@
         }
 
         /* [ADD] 1200px 이하: 탭 버튼 위치 조정 (목업에 가깝게) */
-        @media (max-width: 1200px) {
+        /* Disabled to avoid interference with forced 1200px viewport */
+        @media (max-width: 0px) {
             .device-tabs {
                 top: 65px !important;
                 /* Move closer to mockup */
@@ -2855,6 +2869,12 @@
 </head>
 
 <body>
+    <script>
+        // Simple touch/mobile detection
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            document.body.classList.add('is-mobile');
+        }
+    </script>
     <div class="bg-image"></div>
     <div id="three-js-background"></div>
     <style>
