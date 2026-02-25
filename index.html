@@ -323,16 +323,6 @@
                 display: none !important;
             }
 
-            /* Responsive Scroll Fix */
-            body.fp-responsive {
-                overflow-y: auto !important;
-            }
-
-            body.fp-responsive .section {
-                height: auto !important;
-                min-height: 100vh;
-            }
-
             /* Adjust frame container padding for mobile */
             .frame-container {
                 padding: 10px !important;
@@ -2001,13 +1991,13 @@
             /* ── 래퍼: 컬럼 방향, 패딩 제거 ── */
             .inspector-wrapper {
                 flex-direction: column;
-                margin: -20px -40px -60px -40px !important;
-                width: calc(100% + 80px) !important;
-                height: calc(100% + 80px) !important;
+                margin: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
                 padding: 0 !important;
                 gap: 0 !important;
                 flex: 1;
-                overflow: visible !important;
+                overflow: hidden !important;
             }
 
             /* ── 목업 영역: 컴팩트하게 ── */
@@ -2015,7 +2005,8 @@
                 height: auto;
                 min-height: 180px;
                 max-height: 48vh;
-                padding: 10px 0 0 0;
+                padding: 50px 10px 10px 10px;
+                /* Increased top padding to clear GNB */
                 position: relative;
                 z-index: 50 !important;
                 display: flex;
