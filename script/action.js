@@ -753,87 +753,91 @@ function triggerNextFileActivation() {
 ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
     // 제어할 컨테이너 목록
-    const scrollContainers = [
+    const scrollContainersSelectors = [
         '.graphic-archive-wrapper',
         '.terminal-content',
         '.about-hologram-layout',
-        '.inspector-sidebar'
+        '.inspector-sidebar',
+        '.data-panel'
     ];
 
-    scrollContainers.forEach(selector => {
-        const container = document.querySelector(selector);
-        if (!container) return;
+    scrollContainersSelectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach(container => {
+            let lastWheelTime = 0;
+            let lastTouchTime = 0;
+            let touchStartY = 0;
+            const throttleTime = 500; // 스크롤이 너무 빠르게 연달아 호출되는 것 방지
 
-        let lastWheelTime = 0;
-        let lastTouchTime = 0;
-        let touchStartY = 0;
-        const throttleTime = 500; // 스크롤이 너무 빠르게 연달아 호출되는 것 방지
-
-        // [PC] Wheel Event Handling
-        container.addEventListener('wheel', (e) => {
-            const delta = e.deltaY;
-            const scrollTop = container.scrollTop;
-            const scrollHeight = container.scrollHeight;
-            const clientHeight = container.clientHeight;
-
-            const now = Date.now();
-
-            // 1. 위로 스크롤할 때: 이미 맨 위거나 내부 스크롤이 불필요한 경우 이전 섹션으로 이동
-            if (delta < 0 && (scrollTop <= 0 || scrollHeight <= clientHeight)) {
-                if (now - lastWheelTime > throttleTime) {
-                    if (window.fullpage_api) fullpage_api.moveSectionUp();
-                    lastWheelTime = now;
-                }
-            }
-            // 2. 아래로 스크롤할 때: 이미 맨 아래거나 내부 스크롤이 불필요한 경우 다음 섹션으로 이동
-            else if (delta > 0 && (scrollTop + clientHeight >= scrollHeight - 1 || scrollHeight <= clientHeight)) {
-                if (now - lastWheelTime > throttleTime) {
-                    if (window.fullpage_api) fullpage_api.moveSectionDown();
-                    lastWheelTime = now;
-                }
-            }
-            // 그 외에는 내부 스크롤을 수행
-            else {
+            // [PC] Wheel Event Handling
+            container.addEventListener('wheel', (e) => {
+                // 내부 스크롤 이벤트가 부모에게 전달되지 않도록 가장 먼저 차단
                 e.stopPropagation();
-            }
-        }, { passive: false });
 
-        // [MOBILE] Touch Event Handling
-        container.addEventListener('touchstart', (e) => {
-            touchStartY = e.touches[0].pageY;
-        }, { passive: true });
+                const delta = e.deltaY;
+                const scrollTop = container.scrollTop;
+                const scrollHeight = container.scrollHeight;
+                const clientHeight = container.clientHeight;
 
-        container.addEventListener('touchmove', (e) => {
-            const touchMoveY = e.touches[0].pageY;
-            const delta = touchStartY - touchMoveY; // positive = swipe up (scroll down)
-            const scrollTop = container.scrollTop;
-            const scrollHeight = container.scrollHeight;
-            const clientHeight = container.clientHeight;
+                // 실제 스크롤 가능한 요소인지 확인 (overflow 지정 및 실제 콘텐츠 넘침 여부)
+                const style = window.getComputedStyle(container);
+                const isScrollable = scrollHeight > clientHeight && (style.overflowY === 'auto' || style.overflowY === 'scroll');
 
-            const now = Date.now();
+                const now = Date.now();
 
-            // 1. 위로 스와이프(아래로 스크롤 시도): 이미 맨 아래일 때 다음 섹션으로
-            if (delta > 10 && (scrollTop + clientHeight >= scrollHeight - 1 || scrollHeight <= clientHeight)) {
-                if (now - lastTouchTime > throttleTime) {
-                    if (window.fullpage_api) fullpage_api.moveSectionDown();
-                    lastTouchTime = now;
+                // 1. 위로 스크롤할 때: 이미 맨 위거나 내부 스크롤이 불필요한 경우 이전 섹션으로 이동
+                if (delta < 0 && (scrollTop <= 0 || !isScrollable)) {
+                    if (now - lastWheelTime > throttleTime) {
+                        if (window.fullpage_api) fullpage_api.moveSectionUp();
+                        lastWheelTime = now;
+                    }
                 }
-            }
-            // 2. 아래로 스와이프(위로 스크롤 시도): 이미 맨 위일 때 이전 섹션으로
-            else if (delta < -10 && (scrollTop <= 0 || scrollHeight <= clientHeight)) {
-                if (now - lastTouchTime > throttleTime) {
-                    if (window.fullpage_api) fullpage_api.moveSectionUp();
-                    lastTouchTime = now;
+                // 2. 아래로 스크롤할 때: 이미 맨 아래거나 내부 스크롤이 불필요한 경우 다음 섹션으로 이동
+                else if (delta > 0 && (scrollTop + clientHeight >= scrollHeight - 1 || !isScrollable)) {
+                    if (now - lastWheelTime > throttleTime) {
+                        if (window.fullpage_api) fullpage_api.moveSectionDown();
+                        lastWheelTime = now;
+                    }
                 }
-            }
-            // 그 외 내부 스크롤 중일 때는 Fullpage.js 전파 방지
-            else {
-                // 내부 스크롤 중에는 event propagation을 막아 fullpage가 반응하지 않게 함
-                // 하지만 scrollOverflow: false 상태에서 normalScrollElements를 쓰면 
-                // 기본적으로 fullpage가 무시하므로, 여기서는 경계 도달시에만 수동 이동 시킴
+            }, { passive: false });
+
+            // [MOBILE] Touch Event Handling
+            container.addEventListener('touchstart', (e) => {
                 e.stopPropagation();
-            }
-        }, { passive: false });
+                touchStartY = e.touches[0].pageY;
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                e.stopPropagation();
+
+                const touchMoveY = e.touches[0].pageY;
+                // positive = swipe up (scroll down), negative = swipe down (scroll up)
+                const delta = touchStartY - touchMoveY;
+                const scrollTop = container.scrollTop;
+                const scrollHeight = container.scrollHeight;
+                const clientHeight = container.clientHeight;
+
+                const style = window.getComputedStyle(container);
+                const isScrollable = scrollHeight > clientHeight && (style.overflowY === 'auto' || style.overflowY === 'scroll');
+
+                const now = Date.now();
+
+                // 1. 위로 스와이프(아래로 스크롤 시도): 이미 맨 아래일 때 다음 섹션으로
+                if (delta > 10 && (scrollTop + clientHeight >= scrollHeight - 1 || !isScrollable)) {
+                    if (now - lastTouchTime > throttleTime) {
+                        if (window.fullpage_api) fullpage_api.moveSectionDown();
+                        lastTouchTime = now;
+                    }
+                }
+                // 2. 아래로 스와이프(위로 스크롤 시도): 이미 맨 위일 때 이전 섹션으로
+                else if (delta < -10 && (scrollTop <= 0 || !isScrollable)) {
+                    if (now - lastTouchTime > throttleTime) {
+                        if (window.fullpage_api) fullpage_api.moveSectionUp();
+                        lastTouchTime = now;
+                    }
+                }
+            }, { passive: false });
+        });
     });
 });
 
