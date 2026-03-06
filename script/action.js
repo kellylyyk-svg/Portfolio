@@ -785,18 +785,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const now = Date.now();
 
-                // 1. 위로 스크롤할 때: 이미 맨 위거나 내부 스크롤이 불필요한 경우 이전 섹션으로 이동
-                if (delta < 0 && (scrollTop <= 0 || !isScrollable)) {
-                    if (now - lastWheelTime > throttleTime) {
-                        if (window.fullpage_api) fullpage_api.moveSectionUp();
-                        lastWheelTime = now;
+                // 스크롤 가능한 내부 영역이면 FullPage.js 섹션 이동을 절대 호출하지 않음 (내부 스크롤만 동작)
+                if (!isScrollable) {
+                    // 1. 위로 스크롤할 때: 내부 스크롤이 불필요한 경우 이전 섹션으로 이동
+                    if (delta < 0) {
+                        if (now - lastWheelTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionUp();
+                            lastWheelTime = now;
+                        }
                     }
-                }
-                // 2. 아래로 스크롤할 때: 이미 맨 아래거나 내부 스크롤이 불필요한 경우 다음 섹션으로 이동
-                else if (delta > 0 && (scrollTop + clientHeight >= scrollHeight - 1 || !isScrollable)) {
-                    if (now - lastWheelTime > throttleTime) {
-                        if (window.fullpage_api) fullpage_api.moveSectionDown();
-                        lastWheelTime = now;
+                    // 2. 아래로 스크롤할 때: 내부 스크롤이 불필요한 경우 다음 섹션으로 이동
+                    else if (delta > 0) {
+                        if (now - lastWheelTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionDown();
+                            lastWheelTime = now;
+                        }
                     }
                 }
             }, { passive: false });
@@ -822,18 +825,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const now = Date.now();
 
-                // 1. 위로 스와이프(아래로 스크롤 시도): 이미 맨 아래일 때 다음 섹션으로
-                if (delta > 10 && (scrollTop + clientHeight >= scrollHeight - 1 || !isScrollable)) {
-                    if (now - lastTouchTime > throttleTime) {
-                        if (window.fullpage_api) fullpage_api.moveSectionDown();
-                        lastTouchTime = now;
+                // 스크롤 가능한 내부 영역이면 FullPage.js 섹션 이동을 절대 호출하지 않음 (내부 스크롤만 동작)
+                if (!isScrollable) {
+                    // 1. 위로 스와이프(아래로 스크롤 시도): 스크롤 불필요할 때 다음 섹션으로
+                    if (delta > 10) {
+                        if (now - lastTouchTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionDown();
+                            lastTouchTime = now;
+                        }
                     }
-                }
-                // 2. 아래로 스와이프(위로 스크롤 시도): 이미 맨 위일 때 이전 섹션으로
-                else if (delta < -10 && (scrollTop <= 0 || !isScrollable)) {
-                    if (now - lastTouchTime > throttleTime) {
-                        if (window.fullpage_api) fullpage_api.moveSectionUp();
-                        lastTouchTime = now;
+                    // 2. 아래로 스와이프(위로 스크롤 시도): 스크롤 불필요할 때 이전 섹션으로
+                    else if (delta < -10) {
+                        if (now - lastTouchTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionUp();
+                            lastTouchTime = now;
+                        }
                     }
                 }
             }, { passive: false });
