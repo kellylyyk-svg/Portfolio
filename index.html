@@ -1663,29 +1663,23 @@
             /* Increased from 15px default */
         }
 
-        /* Description section - Interaction Mode */
+        /* Description section - fills all remaining space up to slider-nav */
         .inspector-section:nth-of-type(3) {
-            flex: 0 0 auto;
-            /* Fixed size, do NOT grow and push nav off screen */
+            flex: 1;
             min-height: 0;
             position: relative;
             overflow: hidden;
-            /* Clip description text within bounds */
             display: flex;
             flex-direction: column;
         }
 
-        /* Group wrapper */
+        /* Group wrapper - fills the nth-of-type(3) space */
         .description-group {
             position: relative;
             margin: 0;
-            margin-bottom: clamp(10px, 2vh, 20px);
-            /* Space between description and PREV/NEXT buttons */
-            flex: 0 0 auto;
-            /* Do NOT expand — let nav and button stay visible */
-            max-height: clamp(90px, 14vh, 150px);
-            /* Strict cap so desc never overflows into nav area */
-            overflow: hidden !important;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             cursor: default;
@@ -1734,16 +1728,13 @@
             box-shadow: 0 0 10px var(--point-color);
         }
 
-        /* Description Container */
+        /* Description Container - stretches to fill description-group */
         .desc-container {
             position: relative;
-            max-height: clamp(60px, 10vh, 120px);
-            /* Responsive max-height so it never overflows the sidebar at any zoom */
-            overflow-y: hidden;
-            scrollbar-width: none;
-            /* Hide scrollbar for clean look */
+            flex: 1;
+            min-height: 0;
             overflow: hidden;
-            /* Ensure overflow hidden for ellipsis */
+            scrollbar-width: none;
         }
 
         .desc-container::-webkit-scrollbar {
@@ -1838,20 +1829,13 @@
             opacity: 0.5;
         }
 
+        /* Full description view - clips at container boundary naturally */
         .ins-desc.full-view {
             white-space: normal;
-            /* Restore wrap */
             line-height: 1.6;
             color: #eee;
             font-size: 0.95rem;
             margin: 0;
-            display: -webkit-box !important;
-            -webkit-box-orient: vertical !important;
-            -webkit-line-clamp: 2 !important;
-            line-clamp: 2 !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis;
-            max-height: 3.6em !important;
         }
 
         .ins-label {
