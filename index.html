@@ -1668,7 +1668,8 @@
             flex: 1;
             min-height: 0;
             position: relative;
-            overflow: hidden;
+            overflow: visible;
+            /* Must be visible so popup can break out of container */
             display: flex;
             flex-direction: column;
         }
@@ -1679,7 +1680,8 @@
             margin: 0;
             flex: 1;
             min-height: 0;
-            overflow: hidden;
+            overflow: visible;
+            /* Must be visible so popup can break out of container */
             display: flex;
             flex-direction: column;
             cursor: default;
@@ -1706,8 +1708,8 @@
             color: var(--point-color);
             width: 20px;
             height: 20px;
-            display: none;
-            /* Hidden by default, shown by JS if overflow detected */
+            display: flex;
+            /* Always visible as requested */
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
@@ -1717,9 +1719,6 @@
             font-family: 'Share Tech Mono', 'Pretendard', monospace;
         }
 
-        .desc-plus-btn.visible {
-            display: flex;
-        }
 
         /* Active State (Click) */
         .description-group.active .desc-plus-btn {

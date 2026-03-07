@@ -265,29 +265,21 @@ function switchProject(direction) {
             });
         }
 
-        // [ADD] Description Overflow Check & Popup Logic
-        const shortView = document.querySelector('.ins-desc.short-view');
+        // [ADD] Description Popup Logic
         const descGroup = document.querySelector('.description-group');
         const plusBtn = document.querySelector('.desc-plus-btn');
 
-        if (shortView && descGroup && plusBtn) {
+        if (descGroup && plusBtn) {
             // Reset state
             descGroup.classList.remove('active');
-            plusBtn.classList.remove('visible');
 
-            // Check if text is truncated (scrollHeight > clientHeight)
-            // Using a slight buffer (2px) for sub-pixel rendering issues
-            if (shortView.scrollHeight > shortView.clientHeight + 2) {
-                plusBtn.classList.add('visible');
+            // Remove old listener if exists to prevent duplicates
+            plusBtn.replaceWith(plusBtn.cloneNode(true));
+            const newPlusBtn = document.querySelector('.desc-plus-btn');
 
-                // Remove old listener if exists to prevent duplicates
-                plusBtn.replaceWith(plusBtn.cloneNode(true));
-                const newPlusBtn = document.querySelector('.desc-plus-btn');
-
-                newPlusBtn.addEventListener('click', () => {
-                    descGroup.classList.toggle('active');
-                });
-            }
+            newPlusBtn.addEventListener('click', () => {
+                descGroup.classList.toggle('active');
+            });
         }
 
         if (counter) counter.innerText = `0${currentIndex + 1} / 0${projectData.length}`;
