@@ -122,6 +122,8 @@
             min-width: 1140px;
             /* Fixed floor at 1200px (95%) */
             height: 90vh;
+            max-height: calc(100vh - 60px);
+            /* Prevents overflow at all zoom levels by guaranteeing 30px space top/bottom */
             margin: 0 auto;
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.2);
