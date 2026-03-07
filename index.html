@@ -1678,7 +1678,8 @@
         .description-group {
             position: relative;
             margin: 0;
-            flex: 1;
+            flex: 0 0 auto;
+            /* Stop it from growing to fill empty space, keep it tight */
             min-height: 0;
             overflow: visible;
             /* Must be visible so popup can break out of container */
@@ -1727,11 +1728,13 @@
             box-shadow: 0 0 10px var(--point-color);
         }
 
-        /* Description Container - stretches to fill description-group */
+        /* Description Container - strict explicit height to PREVENT layout push */
         .desc-container {
             position: relative;
-            flex: 1;
-            min-height: 0;
+            flex: 0 0 auto;
+            height: clamp(3.2em, 8vh, 4em);
+            /* Exact space needed for ~2 lines */
+            min-height: 48px;
             overflow: hidden;
             scrollbar-width: none;
         }
