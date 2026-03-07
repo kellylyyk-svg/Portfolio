@@ -1036,7 +1036,8 @@
 
         /* --- [기타 섹션 스타일 유지] --- */
         .contents-wrapper {
-            padding: 60px 40px;
+            padding: clamp(20px, 5vh, 60px) 40px;
+            /* 상하 여백을 vh 기준으로 조절 — 배율 변화에도 비례 유지 */
             height: 100%;
             display: flex;
             box-sizing: border-box;
@@ -1060,9 +1061,10 @@
             /* Responsive scaling */
             color: var(--accent-color);
             letter-spacing: clamp(6px, 1vw, 12px);
-            margin-top: clamp(20px, 4vh, 50px);
-            /* 상단 여백 추가로 ui-bar와 간격 확보 */
-            margin-bottom: clamp(30px, 5vh, 60px);
+            margin-top: clamp(5px, 2vh, 30px);
+            /* 배율에 따라 줄어드는 상단 여백 */
+            margin-bottom: clamp(10px, 3vh, 50px);
+            /* 배율에 따라 줄어드는 하단 여백 */
             text-align: left;
             /* 왼쪽 정렬로 변경하여 리스트와 통일감 부여 */
             padding-left: 10px;
@@ -1077,8 +1079,8 @@
         .index-item {
             display: flex;
             align-items: center;
-            padding: clamp(25px, 2.08vw, 40px) 0;
-            /* Responsive vertical padding */
+            padding: clamp(10px, 2.5vh, 40px) 0;
+            /* vh 기준 수직 배율 — 화면 높이에 정비례해서 조절 */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
