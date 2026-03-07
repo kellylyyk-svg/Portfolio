@@ -779,23 +779,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scrollHeight = container.scrollHeight;
                 const clientHeight = container.clientHeight;
 
-                // 실제 스크롤 가능한 요소인지 확인 (overflow 지정 및 실제 콘텐츠 넘침 여부)
+                // 실제 스크롤 가능한 요소인지 확인
                 const style = window.getComputedStyle(container);
                 const isScrollable = scrollHeight > clientHeight && (style.overflowY === 'auto' || style.overflowY === 'scroll');
+                const isDataPanel = container.classList.contains('data-panel');
 
                 const now = Date.now();
 
-                // 스크롤 가능한 내부 영역이면 FullPage.js 섹션 이동을 절대 호출하지 않음 (내부 스크롤만 동작)
+                // 스크롤 불가능한 경우 (혹은 내용이 짧아진 경우) 즉시 섹션 이동
                 if (!isScrollable) {
-                    // 1. 위로 스크롤할 때: 내부 스크롤이 불필요한 경우 이전 섹션으로 이동
                     if (delta < 0) {
                         if (now - lastWheelTime > throttleTime) {
                             if (window.fullpage_api) fullpage_api.moveSectionUp();
                             lastWheelTime = now;
                         }
+                    } else if (delta > 0) {
+                        if (now - lastWheelTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionDown();
+                            lastWheelTime = now;
+                        }
                     }
-                    // 2. 아래로 스크롤할 때: 내부 스크롤이 불필요한 경우 다음 섹션으로 이동
-                    else if (delta > 0) {
+                }
+                // 스크롤 가능한 요소일 경우
+                else {
+                    // data-panel은 스크롤 끝에 도달해도 섹션을 넘기지 않고 내부에 갇히도록 함 (유저 요청)
+                    if (isDataPanel) return;
+
+                    // 스크롤 맨 위 도달
+                    if (delta < 0 && scrollTop <= 0) {
+                        e.preventDefault();
+                        if (now - lastWheelTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionUp();
+                            lastWheelTime = now;
+                        }
+                    }
+                    // 스크롤 맨 아래 도달
+                    else if (delta > 0 && Math.ceil(scrollTop) + clientHeight >= scrollHeight - 1) {
+                        e.preventDefault();
                         if (now - lastWheelTime > throttleTime) {
                             if (window.fullpage_api) fullpage_api.moveSectionDown();
                             lastWheelTime = now;
@@ -822,22 +842,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const style = window.getComputedStyle(container);
                 const isScrollable = scrollHeight > clientHeight && (style.overflowY === 'auto' || style.overflowY === 'scroll');
+                const isDataPanel = container.classList.contains('data-panel');
 
                 const now = Date.now();
 
-                // 스크롤 가능한 내부 영역이면 FullPage.js 섹션 이동을 절대 호출하지 않음 (내부 스크롤만 동작)
+                // 스크롤 불가능한 경우 바로 섹션 이동
                 if (!isScrollable) {
-                    // 1. 위로 스와이프(아래로 스크롤 시도): 스크롤 불필요할 때 다음 섹션으로
-                    if (delta > 10) {
+                    if (delta < -10) {
+                        if (now - lastTouchTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionUp();
+                            lastTouchTime = now;
+                        }
+                    } else if (delta > 10) {
                         if (now - lastTouchTime > throttleTime) {
                             if (window.fullpage_api) fullpage_api.moveSectionDown();
                             lastTouchTime = now;
                         }
                     }
-                    // 2. 아래로 스와이프(위로 스크롤 시도): 스크롤 불필요할 때 이전 섹션으로
-                    else if (delta < -10) {
+                }
+                // 스크롤 가능한 경우
+                else {
+                    if (isDataPanel) return;
+
+                    // 맨 위 도달 시 (위로 이동)
+                    if (delta < -10 && scrollTop <= 0) {
                         if (now - lastTouchTime > throttleTime) {
                             if (window.fullpage_api) fullpage_api.moveSectionUp();
+                            lastTouchTime = now;
+                        }
+                    }
+                    // 맨 아래 도달 시 (아래로 이동)
+                    else if (delta > 10 && Math.ceil(scrollTop) + clientHeight >= scrollHeight - 1) {
+                        if (now - lastTouchTime > throttleTime) {
+                            if (window.fullpage_api) fullpage_api.moveSectionDown();
                             lastTouchTime = now;
                         }
                     }
