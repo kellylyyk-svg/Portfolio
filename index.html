@@ -1475,8 +1475,6 @@
             align-items: center;
             justify-content: space-between;
             font-family: 'Share Tech Mono', 'Pretendard', monospace;
-            margin-top: clamp(15px, 2.5vh, 30px);
-            /* Consistent gap between description and nav buttons */
         }
 
         .ctrl-btn {
@@ -1652,10 +1650,14 @@
             /* Compact min-height */
         }
 
-        /* Second section (CONTRIBUTION and PAGES row) - flexible height */
+        /* Second section (CONTRIBUTION and PAGES row) - fixed height */
         .inspector-row {
             min-height: clamp(70px, 8vh, 110px);
-            /* Compact min-height */
+            height: clamp(100px, 12vh, 145px);
+            /* Fixed height: matches 2-contribution-item layout */
+            max-height: clamp(100px, 12vh, 145px);
+            overflow: hidden;
+            /* Clip extra items so layout is always the same */
             margin-bottom: 25px;
             /* Increased from 15px default */
         }
@@ -2063,7 +2065,7 @@
 
             /* 설명 칸 (내용 충분히 보이기) */
             .desc-container {
-                max-height: clamp(60px, 10vh, 120px) !important;
+                max-height: 200px !important;
             }
 
             /* 카운터 글자 크기 축소 (줄바꿈 방지) */
