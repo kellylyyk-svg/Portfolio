@@ -1,66 +1,114 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     initDescriptionToggle();
 });
 
 function initDescriptionToggle() {
     const descGroups = document.querySelectorAll('.description-group');
-    const globalPopup = document.getElementById('global-desc-popup');
-    const globalPopupText = document.getElementById('global-desc-text');
 
     descGroups.forEach(group => {
         const btn = group.querySelector('.desc-plus-btn');
-        const container = group.querySelector('.desc-container');
-        const shortView = group.querySelector('.short-view');
+        const popup = group.querySelector('.desc-popup');
 
-        if (!btn || !container || !shortView) return;
+        if (!btn || !popup) return;
 
-        // Force button visible initially based on user request
-        btn.classList.add('visible');
+        // Move popup to <body> so it's free from any overflow:hidden ancestor
+        document.body.appendChild(popup);
 
-        // Click Event on button
+        // Helper: position popup above the + button
+        function positionPopup() {
+            const btnRect = btn.getBoundingClientRect();
+            const popupWidth = Math.min(380, window.innerWidth * 0.9);
+
+            // Center popup horizontally over the button, keep inside viewport
+            let left = btnRect.left + btnRect.width / 2 - popupWidth / 2;
+            left = Math.max(10, Math.min(left, window.innerWidth - popupWidth - 10));
+
+            // Place popup above the button
+            const bottom = window.innerHeight - btnRect.top + 12;
+
+            popup.style.width = popupWidth + 'px';
+            popup.style.left = left + 'px';
+            popup.style.bottom = bottom + 'px';
+            popup.style.top = 'auto';
+        }
+
+        // Click Event
         btn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Prevent document click from closing immediately
+            e.stopPropagation();
 
             const isActive = group.classList.contains('active');
 
-            // Close all groups and global popup first
-            closeAllPopups(descGroups, globalPopup);
+            // Close all others
+            document.querySelectorAll('.description-group.active').forEach(activeGroup => {
+                activeGroup.classList.remove('active');
+                const activeBtn = activeGroup.querySelector('.desc-plus-btn');
+                if (activeBtn) activeBtn.textContent = '+';
+                const activePopup = activeGroup._popup;
+                if (activePopup) {
+                    activePopup.style.opacity = '';
+                    activePopup.style.visibility = '';
+                    activePopup.style.transform = '';
+                    activePopup.style.pointerEvents = '';
+                }
+            });
 
-            if (!isActive && globalPopup) {
-                // Open this group and the global popup
+            if (!isActive) {
                 group.classList.add('active');
+                group._popup = popup;
                 btn.textContent = '-';
-
-                // Copy text from short-view to the global popup dynamically
-                // We use replace to convert <br> to spaces for the full view if desired,
-                // But the user already has it cleanly formatted without <br> in the original full view.
-                // For simplicity we just use innerText to strip HTML or keep innerHTML.
-                // Assuming we want to maintain the specific text content:
-                // globalPopupText.innerHTML = shortView.innerHTML; 
-                // We will leave the HTML as defined in the DOM, or update it via script/data attributes if needed.
-                // Since there is only one project description hardcoded right now in index.html, we just show it.
-
-                globalPopup.classList.add('active');
+                positionPopup();
+                popup.style.opacity = '1';
+                popup.style.visibility = 'visible';
+                popup.style.transform = 'translateY(0) scale(1)';
+                popup.style.pointerEvents = 'auto';
+            } else {
+                group.classList.remove('active');
+                btn.textContent = '+';
+                popup.style.opacity = '';
+                popup.style.visibility = '';
+                popup.style.transform = '';
+                popup.style.pointerEvents = '';
             }
         });
     });
 
-    // Close when clicking outside of any description group or the popup itself
+    // Close when clicking outside any popup or desc-plus-btn
     document.addEventListener('click', function (e) {
         if (!e.target.closest('.description-group') && !e.target.closest('.desc-popup')) {
-            closeAllPopups(descGroups, globalPopup);
+            document.querySelectorAll('.description-group.active').forEach(activeGroup => {
+                activeGroup.classList.remove('active');
+                const activeBtn = activeGroup.querySelector('.desc-plus-btn');
+                if (activeBtn) activeBtn.textContent = '+';
+                const activePopup = activeGroup._popup;
+                if (activePopup) {
+                    activePopup.style.opacity = '';
+                    activePopup.style.visibility = '';
+                    activePopup.style.transform = '';
+                    activePopup.style.pointerEvents = '';
+                }
+            });
         }
     });
-}
 
-function closeAllPopups(groups, globalPopup) {
-    groups.forEach(group => {
-        group.classList.remove('active');
-        const activeBtn = group.querySelector('.desc-plus-btn');
-        if (activeBtn) activeBtn.textContent = '+';
-    });
+    // Reposition on resize/scroll if any popup is open
+    window.addEventListener('resize', repositionActive);
+    window.addEventListener('scroll', repositionActive, true);
 
-    if (globalPopup) {
-        globalPopup.classList.remove('active');
+    function repositionActive() {
+        document.querySelectorAll('.description-group.active').forEach(group => {
+            const btn = group.querySelector('.desc-plus-btn');
+            const popup = group._popup;
+            if (btn && popup) {
+                const btnRect = btn.getBoundingClientRect();
+                const popupWidth = Math.min(380, window.innerWidth * 0.9);
+                let left = btnRect.left + btnRect.width / 2 - popupWidth / 2;
+                left = Math.max(10, Math.min(left, window.innerWidth - popupWidth - 10));
+                const bottom = window.innerHeight - btnRect.top + 12;
+                popup.style.width = popupWidth + 'px';
+                popup.style.left = left + 'px';
+                popup.style.bottom = bottom + 'px';
+            }
+        });
     }
 }

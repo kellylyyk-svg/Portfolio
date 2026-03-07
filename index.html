@@ -1665,7 +1665,7 @@
             min-height: 0;
             position: relative;
             overflow: hidden !important;
-            /* Restored hidden to guarantee text containment */
+            /* Changed from visible to hidden to contain text */
             display: flex;
             flex-direction: column;
         }
@@ -1677,8 +1677,6 @@
             /* Remove margin to flush with bottom */
             flex: 1;
             /* Fill parent */
-            min-height: 0;
-            /* [CRITICAL] Allows inner flex children (desc-container) to shrink/scroll */
             display: flex;
             flex-direction: column;
             cursor: default;
@@ -1733,9 +1731,10 @@
             scrollbar-width: thin;
             /* Narrow scrollbar */
             scrollbar-color: var(--point-color) transparent;
-            /* Allowed to grow and shrink properly */
+            height: auto;
+            /* Allow flex to control height */
             flex: 1;
-            min-height: 0 !important;
+            min-height: 0;
         }
 
         .desc-container::-webkit-scrollbar {
@@ -1763,6 +1762,7 @@
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 5;
             line-clamp: 5;
+            /* Standard property */
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -1771,40 +1771,49 @@
             opacity: 1;
         }
 
-        /* Popup Bubble (Upward) */
-        /* Global Popup Bubble (Upward Center) */
+        /* Popup Bubble - position:fixed to escape overflow:hidden containers */
         .desc-popup {
             position: fixed;
-            /* Stay above everything */
-            bottom: clamp(100px, 15vh, 200px);
-            /* Position relative to viewport bottom */
-            left: 50%;
-            transform: translateX(-50%) translateY(10px) scale(0.98);
-            width: clamp(300px, 80vw, 600px);
-            /* Fixed width for better reading */
+            /* Will be positioned via JS using getBoundingClientRect */
             background: rgba(10, 12, 15, 0.98);
             border: 1px solid var(--point-color);
-            padding: 25px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 4px;
             box-shadow:
                 0 10px 40px rgba(0, 0, 0, 0.9),
-                0 0 30px rgba(0, 255, 170, 0.15),
+                0 0 20px rgba(0, 255, 170, 0.1),
                 inset 0 0 30px rgba(0, 0, 0, 0.5);
-            z-index: 99999;
-            /* Absolute Highest z-index */
+            z-index: 9999;
+            width: min(380px, 90vw);
             opacity: 0;
             visibility: hidden;
-            transform-origin: center;
+            transform: translateY(10px) scale(0.98);
+            transform-origin: bottom center;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: none;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
         }
 
-        /* Active State - Now a global toggle class */
-        .desc-popup.active {
+        /* Popup Arrow */
+        .desc-popup::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+            background: #ebebeb;
+            /* Match point color */
+            border-right: 1px solid var(--point-color);
+            border-bottom: 1px solid var(--point-color);
+            box-shadow: 0 0 10px rgba(218, 218, 218, 0.5);
+        }
+
+        .description-group.active .desc-popup {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(0) scale(1);
+            transform: translateY(0) scale(1);
             pointer-events: auto;
         }
 
@@ -3550,6 +3559,14 @@
                             <div class="desc-container">
                                 <p class="ins-desc short-view">
                                     배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.<br>
+                                    정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
+                                    장르적 몰입감을 극대화했습니다.
+                                </p>
+                            </div>
+                            <div class="desc-popup">
+                                <h4 class="popup-title">FULL DESCRIPTION</h4>
+                                <p class="ins-desc full-view">
+                                    배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.
                                     정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
                                     장르적 몰입감을 극대화했습니다.
                                 </p>
@@ -5408,18 +5425,10 @@
             if (isIOS && !isStandalone && installBtn) {
                 installBtn.style.display = 'flex';
             }
-        })();    </script>
+        })();
+    </script>
 
 
-    <!-- Global Popup (Decoupled from Sidebar to prevent clipping) -->
-    <div class="desc-popup" id="global-desc-popup">
-        <h4 class="popup-title">FULL DESCRIPTION</h4>
-        <p class="ins-desc full-view" id="global-desc-text">
-            배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.
-            정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
-            장르적 몰입감을 극대화했습니다.
-        </p>
-    </div>
 </body>
 
 </html>
