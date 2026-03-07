@@ -1170,6 +1170,43 @@
             text-shadow: 0 0 15px var(--point-color);
         }
 
+        /* [추가] 노트북 등 세로 해상도가 낮은 화면(예: 900px, 750px 이하)에서의 넘침 방지 */
+        @media screen and (max-height: 900px) {
+            .contents-wrapper {
+                padding: 40px 40px;
+                /* 세로 여백 축소 */
+            }
+
+            .contents-title {
+                margin-bottom: clamp(15px, 3vh, 30px);
+                /* 여백 축소 */
+            }
+
+            .index-item {
+                padding: clamp(15px, 2vh, 25px) 0;
+                /* 항목 간 세로 간격 축소 */
+            }
+
+            .index-name {
+                font-size: clamp(1.2rem, 3.5vw, 2.2rem);
+                /* 제목 폰트 살짝 축소 */
+            }
+
+            .index-desc {
+                margin-top: 2px;
+            }
+        }
+
+        @media screen and (max-height: 750px) {
+            .contents-wrapper {
+                padding: 30px 40px;
+            }
+
+            .index-item {
+                padding: clamp(10px, 1.5vh, 15px) 0;
+            }
+        }
+
 
         /* --- Project Inspector Mode CSS --- */
         .project-inspector-mode {
