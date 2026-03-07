@@ -1177,13 +1177,13 @@
                 /* 전체 상하 여백 축소 */
                 justify-content: flex-start !important;
                 /* 가운데 정렬 대신 위로 붙여서 활용 공간 최대화 */
-                padding-top: 60px !important;
-                /* 타이틀이 조금 더 위로 가도록 여백 감소 */
+                padding-top: 80px !important;
+                /* 상단 UI 바와 겹치지 않게 여백 */
             }
 
             .contents-title {
-                margin-bottom: 5vh;
-                /* 타이틀 하단 여백 확보 */
+                margin-bottom: 2vh;
+                /* 타이틀 하단 여백 축소 */
                 font-size: clamp(1.2rem, 1.8vw, 1.3rem);
             }
 
@@ -1377,14 +1377,11 @@
 
         /* 탭 버튼 스타일 */
         .device-tabs {
-            position: absolute;
-            top: -50px;
-            /* 목업 위쪽 배치 */
-            left: 50%;
-            transform: translateX(-50%);
+            /* Moved inside ui-bar to prevent overlapping issues */
             display: flex;
             gap: 10px;
             z-index: 100;
+            align-items: center;
         }
 
         .tab-btn {
@@ -3490,16 +3487,18 @@
             <div class="frame-container project-inspector-mode">
                 <div class="ui-bar bar-top bar-top-enhanced">
                     <div><span class="deco-box">VIEWPORT : MAIN_WORK</span></div>
-                    <div><span>PROJECT_FILE: DUSTLINE_WEB_V1</span></div>
+                    <div style="display: flex; gap: 15px; align-items: center; justify-content: center;">
+                        <div class="device-tabs">
+                            <button class="tab-btn active" onclick="switchDevice('pc')">PC_MODE</button>
+                            <button class="tab-btn" onclick="switchDevice('mobile')">MOBILE_MODE</button>
+                        </div>
+                        <span>PROJECT_FILE: DUSTLINE_WEB_V1</span>
+                    </div>
                     <div><span style="font-size: 1.5rem;">+</span></div>
                 </div>
 
                 <div class="inspector-wrapper">
                     <div class="canvas-area">
-                        <div class="device-tabs">
-                            <button class="tab-btn active" onclick="switchDevice('pc')">PC_MODE</button>
-                            <button class="tab-btn" onclick="switchDevice('mobile')">MOBILE_MODE</button>
-                        </div>
 
                         <div class="front-mockup-wrapper pc-view active" id="pc-mockup">
                             <img src="images/mockup.png" alt="PC Monitor" class="monitor-frame">
