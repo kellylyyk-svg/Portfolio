@@ -1888,10 +1888,18 @@
             }
         }
 
+        .title-group {
+            container-type: inline-size;
+            width: 100%;
+            min-width: 0;
+        }
+
         .ins-title {
             font-family: 'Cinzel', 'Pretendard', serif;
-            font-size: clamp(2rem, 6vw, 4rem);
-            /* Increased slightly to balance header removal */
+            font-size: clamp(1.5rem, 5vw, 4rem);
+            /* Fallback for older browsers */
+            font-size: min(4rem, max(1.5rem, 11.5cqi));
+            /* Responsive to container width */
             color: #fff;
             line-height: 1;
             margin: 0 0 clamp(5px, 1vh, 15px) 0;
