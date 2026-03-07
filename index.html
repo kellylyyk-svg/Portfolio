@@ -1678,6 +1678,8 @@
         .description-group {
             position: relative;
             margin: 0;
+            margin-bottom: clamp(10px, 2vh, 20px);
+            /* Space between description and PREV/NEXT buttons */
             flex: 0 0 auto;
             /* Do NOT expand — let nav and button stay visible */
             max-height: clamp(90px, 14vh, 150px);
