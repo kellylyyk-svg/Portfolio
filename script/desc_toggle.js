@@ -1,10 +1,11 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     initDescriptionToggle();
 });
 
 function initDescriptionToggle() {
     const descGroups = document.querySelectorAll('.description-group');
+    const globalPopup = document.getElementById('global-desc-popup');
+    const globalPopupText = document.getElementById('global-desc-text');
 
     descGroups.forEach(group => {
         const btn = group.querySelector('.desc-plus-btn');
@@ -13,47 +14,53 @@ function initDescriptionToggle() {
 
         if (!btn || !container || !shortView) return;
 
-        // 1. Check if overflow is needed (Optional: auto-show + button if text is long)
-        // For now, we force show it or rely on CSS. 
-        // But to be smart, let's check height.
-        // If content is longer than 3 lines (approx 4.8em with 1.6 line-height), show button.
-        // Or simply always show it if the user wants. The user screenshot shows it visible.
-        // Let's make sure it's visible.
+        // Force button visible initially based on user request
         btn.classList.add('visible');
 
-        // 2. Click Event
+        // Click Event on button
         btn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Prevent bubbling if needed
+            e.stopPropagation(); // Prevent document click from closing immediately
 
             const isActive = group.classList.contains('active');
 
-            // Close all others
-            document.querySelectorAll('.description-group.active').forEach(activeGroup => {
-                activeGroup.classList.remove('active');
-                const activeBtn = activeGroup.querySelector('.desc-plus-btn');
-                if (activeBtn) activeBtn.textContent = '+';
-            });
+            // Close all groups and global popup first
+            closeAllPopups(descGroups, globalPopup);
 
-            if (!isActive) {
+            if (!isActive && globalPopup) {
+                // Open this group and the global popup
                 group.classList.add('active');
-                btn.textContent = '-'; // Change to minus
-            } else {
-                // If it was active, it's already closed by the loop above, 
-                // but strictly:
-                group.classList.remove('active');
-                btn.textContent = '+';
+                btn.textContent = '-';
+
+                // Copy text from short-view to the global popup dynamically
+                // We use replace to convert <br> to spaces for the full view if desired,
+                // But the user already has it cleanly formatted without <br> in the original full view.
+                // For simplicity we just use innerText to strip HTML or keep innerHTML.
+                // Assuming we want to maintain the specific text content:
+                // globalPopupText.innerHTML = shortView.innerHTML; 
+                // We will leave the HTML as defined in the DOM, or update it via script/data attributes if needed.
+                // Since there is only one project description hardcoded right now in index.html, we just show it.
+
+                globalPopup.classList.add('active');
             }
         });
     });
 
-    // 3. Close when clicking outside
+    // Close when clicking outside of any description group or the popup itself
     document.addEventListener('click', function (e) {
-        if (!e.target.closest('.description-group')) {
-            document.querySelectorAll('.description-group.active').forEach(activeGroup => {
-                activeGroup.classList.remove('active');
-                const activeBtn = activeGroup.querySelector('.desc-plus-btn');
-                if (activeBtn) activeBtn.textContent = '+';
-            });
+        if (!e.target.closest('.description-group') && !e.target.closest('.desc-popup')) {
+            closeAllPopups(descGroups, globalPopup);
         }
     });
+}
+
+function closeAllPopups(groups, globalPopup) {
+    groups.forEach(group => {
+        group.classList.remove('active');
+        const activeBtn = group.querySelector('.desc-plus-btn');
+        if (activeBtn) activeBtn.textContent = '+';
+    });
+
+    if (globalPopup) {
+        globalPopup.classList.remove('active');
+    }
 }

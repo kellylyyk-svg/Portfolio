@@ -1664,8 +1664,8 @@
             /* Take all remaining space */
             min-height: 0;
             position: relative;
-            overflow: visible !important;
-            /* Allowed visible to show the absolute popup */
+            overflow: hidden !important;
+            /* Restored hidden to guarantee text containment */
             display: flex;
             flex-direction: column;
         }
@@ -1733,10 +1733,10 @@
             scrollbar-width: thin;
             /* Narrow scrollbar */
             scrollbar-color: var(--point-color) transparent;
-            height: auto;
-            /* Allow flex to control height */
-            flex: 1;
-            min-height: 0;
+            /* Force Flex shrinking behavior strictly */
+            flex: 1 1 0px !important;
+            height: 0 !important;
+            min-height: 0 !important;
         }
 
         .desc-container::-webkit-scrollbar {
@@ -1760,13 +1760,9 @@
         }
 
         .ins-desc.short-view {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
-            line-clamp: 5;
-            /* Standard property */
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: block;
+            /* Remove webkit box to restore true scrolling */
+            /* Removed -webkit-line-clamp completely */
         }
 
         .description-group:hover .ins-desc.short-view {
@@ -1774,11 +1770,12 @@
         }
 
         /* Popup Bubble (Upward) */
+        /* Global Popup Bubble (Upward Center) */
         .desc-popup {
             position: fixed;
-            /* Changed from absolute to fixed to escape sidebar clipping */
+            /* Stay above everything */
             bottom: clamp(100px, 15vh, 200px);
-            /* Position relative to viewport */
+            /* Position relative to viewport bottom */
             left: 50%;
             transform: translateX(-50%) translateY(10px) scale(0.98);
             width: clamp(300px, 80vw, 600px);
@@ -1792,7 +1789,7 @@
                 0 0 30px rgba(0, 255, 170, 0.15),
                 inset 0 0 30px rgba(0, 0, 0, 0.5);
             z-index: 99999;
-            /* Highest z-index */
+            /* Absolute Highest z-index */
             opacity: 0;
             visibility: hidden;
             transform-origin: center;
@@ -1801,12 +1798,8 @@
             backdrop-filter: blur(15px);
         }
 
-        /* Popup Arrow - Removed since popup is now fixed and centered */
-        .desc-popup::after {
-            display: none;
-        }
-
-        .description-group.active .desc-popup {
+        /* Active State - Now a global toggle class */
+        .desc-popup.active {
             opacity: 1;
             visibility: visible;
             transform: translateX(-50%) translateY(0) scale(1);
@@ -3555,14 +3548,6 @@
                             <div class="desc-container">
                                 <p class="ins-desc short-view">
                                     배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.<br>
-                                    정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
-                                    장르적 몰입감을 극대화했습니다.
-                                </p>
-                            </div>
-                            <div class="desc-popup">
-                                <h4 class="popup-title">FULL DESCRIPTION</h4>
-                                <p class="ins-desc full-view">
-                                    배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.
                                     정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
                                     장르적 몰입감을 극대화했습니다.
                                 </p>
