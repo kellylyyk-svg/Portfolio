@@ -1658,15 +1658,14 @@
             /* Increased from 15px default */
         }
 
-        /* Description section */
+        /* Description section - Interaction Mode */
         .inspector-section:nth-of-type(3) {
             flex: 1;
             /* Take all remaining space */
-            min-height: 80px;
-            /* Ensure content always shows even on small screens */
+            min-height: 0;
             position: relative;
-            overflow: visible;
-            /* Popup escapes here — it's been moved to body via JS */
+            overflow: visible !important;
+            /* Allow popup to show above */
             display: flex;
             flex-direction: column;
         }
@@ -1722,28 +1721,13 @@
             box-shadow: 0 0 10px var(--point-color);
         }
 
-        /* Description Container — clips long text, popup is separate */
+        /* Description Container — no scroll, ellipsis truncation only */
         .desc-container {
             position: relative;
-            max-height: clamp(80px, 18vh, 160px);
-            /* Fixed clamp so text is always visible and never overflows */
-            overflow-y: auto;
-            overflow-x: hidden;
-            scrollbar-width: thin;
-            scrollbar-color: var(--point-color) transparent;
-            flex-shrink: 0;
-            /* Don't collapse */
-        }
-
-        .desc-container::-webkit-scrollbar {
-            display: block;
-            /* Show scrollbar if needed */
-            width: 4px;
-        }
-
-        .desc-container::-webkit-scrollbar-thumb {
-            background: var(--point-color);
-            border-radius: 2px;
+            overflow: hidden;
+            /* No scrollbar — text is truncated via line-clamp */
+            flex: 1;
+            min-height: 0;
         }
 
         /* [ADD] Paragraph spacing for <br> and overflow ellipsis */
@@ -1769,10 +1753,15 @@
             opacity: 1;
         }
 
-        /* Popup Bubble - position:fixed to escape overflow:hidden containers */
+        /* Popup Bubble (Upward) */
         .desc-popup {
-            position: fixed;
-            /* Will be positioned via JS using getBoundingClientRect */
+            position: absolute;
+            bottom: 100%;
+            /* Move above text */
+            left: -20px;
+            right: -20px;
+            margin-bottom: 20px;
+            /* Space from text */
             background: rgba(10, 12, 15, 0.98);
             border: 1px solid var(--point-color);
             padding: 20px;
@@ -1781,8 +1770,8 @@
                 0 10px 40px rgba(0, 0, 0, 0.9),
                 0 0 20px rgba(0, 255, 170, 0.1),
                 inset 0 0 30px rgba(0, 0, 0, 0.5);
-            z-index: 9999;
-            width: min(380px, 90vw);
+            z-index: 1000;
+            /* Ensure high z-index */
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px) scale(0.98);
@@ -2053,10 +2042,7 @@
                 margin-bottom: 6px;
             }
 
-            /* 설명 칸 (내용 충분히 보이기) */
-            .desc-container {
-                max-height: clamp(60px, 15vh, 140px) !important;
-            }
+            /* 설명 칸 — 스크롤 없음, line-clamp으로 잘림 처리 */
 
             /* 카운터 글자 크기 축소 (줄바꿈 방지) */
             #project-counter {
@@ -2883,36 +2869,7 @@
                 margin-top: 20px !important;
             }
 
-            .ins-desc.short-view {
-                display: none !important;
-            }
-
-            /* On large monitors: popup still floats (JS positions it), just show full desc inline */
-            .desc-popup {
-                /* Leave position:fixed intact — JS handles the coordinates */
-                margin: 0 !important;
-            }
-
-            .desc-popup::after {
-                display: none !important;
-            }
-
-            .popup-title {
-                display: none !important;
-            }
-
-            .ins-desc.full-view {
-                font-size: 1.15rem !important;
-                line-height: 1.8 !important;
-                color: rgba(255, 255, 255, 0.9) !important;
-                white-space: normal !important;
-            }
-
-            .desc-container {
-                max-height: none !important;
-                overflow: visible !important;
-                background: transparent !important;
-            }
+            /* Large monitors: keep short-view with ellipsis, popup on click only */
         }
     </style>
 </head>
