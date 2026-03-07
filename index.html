@@ -1728,14 +1728,11 @@
         /* Description Container */
         .desc-container {
             position: relative;
-            max-height: 300px;
-            /* Increased to show all content on desktop */
-            overflow-y: auto;
-            /* Allow scroll if extremely long */
+            max-height: clamp(60px, 10vh, 120px);
+            /* Responsive max-height so it never overflows the sidebar at any zoom */
+            overflow-y: hidden;
             scrollbar-width: none;
             /* Hide scrollbar for clean look */
-            height: 100%;
-            /* Fill flex parent */
             overflow: hidden;
             /* Ensure overflow hidden for ellipsis */
         }
@@ -1756,9 +1753,9 @@
         .ins-desc.short-view {
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            -webkit-line-clamp: 5;
-            line-clamp: 5;
-            /* Standard property */
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            /* Limit to 2 lines with ellipsis at all zoom levels */
             overflow: hidden;
             text-overflow: ellipsis;
         }
