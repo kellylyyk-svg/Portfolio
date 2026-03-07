@@ -1658,14 +1658,15 @@
             /* Increased from 15px default */
         }
 
-        /* Description section - Interaction Mode */
+        /* Description section */
         .inspector-section:nth-of-type(3) {
             flex: 1;
             /* Take all remaining space */
-            min-height: 0;
+            min-height: 80px;
+            /* Ensure content always shows even on small screens */
             position: relative;
-            overflow: hidden !important;
-            /* Changed from visible to hidden to contain text */
+            overflow: visible;
+            /* Popup escapes here — it's been moved to body via JS */
             display: flex;
             flex-direction: column;
         }
@@ -1721,20 +1722,17 @@
             box-shadow: 0 0 10px var(--point-color);
         }
 
-        /* Description Container */
+        /* Description Container — clips long text, popup is separate */
         .desc-container {
             position: relative;
-            max-height: 100%;
-            /* Grow to fill flex parent but not exceed it */
+            max-height: clamp(80px, 18vh, 160px);
+            /* Fixed clamp so text is always visible and never overflows */
             overflow-y: auto;
-            /* Allow scroll if extremely long */
+            overflow-x: hidden;
             scrollbar-width: thin;
-            /* Narrow scrollbar */
             scrollbar-color: var(--point-color) transparent;
-            height: auto;
-            /* Allow flex to control height */
-            flex: 1;
-            min-height: 0;
+            flex-shrink: 0;
+            /* Don't collapse */
         }
 
         .desc-container::-webkit-scrollbar {
@@ -2057,7 +2055,7 @@
 
             /* 설명 칸 (내용 충분히 보이기) */
             .desc-container {
-                max-height: 200px !important;
+                max-height: clamp(60px, 15vh, 140px) !important;
             }
 
             /* 카운터 글자 크기 축소 (줄바꿈 방지) */
@@ -2889,16 +2887,9 @@
                 display: none !important;
             }
 
+            /* On large monitors: popup still floats (JS positions it), just show full desc inline */
             .desc-popup {
-                position: static !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-                transform: none !important;
-                pointer-events: auto !important;
+                /* Leave position:fixed intact — JS handles the coordinates */
                 margin: 0 !important;
             }
 
