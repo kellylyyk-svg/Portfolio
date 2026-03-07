@@ -50,8 +50,8 @@
             /* Fixed width floor */
             width: 100%;
             height: 100%;
-            overflow-x: auto !important;
-            /* Allow horizontal scroll */
+            overflow-x: hidden;
+            /* 가로 스크롤 완전 숨김 */
             overflow-y: hidden;
             /* 스크롤바 숨김 */
             font-family: 'Rajdhani', 'Pretendard', monospace;
@@ -2838,7 +2838,9 @@
             }
 
             /* Restore Large Typography */
-            /* Removed .ins-title override so container queries handle it fluidly */
+            .ins-title {
+                font-size: 5rem;
+            }
 
             .ins-subtitle {
                 font-size: 1.5rem;
@@ -2893,15 +2895,6 @@
                 transform: none !important;
                 pointer-events: auto !important;
                 margin: 0 !important;
-                flex: 1;
-                /* Allow to shrink and push footer */
-                overflow-y: auto !important;
-                /* Enable scrolling when squished */
-                scrollbar-width: none;
-            }
-
-            .desc-popup::-webkit-scrollbar {
-                display: none;
             }
 
             .desc-popup::after {
