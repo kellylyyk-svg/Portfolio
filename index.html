@@ -1678,7 +1678,7 @@
             /* Do NOT expand — let nav and button stay visible */
             max-height: clamp(90px, 14vh, 150px);
             /* Strict cap so desc never overflows into nav area */
-            overflow: hidden;
+            overflow: hidden !important;
             display: flex;
             flex-direction: column;
             cursor: default;
@@ -1838,6 +1838,13 @@
             color: #eee;
             font-size: 0.95rem;
             margin: 0;
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 2 !important;
+            line-clamp: 2 !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            max-height: 3.6em !important;
         }
 
         .ins-label {
