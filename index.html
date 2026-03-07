@@ -1746,13 +1746,13 @@
         }
 
         .ins-desc.short-view {
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            overflow: hidden;
+            display: -webkit-box !important;
+            -webkit-box-orient: vertical !important;
+            -webkit-line-clamp: 2 !important;
+            line-clamp: 2 !important;
+            overflow: hidden !important;
             text-overflow: ellipsis;
-            max-height: 3.6em;
+            max-height: 3.6em !important;
             /* Hard height fallback: 2 lines at 1.8 line-height */
         }
 
@@ -1828,20 +1828,16 @@
             opacity: 0.5;
         }
 
-        /* Basic description view - clamped to 2 lines */
+        /* Full description view - clips at container boundary naturally */
         .ins-desc.full-view {
             white-space: normal;
             line-height: 1.6;
             color: #eee;
             font-size: 0.95rem;
             margin: 0;
-            display: -webkit-box !important;
-            -webkit-box-orient: vertical !important;
-            -webkit-line-clamp: 2 !important;
-            line-clamp: 2 !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis;
-            max-height: 3.6em !important;
+            display: block !important;
+            max-height: none !important;
+            overflow: visible !important;
         }
 
         .ins-label {
