@@ -258,7 +258,22 @@ function switchProject(direction) {
 
         if (descs.length > 0) {
             descs.forEach(desc => {
-                desc.innerHTML = data.desc;
+                // Determine if this is the short-view or full-view (popup)
+                if (desc.classList.contains('short-view')) {
+                    // For short view, forcefully strip <br> tags and truncate to prevent any CSS overflow issues
+                    let cleanText = data.desc.replace(/<br\s*\/?>/gi, ' ');
+
+                    // A safe character count for 2 lines is ~90 characters. If longer, slice it.
+                    if (cleanText.length > 95) {
+                        desc.innerHTML = cleanText.substring(0, 95) + '...';
+                    } else {
+                        desc.innerHTML = cleanText;
+                    }
+                } else {
+                    // For full view (popup), keep the original HTML with <br> tags
+                    desc.innerHTML = data.desc;
+                }
+
                 desc.classList.remove('data-load-reveal');
                 void desc.offsetWidth;
                 desc.classList.add('data-load-reveal');
