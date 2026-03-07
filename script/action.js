@@ -258,14 +258,36 @@ function switchProject(direction) {
 
         if (descs.length > 0) {
             descs.forEach(desc => {
-                // Determine if this is short view or full view
-                // Actually they are both .ins-desc, so loop handles both.
-                // Just ensure we aren't missing any.
                 desc.innerHTML = data.desc;
                 desc.classList.remove('data-load-reveal');
                 void desc.offsetWidth;
                 desc.classList.add('data-load-reveal');
             });
+        }
+
+        // [ADD] Description Overflow Check & Popup Logic
+        const shortView = document.querySelector('.ins-desc.short-view');
+        const descGroup = document.querySelector('.description-group');
+        const plusBtn = document.querySelector('.desc-plus-btn');
+
+        if (shortView && descGroup && plusBtn) {
+            // Reset state
+            descGroup.classList.remove('active');
+            plusBtn.classList.remove('visible');
+
+            // Check if text is truncated (scrollHeight > clientHeight)
+            // Using a slight buffer (2px) for sub-pixel rendering issues
+            if (shortView.scrollHeight > shortView.clientHeight + 2) {
+                plusBtn.classList.add('visible');
+
+                // Remove old listener if exists to prevent duplicates
+                plusBtn.replaceWith(plusBtn.cloneNode(true));
+                const newPlusBtn = document.querySelector('.desc-plus-btn');
+
+                newPlusBtn.addEventListener('click', () => {
+                    descGroup.classList.toggle('active');
+                });
+            }
         }
 
         if (counter) counter.innerText = `0${currentIndex + 1} / 0${projectData.length}`;
