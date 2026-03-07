@@ -1475,6 +1475,8 @@
             align-items: center;
             justify-content: space-between;
             font-family: 'Share Tech Mono', 'Pretendard', monospace;
+            margin-top: clamp(15px, 2.5vh, 30px);
+            /* Consistent gap between description and nav buttons */
         }
 
         .ctrl-btn {
@@ -2061,7 +2063,7 @@
 
             /* 설명 칸 (내용 충분히 보이기) */
             .desc-container {
-                max-height: 200px !important;
+                max-height: clamp(60px, 10vh, 120px) !important;
             }
 
             /* 카운터 글자 크기 축소 (줄바꿈 방지) */
