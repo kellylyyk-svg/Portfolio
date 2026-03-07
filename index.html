@@ -1466,7 +1466,8 @@
         /* [ADD] Navigation Controls & Glitch Effect */
         .slider-nav {
             margin-top: auto;
-            padding-top: 20px;
+            padding-top: clamp(15px, 3vh, 30px);
+            /* Increased top spacing from description text */
             border-top: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
@@ -1664,12 +1665,12 @@
 
         /* Description section - Interaction Mode */
         .inspector-section:nth-of-type(3) {
-            flex: 1;
-            /* Take all remaining space */
+            flex: 0 0 auto;
+            /* Fixed size, do NOT grow and push nav off screen */
             min-height: 0;
             position: relative;
-            overflow: visible !important;
-            /* Allow popup to show */
+            overflow: hidden;
+            /* Clip description text within bounds */
             display: flex;
             flex-direction: column;
         }
