@@ -182,24 +182,19 @@
         /* --- [NEW: TOP GNB] --- */
         .top-gnb {
             position: fixed;
-            top: 1.5vh;
+            top: 5px;
+            /* Distinctively Higher */
             left: 50%;
             transform: translateX(-50%);
+            width: 100%;
             z-index: 1000;
             display: flex;
+            flex-direction: column;
+            gap: 0;
             align-items: center;
             opacity: 0;
             visibility: hidden;
             transition: all 0.5s ease;
-        }
-
-        .gnb-menu {
-            display: flex;
-            gap: clamp(15px, 2.5vw, 45px);
-            /* Fluid gap */
-            align-items: center;
-            flex-wrap: nowrap;
-            /* Prevent wrapping */
         }
 
         .top-gnb.visible {
@@ -207,18 +202,43 @@
             visibility: visible;
         }
 
+        .gnb-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(-20px);
+            visibility: hidden;
+            transition: all 0.4s ease;
+            position: absolute;
+            top: 45px;
+            left: 0;
+        }
+
+        .top-gnb.menu-open .gnb-menu {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
         .gnb-item {
             font-family: 'Rajdhani', sans-serif;
-            font-size: clamp(14px, 1.1vw, 16px);
-            /* Fluid font size */
+            font-size: 18px;
+            /* Fluid font size replaced with explicit 18px for column */
             color: rgba(255, 255, 255, 0.7);
             cursor: pointer;
             transition: all 0.3s ease;
             letter-spacing: 1.5px;
             position: relative;
-            padding: 5px 0;
+            padding: 10px 0;
             white-space: nowrap;
-            /* Prevent word wrap */
             -webkit-font-smoothing: antialiased;
         }
 
@@ -256,9 +276,12 @@
             box-shadow: 0 0 10px #ffffff;
         }
 
-        /* --- GNB TOGGLE (Mobile) --- */
+        /* --- GNB TOGGLE (Global Hamburger) --- */
         .gnb-toggle {
-            display: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
             cursor: pointer;
             width: 40px;
             height: 40px;
@@ -272,73 +295,25 @@
             width: 30px;
             height: 2px;
             background: #ffffff;
-            /* Reverted to White */
             position: relative;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-            /* Subtle White Glow */
         }
 
-        /* Mobile Responsive Styles */
-        /* Disabled for Fixed Layout */
+        .top-gnb.menu-open .toggle-line:nth-child(1) {
+            transform: translateY(4px) rotate(45deg);
+            background: var(--ivory-glow);
+            box-shadow: 0 0 12px var(--ivory-glow);
+        }
+
+        .top-gnb.menu-open .toggle-line:nth-child(2) {
+            transform: translateY(-4px) rotate(-45deg);
+            background: var(--ivory-glow);
+            box-shadow: 0 0 12px var(--ivory-glow);
+        }
+
+        /* Mobile Responsive Styles (Fallback/Mobile Only properties) */
         @media (max-width: 0px) {
-            .top-gnb {
-                top: 5px;
-                /* Distinctively Higher */
-                width: 100%;
-                flex-direction: column;
-                gap: 0;
-            }
-
-            .gnb-toggle {
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
-                margin-bottom: 20px;
-            }
-
-            .gnb-menu {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-                width: 100%;
-                background: rgba(10, 10, 10, 0.95);
-                backdrop-filter: blur(10px);
-                padding: 30px 0;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                opacity: 0;
-                transform: translateY(-20px);
-                visibility: hidden;
-                transition: all 0.4s ease;
-                position: absolute;
-                top: 45px;
-                left: 0;
-            }
-
-            .top-gnb.menu-open .gnb-menu {
-                opacity: 1;
-                transform: translateY(0);
-                visibility: visible;
-            }
-
-            .top-gnb.menu-open .toggle-line:nth-child(1) {
-                transform: translateY(4px) rotate(45deg);
-                background: var(--ivory-glow);
-                box-shadow: 0 0 12px var(--ivory-glow);
-            }
-
-            .top-gnb.menu-open .toggle-line:nth-child(2) {
-                transform: translateY(-4px) rotate(-45deg);
-                background: var(--ivory-glow);
-                box-shadow: 0 0 12px var(--ivory-glow);
-            }
-
-            .gnb-item {
-                font-size: 18px;
-                padding: 10px 0;
-            }
 
             /* ── Hide UI Bars Globally ── */
             .ui-bar {
