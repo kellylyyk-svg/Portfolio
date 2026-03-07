@@ -2220,24 +2220,23 @@
                 text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
             }
 
-            /* ── 설명 1줄만 표시 ── */
+            /* ── 설명 2줄만 표시 (... 처리) ── */
             .ins-desc.short-view {
                 display: -webkit-box;
-                -webkit-line-clamp: 1 !important;
+                -webkit-line-clamp: 2 !important;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: normal;
                 height: auto !important;
-                min-height: 1.6em;
                 color: #ccc;
             }
 
             .desc-container {
-                max-height: none !important;
+                max-height: clamp(60px, 10vh, 120px) !important;
                 height: auto !important;
                 margin-bottom: 10px;
-                overflow: visible;
+                overflow: hidden !important;
             }
 
             /* ── DESKTOP 네비버튼 숨김 ── */
