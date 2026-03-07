@@ -1733,9 +1733,8 @@
             scrollbar-width: thin;
             /* Narrow scrollbar */
             scrollbar-color: var(--point-color) transparent;
-            /* Force Flex shrinking behavior strictly */
-            flex: 1 1 0px !important;
-            height: 0 !important;
+            /* Allowed to grow and shrink properly */
+            flex: 1;
             min-height: 0 !important;
         }
 
@@ -1760,9 +1759,12 @@
         }
 
         .ins-desc.short-view {
-            display: block;
-            /* Remove webkit box to restore true scrolling */
-            /* Removed -webkit-line-clamp completely */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5;
+            line-clamp: 5;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .description-group:hover .ins-desc.short-view {
@@ -5406,10 +5408,18 @@
             if (isIOS && !isStandalone && installBtn) {
                 installBtn.style.display = 'flex';
             }
-        })();
-    </script>
+        })();    </script>
 
 
+    <!-- Global Popup (Decoupled from Sidebar to prevent clipping) -->
+    <div class="desc-popup" id="global-desc-popup">
+        <h4 class="popup-title">FULL DESCRIPTION</h4>
+        <p class="ins-desc full-view" id="global-desc-text">
+            배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.
+            정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
+            장르적 몰입감을 극대화했습니다.
+        </p>
+    </div>
 </body>
 
 </html>
