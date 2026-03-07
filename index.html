@@ -1466,8 +1466,7 @@
         /* [ADD] Navigation Controls & Glitch Effect */
         .slider-nav {
             margin-top: auto;
-            padding-top: clamp(15px, 3vh, 30px);
-            /* Increased top spacing from description text */
+            padding-top: 20px;
             border-top: 1px dashed rgba(255, 255, 255, 0.1);
         }
 
@@ -1651,38 +1650,33 @@
             /* Compact min-height */
         }
 
-        /* Second section (CONTRIBUTION and PAGES row) - fixed height */
+        /* Second section (CONTRIBUTION and PAGES row) - flexible height */
         .inspector-row {
             min-height: clamp(70px, 8vh, 110px);
-            height: clamp(100px, 12vh, 145px);
-            /* Fixed height: matches 2-contribution-item layout */
-            max-height: clamp(100px, 12vh, 145px);
-            overflow: hidden;
-            /* Clip extra items so layout is always the same */
+            /* Compact min-height */
             margin-bottom: 25px;
             /* Increased from 15px default */
         }
 
-        /* Description section - fills all remaining space up to slider-nav */
+        /* Description section - Interaction Mode */
         .inspector-section:nth-of-type(3) {
             flex: 1;
+            /* Take all remaining space */
             min-height: 0;
             position: relative;
-            overflow: visible;
-            /* Must be visible so popup can break out of container */
+            overflow: hidden !important;
+            /* Changed from visible to hidden to contain text */
             display: flex;
             flex-direction: column;
         }
 
-        /* Group wrapper - fills the nth-of-type(3) space */
+        /* Group wrapper */
         .description-group {
             position: relative;
             margin: 0;
-            flex: 0 0 auto;
-            /* Stop it from growing to fill empty space, keep it tight */
-            min-height: 0;
-            overflow: visible;
-            /* Must be visible so popup can break out of container */
+            /* Remove margin to flush with bottom */
+            flex: 1;
+            /* Fill parent */
             display: flex;
             flex-direction: column;
             cursor: default;
@@ -1709,8 +1703,8 @@
             color: var(--point-color);
             width: 20px;
             height: 20px;
-            display: flex;
-            /* Always visible as requested */
+            display: none;
+            /* Hidden by default, shown by JS if overflow detected */
             align-items: center;
             justify-content: center;
             font-size: 1.1rem;
@@ -1720,6 +1714,9 @@
             font-family: 'Share Tech Mono', 'Pretendard', monospace;
         }
 
+        .desc-plus-btn.visible {
+            display: flex;
+        }
 
         /* Active State (Click) */
         .description-group.active .desc-plus-btn {
@@ -1728,35 +1725,50 @@
             box-shadow: 0 0 10px var(--point-color);
         }
 
-        /* Description Container - strict explicit height to PREVENT layout push */
+        /* Description Container */
         .desc-container {
             position: relative;
-            flex: 0 0 auto;
-            height: clamp(3.2em, 8vh, 4em);
-            /* Exact space needed for ~2 lines */
-            min-height: 48px;
-            overflow: hidden;
-            scrollbar-width: none;
+            max-height: 100%;
+            /* Grow to fill flex parent but not exceed it */
+            overflow-y: auto;
+            /* Allow scroll if extremely long */
+            scrollbar-width: thin;
+            /* Narrow scrollbar */
+            scrollbar-color: var(--point-color) transparent;
+            height: auto;
+            /* Allow flex to control height */
+            flex: 1;
+            min-height: 0;
         }
 
         .desc-container::-webkit-scrollbar {
-            display: none;
+            display: block;
+            /* Show scrollbar if needed */
+            width: 4px;
         }
 
-        /* [ADD] Paragraph spacing for line breaks */
+        .desc-container::-webkit-scrollbar-thumb {
+            background: var(--point-color);
+            border-radius: 2px;
+        }
+
+        /* [ADD] Paragraph spacing for <br> and overflow ellipsis */
         .ins-desc br {
+            display: block;
+            margin-top: 20px;
+            /* Increased and changed to margin-top for visibility */
             content: " ";
+            /* Adding a space content to ensure it takes space */
         }
 
         .ins-desc.short-view {
-            display: -webkit-box !important;
-            -webkit-box-orient: vertical !important;
-            -webkit-line-clamp: 2 !important;
-            line-clamp: 2 !important;
-            overflow: hidden !important;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5;
+            line-clamp: 5;
+            /* Standard property */
+            overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 3.6em !important;
-            /* Hard height fallback: 2 lines at 1.8 line-height */
         }
 
         .description-group:hover .ins-desc.short-view {
@@ -1831,16 +1843,13 @@
             opacity: 0.5;
         }
 
-        /* Full description view - clips at container boundary naturally */
         .ins-desc.full-view {
             white-space: normal;
+            /* Restore wrap */
             line-height: 1.6;
             color: #eee;
             font-size: 0.95rem;
             margin: 0;
-            display: block !important;
-            max-height: none !important;
-            overflow: visible !important;
         }
 
         .ins-label {
@@ -2222,23 +2231,24 @@
                 text-shadow: 0 0 8px rgba(180, 230, 255, 0.4);
             }
 
-            /* ── 설명 2줄만 표시 (... 처리) ── */
+            /* ── 설명 1줄만 표시 ── */
             .ins-desc.short-view {
                 display: -webkit-box;
-                -webkit-line-clamp: 2 !important;
+                -webkit-line-clamp: 1 !important;
                 -webkit-box-orient: vertical;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: normal;
                 height: auto !important;
+                min-height: 1.6em;
                 color: #ccc;
             }
 
             .desc-container {
-                max-height: clamp(60px, 10vh, 120px) !important;
+                max-height: none !important;
                 height: auto !important;
                 margin-bottom: 10px;
-                overflow: hidden !important;
+                overflow: visible;
             }
 
             /* ── DESKTOP 네비버튼 숨김 ── */
@@ -3567,9 +3577,10 @@
                                 <p class="ins-desc full-view">
                                     배틀로얄 FPS 장르의 핵심인 '생존'과 '전쟁'을 시각화하기 위해, Dark & Grunge 톤을 베이스로 전장의 거친 질감을 표현했습니다.
                                     정형화된 레이아웃에서 벗어나 실제 게임 인터페이스(UI)를 연상시키는 과감한 장식 요소와 테크니컬한 디자인을 적용하여
+                                    장르적 몰입감을 극대화했습니다.
                                 </p>
                             </div>
-                        </div> <!-- End of description-group -->
+                        </div>
 
                         <!-- Group 4: Navigator -->
                         <div class="inspector-section slider-nav" style="position: relative;">
