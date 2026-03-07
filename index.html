@@ -1674,9 +1674,11 @@
         .description-group {
             position: relative;
             margin: 0;
-            /* Remove margin to flush with bottom */
-            flex: 1;
-            /* Fill parent */
+            flex: 0 0 auto;
+            /* Do NOT expand — let nav and button stay visible */
+            max-height: clamp(90px, 14vh, 150px);
+            /* Strict cap so desc never overflows into nav area */
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             cursor: default;
