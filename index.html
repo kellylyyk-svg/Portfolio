@@ -1741,13 +1741,9 @@
             display: none;
         }
 
-        /* [ADD] Paragraph spacing for <br> and overflow ellipsis */
+        /* [ADD] Paragraph spacing for line breaks */
         .ins-desc br {
-            display: block;
-            margin-top: 20px;
-            /* Increased and changed to margin-top for visibility */
             content: " ";
-            /* Adding a space content to ensure it takes space */
         }
 
         .ins-desc.short-view {
@@ -1755,9 +1751,10 @@
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
             line-clamp: 2;
-            /* Limit to 2 lines with ellipsis at all zoom levels */
             overflow: hidden;
             text-overflow: ellipsis;
+            max-height: 3.6em;
+            /* Hard height fallback: 2 lines at 1.8 line-height */
         }
 
         .description-group:hover .ins-desc.short-view {
