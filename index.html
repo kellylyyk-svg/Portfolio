@@ -1391,13 +1391,21 @@
         /* 모바일 목업 정밀 스타일 */
         .mobile-mockup-wrapper {
             position: relative;
-            width: 320px;
-            /* 휴대폰 크기에 맞게 조절 */
+            /* width: 320px; -> changed to height-based so it fits smaller screens */
+            height: 75vh;
+            /* Limit height to viewport */
+            max-height: 700px;
+            /* Optional max height */
+            aspect-ratio: 350 / 710;
+            /* Force the phone's natural aspect ratio */
             margin: 0 auto;
         }
 
         .phone-frame {
-            width: 100%;
+            height: 100%;
+            /* Make image fit the wrapper height */
+            width: auto;
+            /* Auto width to maintain aspect ratio */
             display: block;
             position: relative;
             z-index: 10;
@@ -1408,9 +1416,11 @@
             position: absolute;
             /* [수정] 사용하시는 휴대폰 프레임 베젤에 맞게 미세조정하세요 */
             top: 2%;
-            left: 5%;
-            right: 5%;
-            bottom: 2%;
+            left: 5.5%;
+            width: 89%;
+            /* Fixed width percentage based on frame proportions */
+            height: 96%;
+            /* Fixed height percentage based on frame proportions */
             overflow: hidden;
             background: #000;
             border-radius: 20px;
