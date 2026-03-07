@@ -2838,9 +2838,7 @@
             }
 
             /* Restore Large Typography */
-            .ins-title {
-                font-size: 5rem;
-            }
+            /* Removed .ins-title override so container queries handle it fluidly */
 
             .ins-subtitle {
                 font-size: 1.5rem;
@@ -2895,6 +2893,15 @@
                 transform: none !important;
                 pointer-events: auto !important;
                 margin: 0 !important;
+                flex: 1;
+                /* Allow to shrink and push footer */
+                overflow-y: auto !important;
+                /* Enable scrolling when squished */
+                scrollbar-width: none;
+            }
+
+            .desc-popup::-webkit-scrollbar {
+                display: none;
             }
 
             .desc-popup::after {
