@@ -604,21 +604,24 @@ section {
 }
 .mobile-mockup-wrapper {
     flex: 1;
-    height: 100vh;
+    height: calc(100vh - 80px);
     position: sticky;
-    top: 0;
+    top: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem 0;
 }
 .device-frame {
-    width: 320px;
-    height: 650px;
-    border: 12px solid #222;
-    border-radius: 40px;
+    height: min(640px, 70vh, calc(100vh - 160px));
+    width: auto;
+    aspect-ratio: 320 / 650;
+    max-width: min(320px, 80vw);
+    border: clamp(8px, 1.2vh, 12px) solid #222;
+    border-radius: clamp(24px, 4vh, 40px);
     overflow: hidden;
     position: relative;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.35);
     background: #000;
 }
 .screen-img {
@@ -2189,18 +2192,27 @@ h3.banner-title {
         flex-direction: column !important;
     }
     .mobile-mockup-wrapper {
-        position: sticky;
-        top: 20vh;
-        height: 50vh;
-        z-index: 0;
-        opacity: 0.2; /* 배경?�로 ?�리�?처리 */
-        pointer-events: none;
-    }
-    .device-frame {
-        width: 240px;
-        height: 480px;
-        border-width: 8px;
-    }
+    flex: 1;
+    height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0;
+}
+.device-frame {
+    height: min(640px, 70vh, calc(100vh - 160px));
+    width: auto;
+    aspect-ratio: 320 / 650;
+    max-width: min(320px, 80vw);
+    border: clamp(8px, 1.2vh, 12px) solid #222;
+    border-radius: clamp(24px, 4vh, 40px);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+    background: #000;
+}
     .mobile-text-wrapper {
         position: relative;
         z-index: 1;
@@ -2540,9 +2552,12 @@ h3.banner-title {
    9. Contact / Footer Section
    ========================================================================== */
 .contact-section {
-    padding: 2rem 0; /* 불필?�한 ?�하 ?�딩??줄여 ?�벽??중앙 ?�렬 ?�도 */
-    min-height: 100vh; /* ?�면 ?�체�?�?채�? */
+    padding: max(90px, 12vh) 0 max(30px, 4vh) 0;
+    min-height: 100vh;
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     background: transparent;
     position: relative;
@@ -2550,13 +2565,13 @@ h3.banner-title {
     color: #143374;
     overflow: hidden;
 }
-/* ?�션 ?�용 버블 ?��???(밝�? 배경??맞춤) */
+/* 섹션 전용 버블 스타일 (밝은 배경에 맞춤) */
 .contact-bubble {
     position: absolute;
     border-radius: 50%;
     filter: blur(2px);
     opacity: 0.8;
-    mix-blend-mode: multiply; /* 밝�? 배경???�울리는 블렌??모드 */
+    mix-blend-mode: multiply; /* 밝은 배경에 어울리는 블렌드 모드 */
     pointer-events: none;
     z-index: 0;
 }
@@ -2580,34 +2595,35 @@ h3.banner-title {
     width: 100%;
     position: relative;
     z-index: 1;
+    margin: auto 0;
 }
 .contact-title {
-    font-size: clamp(4rem, 8vw, 8rem);
+    font-size: clamp(2.8rem, min(7vw, 9vh), 7rem);
     font-weight: 500;
     font-family: 'Cormorant Garamond', serif;
-    line-height: 1;
-    margin-bottom: 2rem;
+    line-height: 1.05;
+    margin-bottom: clamp(1rem, 2.5vh, 2rem);
     letter-spacing: -1px;
     color: #143374;
 }
 .contact-desc {
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 1.8vh, 1.2rem);
     color: rgba(20, 51, 116, 0.8);
-    margin-bottom: 4rem;
+    margin-bottom: clamp(2rem, 4vh, 3.5rem);
     line-height: 1.6;
 }
 .contact-email {
     display: inline-flex;
     align-items: center;
     gap: 1rem;
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.3rem, min(3vw, 3.5vh), 2.2rem);
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-weight: 500;
     color: #143374;
-    padding-bottom: 1rem;
+    padding-bottom: 0.8rem;
     border-bottom: 1px solid rgba(20, 51, 116, 0.3);
-    margin-bottom: 8rem;
+    margin-bottom: clamp(1.5rem, 3vh, 3rem);
     transition: all 0.4s ease;
 }
 
@@ -3694,5 +3710,6 @@ body, a, button {
 .banner-meta {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, 'Noto Sans KR', sans-serif !important;
 }
+
 
 
