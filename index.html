@@ -46,7 +46,7 @@
                     <a href="#about">About me</a>
                 </div>
                 <div class="nav-item">
-                    <a href="#work-website">Web App</a>
+                    <a href="#work-webapp">Web App</a>
                 </div>
                 <div class="nav-item">
                     <a href="#work-mobile">App</a>
@@ -54,16 +54,16 @@
                 <div class="nav-item has-dropdown">
                     <a href="#work-website">Web Design</a>
                     <div class="nav-dropdown">
-                        <a href="#work-website">Case Studies</a>
-                        <a href="#work-website">More Archives</a>
+                        <a href="#case-studies">Case Studies</a>
+                        <a href="#more-archives">More Archives</a>
                     </div>
                 </div>
                 <div class="nav-item has-dropdown">
                     <a href="#work-others">Graphic Design</a>
                     <div class="nav-dropdown">
-                        <a href="#work-others">Popup &amp; Poster</a>
-                        <a href="#work-others">Promotional Banners</a>
-                        <a href="#work-others">Detail Pages</a>
+                        <a href="#popup-poster">Popup &amp; Poster</a>
+                        <a href="#promotional-banners">Promotional Banners</a>
+                        <a href="#detail-pages">Detail Pages</a>
                     </div>
                 </div>
             </nav>
@@ -278,7 +278,7 @@
         <!-- 2. Websites Section - Case Studies & Archives -->
         <section id="work-website" class="dynamic-section section-casestudy">
             <div class="container">
-                <div class="websites-header text-center">
+                <div id="case-studies" class="websites-header text-center">
                     <span class="project-number">Websites & E-Commerce</span>
                     <h2 class="dynamic-title" style="font-size: clamp(3rem, 4vw, 5rem); line-height:1.2; margin-bottom: 1.5rem; word-break: keep-all;">Featured Case Studies</h2>
                     <p style="font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6;">브랜드 아이덴티티를 시각적으로 정의하고 사용자 경험을 설계하는 과정</p>
@@ -516,7 +516,7 @@
 
                 <!-- More Web Archives Section -->
                 <div class="section-divider" style="margin: 6rem 0; border-top: 1px solid var(--border-color);"></div>
-                <div class="section-header text-center" style="margin-bottom: 4rem;">
+                <div id="more-archives" class="section-header text-center" style="margin-bottom: 4rem;">
                     <h3 class="dynamic-title" style="font-size: 2.5rem; margin-bottom: 1rem;">More Web Archives</h3>
                     <p style="color: var(--text-secondary);">다양한 브랜드와 함께한 웹 디자인 및 구축 아카이브입니다.</p>
                 </div>
@@ -687,7 +687,7 @@
             </div>
 
             <!-- 1. Popup & Poster (GSAP Pinning Horizontal Scroll) -->
-            <div class="category-block int-popup-section" id="popup-trigger">
+            <div class="category-block int-popup-section" id="popup-poster">
                 <div class="int-popup-container">
                     <!-- Left Pinned Text -->
                     <div class="int-popup-left">
@@ -722,7 +722,7 @@
             </div>
 
             <!-- 2. Promotional Banners (Double Infinite Marquee) -->
-            <div class="category-block int-banner-section" style="position: relative;">
+            <div id="promotional-banners" class="category-block int-banner-section" style="position: relative;">
                 <img src="./images/butterfly3.png" class="floating-graphic graphic-3" alt="Butterfly Graphic">
                 <!-- graphic-4 removed temporarily -->
                 <div class="container text-center" style="margin-bottom: 4rem;">
@@ -764,7 +764,7 @@
             </div>
 
             <!-- 3. E-Commerce & Detail Pages (Horizontal Scroll/Drag) -->
-            <div class="category-block int-detail-section" style="position: relative;">
+            <div id="detail-pages" class="category-block int-detail-section" style="position: relative;">
                 <img src="./images/butterfly3.png" class="floating-graphic graphic-7" alt="Butterfly Graphic">
                 <div class="container text-center" style="margin-bottom: 4rem;">
                     <h3 class="int-detail-title">E-Commerce & Detail Pages</h3>
@@ -855,6 +855,8 @@
     <script src="script/main_v2.js"></script>
 </body>
 </html>
+
+
 
 
 
