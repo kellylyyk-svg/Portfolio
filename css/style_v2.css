@@ -242,13 +242,13 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 5vw;
-    z-index: 100;
-    background: transparent;
-    border-bottom: 1px solid rgba(150, 150, 150, 0.2);
-    color: #fff;
-    mix-blend-mode: difference;
-    transition: transform 0.3s ease;
+    padding: 1.2rem 5vw;
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(20, 51, 116, 0.08);
+    transition: background 0.3s ease, padding 0.3s ease;
 }
 
 .logo {
@@ -257,24 +257,123 @@ section {
     font-size: 1.25rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    color: #143374 !important;
+}
+
+.logo em {
+    font-style: normal;
+    font-family: inherit;
+    font-weight: inherit;
+    color: #553FC9 !important;
 }
 
 .gnb {
     display: flex;
-    gap: 3rem;
+    align-items: center;
+    gap: 2.2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.gnb a {
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    transition: color var(--transition-fast);
-    text-transform: uppercase;
+.nav-item {
+    position: relative;
+    padding: 0.4rem 0;
+}
+
+.nav-item > a {
+    font-family: 'Pretendard', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
     letter-spacing: 0.05em;
+    color: #143374 !important;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    padding: 0.4rem 0.2rem;
+    transition: color 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
-.gnb a:hover {
-    color: var(--text-primary);
+.nav-item:hover > a {
+    color: #553FC9 !important;
+}
+
+.has-dropdown > a::after {
+    content: '▾';
+    font-size: 0.75rem;
+    color: #143374;
+    opacity: 0.6;
+    transition: transform 0.25s ease, color 0.2s ease;
+    display: inline-block;
+}
+
+.has-dropdown:hover > a::after {
+    color: #553FC9;
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+/* Glassmorphism Dropdown */
+.nav-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 0.6rem;
+    min-width: 210px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    box-shadow: 0 12px 36px rgba(85, 63, 201, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+    z-index: 10001;
+}
+
+/* Hover bridge to keep dropdown open when moving mouse */
+.nav-dropdown::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+}
+
+.has-dropdown:hover .nav-dropdown {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: all !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+.nav-dropdown a {
+    font-family: 'Pretendard', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.02em;
+    color: #553FC9 !important;
+    text-decoration: none !important;
+    padding: 0.65rem 1.2rem;
+    display: block;
+    border-radius: 10px;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+}
+
+.nav-dropdown a:hover {
+    background: rgba(85, 63, 201, 0.08) !important;
+    color: #3e2ca8 !important;
+    transform: translateX(4px);
 }
 
 /* ==========================================================================
@@ -3322,6 +3421,201 @@ body, a, button {
     display: flex;
     gap: 1.5vw;
     margin-bottom: 1.5vh;
+    grid-column: 1 / 2 !important;
+    grid-row: 1 / 3 !important;
+}
+
+/* 2. Profile Intro (Col 2-3, Row 1) */
+.cell-profile {
+    grid-column: 2 / 4 !important;
+    grid-row: 1 / 2 !important;
+    border-right: none !important; /* Rightmost */
+}
+
+/* 3. Skills (Col 2, Row 2) */
+.cell-character {
+    grid-column: 2 / 3 !important;
+    grid-row: 2 / 3 !important;
+}
+
+/* 4. Experience (Col 3, Row 2-3) */
+.cell-experience {
+    grid-column: 3 / 4 !important;
+    grid-row: 2 / 4 !important;
+    border-right: none !important; /* Rightmost */
+    padding: 0 !important; /* Reset padding for inner divs */
+}
+
+/* 5. Contact (Col 1, Row 3) */
+.cell-contact {
+    grid-column: 1 / 2 !important;
+    grid-row: 3 / 4 !important;
+    border-bottom: none !important; /* Bottom-most */
+}
+
+/* 6. Education & Awards (Col 2, Row 3) */
+.cell-awards {
+    grid-column: 2 / 3 !important;
+    grid-row: 3 / 4 !important;
+    border-bottom: none !important; /* Bottom-most */
+    padding: 0 !important; /* Reset padding for inner divs */
+}
+
+/* Inner divs of experience and awards that had internal padding/borders */
+.cell-experience > div, .cell-awards > div {
+    padding: 1.5rem 2.5rem !important;
+}
+.cell-experience > div:first-child, .cell-awards > div:first-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile responsive override */
+@media (max-width: 1024px) {
+    .about-section { height: auto; overflow: visible; }
+    .about-wire-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto;
+    }
+    .about-wire-grid .wire-cell {
+        border-right: none !important;
+    }
+}
+
+
+
+
+/* =========================================
+   SINGLE BIG GLASS CARD (1-SCREEN FIT)
+   ========================================= */
+.single-glass-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+.glass-master-card { border-radius: 40px !important; 
+    width: 90vw;
+    height: 85vh;
+    max-height: 900px;
+    background: rgba(255, 255, 255, 0.4); /* Stronger white glass for light background */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1), inset 0 0 20px rgba(255,255,255,0.5);
+    display: flex;
+    flex-direction: row;
+    color: #1a1a1a !important; /* Dark text for readability */
+    font-family: 'Pretendard', sans-serif !important;
+    overflow: hidden; 
+}
+
+.master-col {
+    flex: 1;
+    padding: 6vh 4vw;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 1. Image Column */
+.image-col {
+    flex: 0.9;
+    background: #143374 !important; /* Requested Navy Color */
+    padding: 0;
+    align-items: center;
+    justify-content: center; /* Center perfectly */
+    position: relative;
+    box-shadow: inset -10px 0 20px rgba(0,0,0,0.1);
+ border-radius: 40px 0 0 40px; }
+.image-col img {
+    width: 85%; /* Scaled down to prevent clipping */
+    height: 90%;
+    object-fit: contain; /* Ensures it never gets cut off */
+    transform: none !important; /* Reset any weird translations */
+}
+
+/* 2. Middle Column (Intro) */
+.middle-col {
+    flex: 1.1;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    justify-content: flex-start;
+}
+.master-title {
+    font-size: clamp(3rem, 6vh, 5rem);
+    font-weight: 900;
+    margin-bottom: 2vh;
+    color: #111 !important;
+    line-height: 1;
+}
+.master-intro {
+    font-size: clamp(0.95rem, 1.8vh, 1.1rem);
+    line-height: 1.6;
+    color: #444 !important;
+    margin-bottom: 4vh;
+    word-break: keep-all;
+}
+
+/* 3. Right Column (Skills & Exp) */
+.right-col {
+    flex: 1.2;
+    justify-content: space-between;
+}
+
+/* Common Text Styles */
+.master-subtitle {
+    font-size: clamp(1.4rem, 2.8vh, 2rem);
+    font-weight: 800;
+    margin-bottom: 2vh;
+    color: #111 !important;
+}
+.master-item {
+    margin-bottom: 1.5vh;
+}
+.master-item strong {
+    display: block;
+    font-size: clamp(1.05rem, 1.8vh, 1.2rem);
+    color: #111 !important;
+    margin-bottom: 0.5vh;
+}
+.master-item span {
+    font-size: clamp(0.9rem, 1.5vh, 1rem);
+    color: #555 !important;
+}
+
+/* Skills */
+.master-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8vw;
+    margin-bottom: 3vh;
+}
+.master-skills span {
+    background: rgba(0,0,0,0.06);
+    color: #222 !important;
+    padding: 0.8vh 1vw;
+    border-radius: 12px;
+    font-size: clamp(0.85rem, 1.4vh, 1rem);
+    font-weight: 600;
+}
+.master-skills span.ai-glow {
+    background: rgba(155, 81, 224, 0.1);
+    border: 1px solid rgba(155, 81, 224, 0.3);
+    color: #6a1b9a !important;
+}
+
+/* Experience */
+.master-experience {
+    margin-bottom: 3vh;
+}
+.exp-row {
+    display: flex;
+    gap: 1.5vw;
+    margin-bottom: 1.5vh;
 }
 .exp-year {
     font-weight: 700;
@@ -3361,19 +3655,13 @@ body, a, button {
 }
 
 @media (max-width: 1024px) {
-    .glass-master-card { border-radius: 40px !important; 
+    .glass-master-card {
+        border-radius: 40px !important;
         flex-direction: column;
         height: auto;
         max-height: none;
     }
 }
-
-
-
-
-
-
-
 
 /* Larger Case Study Titles */
 .case-header h3 {
@@ -3384,12 +3672,12 @@ body, a, button {
     color: var(--text-primary);
 }
 
-/* Detail Page Section - Title Color matching Website Section */
+/* Detail Page Section - Title Color */
 .int-detail-item .detail-info h4 {
     color: var(--text-primary) !important;
 }
 
-/* Force Pretendard on all description/paragraph text in popup & banner sections */
+/* Force Pretendard on description text */
 .popup-desc,
 .banner-desc,
 .int-popup-section p,
@@ -3406,3 +3694,5 @@ body, a, button {
 .banner-meta {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, 'Noto Sans KR', sans-serif !important;
 }
+
+
