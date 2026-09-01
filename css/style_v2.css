@@ -614,20 +614,26 @@ section {
 /* --- 1. Web App (Horizontal Scroll) --- */
 .section-horizontal {
     background-color: #050505; /* Deep dark for game vibe */
+    padding: 0 !important;
+    height: 100vh !important;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 .horizontal-container {
     display: flex;
     width: 300vw; /* 3 panels wide */
     height: 100vh;
+    align-items: center;
 }
 .horizontal-panel {
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    /* max-width 1600px 중앙 ?�렬 ?�과 */
-    padding: 0 max(5vw, calc((100vw - 1600px) / 2)); 
+    box-sizing: border-box;
+    padding: 0 5vw;
     position: relative;
 }
 .intro-panel p {
@@ -3777,6 +3783,7 @@ body, a, button {
 .banner-meta {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, 'Noto Sans KR', sans-serif !important;
 }
+
 
 
 

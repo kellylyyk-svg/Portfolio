@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Portfolio v2 Main Script
  */
 
@@ -180,7 +180,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             trigger: horizontalSection,
                             pin: true,
                             scrub: 1,
-                            end: () => "+=" + horizontalContainer.scrollWidth
+                            start: "top top",
+                            end: () => "+=" + (horizontalContainer.scrollWidth - window.innerWidth) * 1.1,
+                            invalidateOnRefresh: true
                         }
                     });
 
@@ -510,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
 
 
 
