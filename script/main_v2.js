@@ -68,21 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const heroTimeline = gsap.timeline();
         
         // Hide elements initially via CSS or handle them here
-        gsap.set('.hero-title .line', { y: 100, opacity: 0 });
         gsap.set('.hero-subtitle, .scroll-indicator', { opacity: 0, y: 20 });
-        gsap.set('.header', { y: -100, opacity: 0 });
 
         heroTimeline
-            .to('.header', { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }, 0.2)
-            .to('.hero-title .line', { 
-                y: 0, 
-                opacity: 1, 
-                duration: 1.2, 
-                stagger: 0.2, 
-                ease: 'power4.out' 
-            }, 0.5)
-            .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1 }, "-=0.5")
-            .to('.scroll-indicator', { opacity: 1, y: 0, duration: 1 }, "-=0.8");
+            .to('.hero-subtitle', { opacity: 1, y: 0, duration: 1 }, 0.2)
+            .to('.scroll-indicator', { opacity: 1, y: 0, duration: 1 }, "-=0.5");
 
         // --- 5.1.4 Continuous Floating (Bubbles & Butterflies) ---
         gsap.to('.bubble-1', { yPercent: -5, duration: 6, yoyo: true, repeat: -1, ease: 'sine.inOut' });
